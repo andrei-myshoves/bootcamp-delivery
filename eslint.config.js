@@ -8,6 +8,7 @@ import i18next from "eslint-plugin-i18next";
 import prettier from "eslint-config-prettier";
 import { defineConfig, globalIgnores } from "eslint/config";
 import prettier from 'eslint-config-prettier';
+import i18next from 'eslint-plugin-i18next';
 
 export default defineConfig([
   globalIgnores(["dist", "node_modules", "storybook-static", "coverage"]),
