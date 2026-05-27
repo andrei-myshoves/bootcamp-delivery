@@ -1,12 +1,18 @@
-import { observer } from 'mobx-react-lite'
-import { appStore } from '@/store/AppStore'
+import { useEffect } from 'react'
+import { apiClient } from '@/api/base'
 
-const HomePage = observer(() => {
-    return (
-        <button onClick={() => appStore.setLoading(!appStore.isLoading)}>
-            {appStore.isLoading ? 'Loading...' : 'Click'}
-        </button>
-    )
-})
+const HomePage = () => {
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await apiClient.get('delivery/points').json()
+
+            console.log(data)
+        }
+
+        fetchData()
+    }, [])
+
+    return <div>Home Page</div>
+}
 
 export default HomePage
