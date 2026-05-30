@@ -1,3 +1,9 @@
 {
-  "extends": ["stylelint-config-standard"]
+    "extends": ["stylelint-config-standard", "stylelint-config-tailwindcss"],
+    "rules": {
+        "at-rule-no-unknown": null,
+        "lightness-notation": null,
+        "hue-degree-notation": null,
+        "rule-empty-line-before": null
+    }
 }

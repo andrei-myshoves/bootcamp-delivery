@@ -6,7 +6,5 @@ export interface DeliveryPoint {
 }
 
 export const getDeliveryPoints = async () => {
-    return apiClient
-        .get('delivery/points')
-        .json<DeliveryPoint[]>()
+    return apiClient.get('delivery/points').json<DeliveryPoint[]>()
 }
