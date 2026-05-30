@@ -42,3 +42,5 @@ blob-report
 *.njsproj
 *.sln
 *.sw?
+*storybook.log
+storybook-static
