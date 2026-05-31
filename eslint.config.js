@@ -7,8 +7,6 @@ import storybook from 'eslint-plugin-storybook'
 import i18next from 'eslint-plugin-i18next'
 import prettier from 'eslint-config-prettier'
 import { defineConfig, globalIgnores } from 'eslint/config'
-import prettier from 'eslint-config-prettier'
-import i18next from 'eslint-plugin-i18next'
 
 export default defineConfig([
     globalIgnores(['dist', 'node_modules', 'storybook-static', 'coverage']),
@@ -30,10 +28,16 @@ export default defineConfig([
         },
 
         rules: {
+            'react-refresh/only-export-components': [
+                'warn',
+                {
+                    allowConstantExport: true,
+                },
+            ],
             'i18next/no-literal-string': [
                 'warn',
                 {
-                    markupOnly: true,
+                    markupOnly: false,
                 },
             ],
         },
