@@ -6,7 +6,7 @@ on:
             - dev
             - main
 
-    pull request:
+    pull_request:
         branches:
             - dev
             - main
