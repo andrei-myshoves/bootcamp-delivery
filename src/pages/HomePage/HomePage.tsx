@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { apiClient } from '@/api/base'
+import { apiClient } from '@/shared/api/base'
 
 const HomePage = () => {
     useEffect(() => {

@@ -1,4 +1,4 @@
-import { apiClient } from '@/api/base'
+import { apiClient } from '@/shared/api/base'
 
 export interface DeliveryPoint {
     id: number
