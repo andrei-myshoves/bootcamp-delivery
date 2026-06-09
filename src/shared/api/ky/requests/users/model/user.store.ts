@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import type { User } from '@/entities/user/types/user.types'
+import type { User } from '@/shared/api/ky/requests/users/types/user.types'
 
 class UserStore {
     user: User | null = null
