@@ -19,6 +19,12 @@ jobs:
                   node-version: 22
                   cache: npm
 
+            - name: Debug npm
+              run: |
+                  node -v
+                  npm -v
+                  npm config list
+
             - name: Install dependencies
               run: npm ci
 
