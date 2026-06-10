@@ -55,5 +55,8 @@ jobs:
             - name: Wait for Storybook
               run: npx wait-on http://127.0.0.1:6006
 
+            - name: Install Playwright browsers
+              run: npx playwright install --with-deps chromium
+
             - name: Run Storybook Test Runner
               run: npm run test-storybook
