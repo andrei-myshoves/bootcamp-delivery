@@ -51,7 +51,7 @@ jobs:
 
             - name: Start Storybook
               run: npm run storybook -- --ci &
-  
+
             - name: Wait for Storybook
               run: npx wait-on http://127.0.0.1:6006
 
