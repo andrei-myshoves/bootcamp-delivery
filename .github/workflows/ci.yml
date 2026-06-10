@@ -25,6 +25,13 @@ jobs:
                   node-version: 22
                   cache: npm
 
+            - name: Debug npm
+              run: |
+                node -v
+                npm -v
+                npm config list
+
+
             - name: Install dependencies
               run: npm ci
 
@@ -39,7 +46,7 @@ jobs:
 
             - name: Build project
               run: npm run build
-              
+
             - name: Build Storybook
               run: npm run build-storybook
 
