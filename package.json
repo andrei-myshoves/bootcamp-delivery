@@ -13,7 +13,7 @@
         "lint:css": "stylelint \"src/**/*.css\"",
         "format": "prettier . --write",
         "format:check": "prettier . --check",
-				"test-storybook": "test-storybook"
+        "test-storybook": "test-storybook"
     },
     "dependencies": {
         "@fontsource-variable/geist": "^5.2.9",

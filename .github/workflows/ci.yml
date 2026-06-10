@@ -27,10 +27,9 @@ jobs:
 
             - name: Debug npm
               run: |
-                node -v
-                npm -v
-                npm config list
-
+                  node -v
+                  npm -v
+                  npm config list
 
             - name: Install dependencies
               run: npm ci
