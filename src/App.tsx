@@ -1,4 +1,4 @@
-import { AppRouter } from '@/app/router'
+import { AppRouter } from '@/shared/app/router'
 
 function App() {
     return <AppRouter />
