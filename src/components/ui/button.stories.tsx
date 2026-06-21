@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { ArrowRight } from 'lucide-react'
 
 import { Button } from './button'
 
@@ -11,22 +12,76 @@ export default meta
 
 type Story = StoryObj<typeof Button>
 
-export const Primary: Story = {
+export const PrimaryRegular: Story = {
     args: {
+        variant: 'primary',
+        size: 'regular',
+        children: 'Выйти',
+    },
+}
+
+export const PrimaryLarge: Story = {
+    args: {
+        variant: 'primary',
+        size: 'large',
         children: 'Рассчитать',
     },
+    render: args => (
+        <div style={{ width: '532px' }}>
+            <Button {...args} className="w-full" />
+        </div>
+    ),
 }
 
-export const Secondary: Story = {
+export const SecondaryRegular: Story = {
     args: {
         variant: 'secondary',
-        children: 'Назад',
+        size: 'regular',
+        children: 'Подробнее',
     },
 }
 
-export const Ghost: Story = {
+export const SecondaryLarge: Story = {
     args: {
-        variant: 'ghost',
-        children: 'Закрыть',
+        variant: 'secondary',
+        size: 'large',
+        children: 'Назад',
     },
+    render: args => (
+        <div style={{ width: '532px' }}>
+            <Button {...args} className="w-full" />
+        </div>
+    ),
+}
+
+export const WithIcon: Story = {
+    args: {
+        variant: 'primary',
+        size: 'large',
+        children: (
+            <>
+                Рассчитать
+                <ArrowRight size={16} />
+            </>
+        ),
+    },
+    render: args => (
+        <div style={{ width: '532px' }}>
+            <Button {...args} className="w-full" />
+        </div>
+    ),
+}
+
+export const Disabled: Story = {
+    args: {
+        variant: 'primary',
+        size: 'large',
+        disabled: true,
+        children: 'Рассчитать',
+    },
+    render: args => (
+        <div style={{ width: '532px' }}>
+            <Button {...args} className="w-full" />
+        </div>
+    ),
 }
