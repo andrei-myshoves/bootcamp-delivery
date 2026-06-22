@@ -18,6 +18,9 @@ export const PrimaryRegular: Story = {
         size: 'regular',
         children: 'Выйти',
     },
+    render: args => (
+            <Button {...args} />
+    ),
 }
 
 export const PrimaryLarge: Story = {
