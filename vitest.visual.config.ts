@@ -5,26 +5,26 @@ import tailwindcss from '@tailwindcss/vite'
 import { playwright } from '@vitest/browser-playwright'
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss()],
 
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
-
-  test: {
-    include: ['src/**/*.visual.test.ts'],
-
-    browser: {
-      enabled: true,
-      provider: playwright(),
-      headless: true,
-      instances: [
-        {
-          browser: 'chromium',
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src'),
         },
-      ],
     },
-  },
+
+    test: {
+        include: ['src/**/*.visual.test.ts'],
+
+        browser: {
+            enabled: true,
+            provider: playwright(),
+            headless: true,
+            instances: [
+                {
+                    browser: 'chromium',
+                },
+            ],
+        },
+    },
 })
