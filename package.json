@@ -13,7 +13,9 @@
         "lint:css": "stylelint \"src/**/*.css\"",
         "format": "prettier . --write",
         "format:check": "prettier . --check",
-        "test-storybook": "test-storybook"
+        "test-storybook": "test-storybook",
+        "test": "vitest",
+        "test:visual": "vitest --config vitest.visual.config.ts"
     },
     "dependencies": {
         "@fontsource-variable/geist": "^5.2.9",
