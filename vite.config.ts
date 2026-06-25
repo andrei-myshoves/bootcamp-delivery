@@ -14,6 +14,10 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 export default defineConfig({
     plugins: [react(), tailwindcss()],
 
+    define: {
+        __PROJECT_ROOT__: JSON.stringify(dirname),
+    },
+
     resolve: {
         alias: {
             '@': path.resolve(dirname, './src'),
@@ -31,6 +35,9 @@ export default defineConfig({
     },
 
     test: {
+        reporters: ['default', 'html'],
+        outputFile: { html: '.storybook/screenshots/report/index.html' },
+
         projects: [
             {
                 extends: true,
@@ -44,6 +51,10 @@ export default defineConfig({
                 test: {
                     name: 'storybook',
 
+                    setupFiles: ['.storybook/vitest.setup.ts'],
+
+                    globalSetup: ['.storybook/clean-attachments.ts'],
+
                     browser: {
                         enabled: true,
                         headless: true,
@@ -54,6 +65,15 @@ export default defineConfig({
                                 browser: 'chromium',
                             },
                         ],
+
+                        expect: {
+                            toMatchScreenshot: {
+                                resolveScreenshotPath: ({ testFileName, arg, browserName, ext }) =>
+                                    `.storybook/screenshots/references/${testFileName}/${arg}-${browserName}-${process.platform}${ext}`,
+                                resolveDiffPath: ({ testFileName, arg, browserName, ext }) =>
+                                    `.storybook/screenshots/.diffs/${testFileName}/${arg}-${browserName}-${process.platform}${ext}`,
+                            },
+                        },
                     },
                 },
             },
