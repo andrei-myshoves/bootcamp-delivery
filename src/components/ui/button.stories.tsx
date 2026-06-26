@@ -28,7 +28,7 @@ export const PrimaryLarge: Story = {
         children: 'Рассчитать',
     },
     render: args => (
-        <div style={{ width: '532px' }}>
+        <div style={{ width: '200px' }}>
             <Button {...args} className="w-full" />
         </div>
     ),
@@ -49,7 +49,7 @@ export const SecondaryLarge: Story = {
         children: 'Назад',
     },
     render: args => (
-        <div style={{ width: '532px' }}>
+        <div style={{ width: '200px' }}>
             <Button {...args} className="w-full" />
         </div>
     ),
@@ -67,7 +67,7 @@ export const WithIcon: Story = {
         ),
     },
     render: args => (
-        <div style={{ width: '532px' }}>
+        <div style={{ width: '200px' }}>
             <Button {...args} className="w-full" />
         </div>
     ),
@@ -81,7 +81,7 @@ export const Disabled: Story = {
         children: 'Рассчитать',
     },
     render: args => (
-        <div style={{ width: '532px' }}>
+        <div style={{ width: '200px' }}>
             <Button {...args} className="w-full" />
         </div>
     ),
