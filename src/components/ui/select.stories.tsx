@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { UiSelect } from './ui-select'
+import { UiSelect } from './select'
 
 const meta: Meta<typeof UiSelect> = {
     title: 'UI/Select',
