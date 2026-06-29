@@ -11,10 +11,17 @@ export default meta
 
 type Story = StoryObj<typeof Input>
 
+const renderInput: Story['render'] = args => (
+    <div style={{ width: '200px' }}>
+        <Input {...args} />
+    </div>
+)
+
 export const Default: Story = {
     args: {
         placeholder: 'Введите текст',
     },
+    render: renderInput,
 }
 
 export const WithLabel: Story = {
@@ -22,6 +29,7 @@ export const WithLabel: Story = {
         label: 'Фамилия',
         placeholder: 'Иванов',
     },
+    render: renderInput,
 }
 
 export const WithValue: Story = {
@@ -30,6 +38,7 @@ export const WithValue: Story = {
         value: 'Андрей',
         readOnly: true,
     },
+    render: renderInput,
 }
 
 export const Disabled: Story = {
@@ -38,6 +47,7 @@ export const Disabled: Story = {
         placeholder: '+7',
         disabled: true,
     },
+    render: renderInput,
 }
 
 export const Large: Story = {
@@ -45,6 +55,7 @@ export const Large: Story = {
         inputSize: 'large',
         placeholder: 'Номер заказа',
     },
+    render: renderInput,
 }
 
 export const LargeWithLabel: Story = {
@@ -53,4 +64,5 @@ export const LargeWithLabel: Story = {
         label: 'Телефон',
         placeholder: '+7',
     },
+    render: renderInput,
 }

@@ -24,7 +24,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, Varian
 }
 
 function Input({ className, inputSize, label, id, ...props }: InputProps) {
-    const inputId = id ?? React.useId()
+    const generatedId = React.useId()
+    const inputId = id ?? generatedId
 
     return (
         <div className="flex w-full flex-col gap-1">
