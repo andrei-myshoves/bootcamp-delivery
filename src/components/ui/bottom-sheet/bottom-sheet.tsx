@@ -19,10 +19,7 @@ function BottomSheetClose({ ...props }: React.ComponentProps<typeof DialogPrimit
     return <DialogPrimitive.Close data-slot="bottom-sheet-close" {...props} />
 }
 
-function BottomSheetOverlay({
-    className,
-    ...props
-}: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+function BottomSheetOverlay({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
     return (
         <DialogPrimitive.Overlay
             data-slot="bottom-sheet-overlay"
@@ -35,11 +32,7 @@ function BottomSheetOverlay({
     )
 }
 
-function BottomSheetContent({
-    className,
-    children,
-    ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+function BottomSheetContent({ className, children, ...props }: React.ComponentProps<typeof DialogPrimitive.Content>) {
     return (
         <BottomSheetPortal>
             <BottomSheetOverlay />
@@ -58,36 +51,15 @@ function BottomSheetContent({
     )
 }
 
-function BottomSheetHeader({
-    className,
-    ...props
-}: React.ComponentProps<'div'>) {
-    return (
-        <div
-            data-slot="bottom-sheet-header"
-            className={cn('flex flex-col gap-2', className)}
-            {...props}
-        />
-    )
+function BottomSheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
+    return <div data-slot="bottom-sheet-header" className={cn('flex flex-col gap-2', className)} {...props} />
 }
 
-function BottomSheetFooter({
-    className,
-    ...props
-}: React.ComponentProps<'div'>) {
-    return (
-        <div
-            data-slot="bottom-sheet-footer"
-            className={cn('mt-4 flex flex-col gap-2', className)}
-            {...props}
-        />
-    )
+function BottomSheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
+    return <div data-slot="bottom-sheet-footer" className={cn('mt-4 flex flex-col gap-2', className)} {...props} />
 }
 
-function BottomSheetTitle({
-    className,
-    ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+function BottomSheetTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
     return (
         <DialogPrimitive.Title
             data-slot="bottom-sheet-title"
@@ -97,10 +69,7 @@ function BottomSheetTitle({
     )
 }
 
-function BottomSheetDescription({
-    className,
-    ...props
-}: React.ComponentProps<typeof DialogPrimitive.Description>) {
+function BottomSheetDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>) {
     return (
         <DialogPrimitive.Description
             data-slot="bottom-sheet-description"
