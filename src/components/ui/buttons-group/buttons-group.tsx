@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { cn } from '@/shared/lib/utils'
 
 interface ButtonsGroupOption {
@@ -6,37 +5,41 @@ interface ButtonsGroupOption {
     label: string
 }
 
-type ButtonsGroupProps = React.ComponentProps<'div'> & {
+interface ButtonsGroupProps {
     value: string
     options: ButtonsGroupOption[]
     onValueChange: (value: string) => void
+    className?: string
 }
 
 function ButtonsGroup({ value, options, onValueChange, className }: ButtonsGroupProps) {
-    return (
-        <div className={cn('inline-flex rounded-full bg-muted p-1', className)}>
-            {options.map(option => {
-                const isActive = option.value === value
+    const activeIndex = options.findIndex(option => option.value === value)
 
-                return (
-                    <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => onValueChange(option.value)}
-                        className={cn(
-                            'rounded-full px-4 py-2 text-sm font-medium transition-colors',
-                            isActive
-                                ? 'bg-background text-foreground shadow-sm'
-                                : 'text-muted-foreground hover:bg-background/50'
-                        )}
-                    >
-                        {option.label}
-                    </button>
-                )
-            })}
+    return (
+        <div className={cn('relative inline-flex w-full rounded-full bg-muted p-1', className)}>
+            <div
+                className="absolute top-1 bottom-1 rounded-full bg-background shadow-sm transition-transform duration-300 ease-in-out"
+                style={{
+                    width: `calc((100% - 8px) / ${options.length})`,
+                    transform: `translateX(${activeIndex * 100}%)`,
+                }}
+            />
+
+            {options.map(option => (
+                <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => onValueChange(option.value)}
+                    className={cn(
+                        'relative z-10 flex-1 rounded-full px-3 py-2 text-lg font-semibold transition-colors duration-300'
+                    )}
+                >
+                    {option.label}
+                </button>
+            ))}
         </div>
     )
 }
 
 export { ButtonsGroup }
-export type { ButtonsGroupProps, ButtonsGroupOption }
+export type { ButtonsGroupOption, ButtonsGroupProps }

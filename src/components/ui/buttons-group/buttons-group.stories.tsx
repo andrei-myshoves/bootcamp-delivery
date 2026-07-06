@@ -12,25 +12,27 @@ export default meta
 
 type Story = StoryObj<typeof ButtonsGroup>
 
-export const DeliveryType: Story = {
+export const Default: Story = {
     render: () => {
         const [value, setValue] = useState('approximate')
 
         return (
-            <ButtonsGroup
-                value={value}
-                onValueChange={setValue}
-                options={[
-                    {
-                        value: 'approximate',
-                        label: 'Примерные',
-                    },
-                    {
-                        value: 'exact',
-                        label: 'Точные',
-                    },
-                ]}
-            />
+            <div className="w-120">
+                <ButtonsGroup
+                    value={value}
+                    onValueChange={setValue}
+                    options={[
+                        {
+                            value: 'approximate',
+                            label: 'Примерные',
+                        },
+                        {
+                            value: 'exact',
+                            label: 'Точные',
+                        },
+                    ]}
+                />
+            </div>
         )
     },
 }
@@ -40,59 +42,63 @@ export const Sizes: Story = {
         const [value, setValue] = useState('m')
 
         return (
-            <ButtonsGroup
-                value={value}
-                onValueChange={setValue}
-                options={[
-                    {
-                        value: 'xs',
-                        label: 'XS',
-                    },
-                    {
-                        value: 's',
-                        label: 'S',
-                    },
-                    {
-                        value: 'm',
-                        label: 'M',
-                    },
-                    {
-                        value: 'l',
-                        label: 'L',
-                    },
-                    {
-                        value: 'xl',
-                        label: 'XL',
-                    },
-                ]}
-            />
+            <div className="w-120">
+                <ButtonsGroup
+                    value={value}
+                    onValueChange={setValue}
+                    options={[
+                        {
+                            value: 'xs',
+                            label: 'XS',
+                        },
+                        {
+                            value: 's',
+                            label: 'S',
+                        },
+                        {
+                            value: 'm',
+                            label: 'M',
+                        },
+                        {
+                            value: 'l',
+                            label: 'L',
+                        },
+                        {
+                            value: 'xl',
+                            label: 'XL',
+                        },
+                    ]}
+                />
+            </div>
         )
     },
 }
 
 export const Cities: Story = {
     render: () => {
-        const [value, setValue] = useState('gdansk')
+        const [value, setValue] = useState('warsaw')
 
         return (
-            <ButtonsGroup
-                value={value}
-                onValueChange={setValue}
-                options={[
-                    {
-                        value: 'gdansk',
-                        label: 'Gdańsk',
-                    },
-                    {
-                        value: 'warsaw',
-                        label: 'Warszawa',
-                    },
-                    {
-                        value: 'krakow',
-                        label: 'Kraków',
-                    },
-                ]}
-            />
+            <div className="w-120">
+                <ButtonsGroup
+                    value={value}
+                    onValueChange={setValue}
+                    options={[
+                        {
+                            value: 'gdansk',
+                            label: 'Gdańsk',
+                        },
+                        {
+                            value: 'warsaw',
+                            label: 'Warszawa',
+                        },
+                        {
+                            value: 'krakow',
+                            label: 'Kraków',
+                        },
+                    ]}
+                />
+            </div>
         )
     },
 }
