@@ -17,7 +17,7 @@ export const Default: Story = {
         const [value, setValue] = useState('approximate')
 
         return (
-            <div className="w-120">
+            <div className="mx-auto w-full max-w-120">
                 <ButtonsGroup
                     value={value}
                     onValueChange={setValue}
@@ -42,7 +42,7 @@ export const Sizes: Story = {
         const [value, setValue] = useState('m')
 
         return (
-            <div className="w-120">
+            <div className="mx-auto w-full max-w-120">
                 <ButtonsGroup
                     value={value}
                     onValueChange={setValue}
@@ -79,7 +79,7 @@ export const Cities: Story = {
         const [value, setValue] = useState('warsaw')
 
         return (
-            <div className="w-120">
+            <div className="mx-auto w-full max-w-120">
                 <ButtonsGroup
                     value={value}
                     onValueChange={setValue}
