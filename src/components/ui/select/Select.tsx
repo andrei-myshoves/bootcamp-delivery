@@ -1,4 +1,4 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select-primitive'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './SelectPrimitive'
 
 interface Option {
     value: string
