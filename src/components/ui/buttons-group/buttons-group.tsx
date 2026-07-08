@@ -30,9 +30,9 @@ function ButtonsGroup({ value, options, onValueChange, className }: ButtonsGroup
                     key={option.value}
                     type="button"
                     onClick={() => onValueChange(option.value)}
-                    className={cn(
-                        'relative z-10 flex-1 rounded-full px-3 py-2 text-lg font-semibold transition-colors duration-300'
-                    )}
+                    className={
+                        'relative  flex-1 rounded-full px-3 py-2 text-lg font-semibold transition-colors duration-300'
+                    }
                 >
                     {option.label}
                 </button>
