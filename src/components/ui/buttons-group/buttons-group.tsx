@@ -18,6 +18,7 @@ function ButtonsGroup({ value, options, onValueChange, className }: ButtonsGroup
     return (
         <div className={cn('relative inline-flex w-full rounded-full bg-muted p-1', className)}>
             <div
+                data-testid="buttons-group-indicator"
                 className="absolute top-1 bottom-1 rounded-full bg-background shadow-sm transition-transform duration-300 ease-in-out"
                 style={{
                     width: `calc((100% - 8px) / ${options.length})`,
