@@ -53,7 +53,7 @@ describe('ButtonsGroup', () => {
             <ButtonsGroup value="first" onValueChange={vi.fn()} options={options.slice(0, 2)} />
         )
 
-        const indicator = screen.getByTestId('buttons-group-indicator')
+        const indicator = screen.getByTestId('ui-buttons-group-indicator')
 
         expect(indicator.style.transform).toBe('translateX(0%)')
 
