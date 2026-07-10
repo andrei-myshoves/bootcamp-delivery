@@ -58,7 +58,7 @@ describe('ButtonsGroup', () => {
         expect(indicator.style.transform).toBe('translateX(0%)')
 
         rerender(<ButtonsGroup value="second" onValueChange={vi.fn()} options={options.slice(0, 2)} />)
-				
+
         expect(indicator.style.transform).toBe('translateX(100%)')
     })
 })
