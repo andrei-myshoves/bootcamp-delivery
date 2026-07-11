@@ -79,10 +79,16 @@ export default defineConfig({
 
                         expect: {
                             toMatchScreenshot: {
-                                resolveScreenshotPath: ({ testFileName, arg, browserName, ext }) =>
-                                    `.storybook/screenshots/references/${testFileName}/${arg}-${browserName}-${process.platform}${ext}`,
-                                resolveDiffPath: ({ testFileName, arg, browserName, ext }) =>
-                                    `.storybook/screenshots/.diffs/${testFileName}/${arg}-${browserName}-${process.platform}${ext}`,
+                                resolveScreenshotPath: ({ testFileName, arg, browserName, ext }) => {
+                                    const screenshotPath = `.storybook/screenshots/references/${testFileName}/${arg}-${browserName}-${process.platform}${ext}`
+                                    console.log('REF:', screenshotPath)
+                                    return screenshotPath
+                                },
+                                resolveDiffPath: ({ testFileName, arg, browserName, ext }) => {
+                                    const diffPath = `.storybook/screenshots/.diffs/${testFileName}/${arg}-${browserName}-${process.platform}${ext}`
+                                    console.log('DIF:', diffPath)
+                                    return diffPath
+                                },
                             },
                         },
                     },
