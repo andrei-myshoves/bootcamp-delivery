@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 
-import { ButtonsGroup } from './buttons-group'
+import { ButtonsGroup } from './ButtonsGroup'
 
 const meta: Meta<typeof ButtonsGroup> = {
     title: 'UI/ButtonsGroup',

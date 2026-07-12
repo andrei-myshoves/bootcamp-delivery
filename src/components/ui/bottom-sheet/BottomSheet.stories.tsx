@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Button } from '../button/button'
+import { Button } from '../button/Button'
 import {
     BottomSheet,
     BottomSheetTrigger,
@@ -10,7 +10,7 @@ import {
     BottomSheetDescription,
     BottomSheetFooter,
     BottomSheetClose,
-} from './bottom-sheet'
+} from './BottomSheet'
 
 const meta: Meta<typeof BottomSheet> = {
     title: 'UI/BottomSheet',
