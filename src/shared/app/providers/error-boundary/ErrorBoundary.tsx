@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
+import i18n from '@/shared/app/i18n'
 
 interface Props {
     children: ReactNode
@@ -28,9 +29,9 @@ export class ErrorBoundary extends Component<Props, State> {
             return (
                 <div className="flex min-h-screen items-center justify-center">
                     <div className="text-center">
-                        <h1 className="text-2xl font-semibold">Something went wrong</h1>
+                        <h1 className="text-2xl font-semibold">{i18n.t('errorBoundary.title')}</h1>
 
-                        <p className="mt-2 text-sm text-muted-foreground">Please refresh the page and try again.</p>
+                        <p className="mt-2 text-sm text-muted-foreground"> {i18n.t('errorBoundary.description')}</p>
                     </div>
                 </div>
             )

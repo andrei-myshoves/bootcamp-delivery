@@ -8,6 +8,11 @@ i18n.use(initReactI18next).init({
         ru: {
             translation: {
                 hello: 'Привет',
+
+                errorBoundary: {
+                    title: 'Что-то пошло не так',
+                    description: 'Пожалуйста, обновите страницу и попробуйте снова.',
+                },
             },
         },
     },
