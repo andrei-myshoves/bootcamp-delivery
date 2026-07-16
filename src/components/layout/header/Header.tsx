@@ -25,9 +25,7 @@ export function Header() {
                     <User size={18} />
                 </button>
 
-                <Button variant="primary">
-                    Выйти
-                </Button>
+                <Button variant="primary">Выйти</Button>
             </div>
         </header>
     )
