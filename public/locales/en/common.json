@@ -1,3 +1,7 @@
 {
-    "hello": "Hello"
+    "hello": "Hello",
+    "errorBoundary": {
+        "title": "Something went wrong",
+        "description": "Please refresh the page and try again."
+    }
 }
