@@ -1,7 +1,7 @@
 import { Route, Switch } from 'wouter'
 
-import HomePage from '@/pages/HomePage/HomePage'
-import ProfilePage from '@/pages/ProfilePage/ProfilePage'
+import HomePage from '@/src/pages/HomePage/HomePage'
+import ProfilePage from '@/src/pages/ProfilePage/ProfilePage'
 
 export const AppRouter = () => {
     return (

@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
-import i18n from '../../../app/i18n'
+import i18n from '@/app/i18n'
 
 interface Props {
     children: ReactNode
