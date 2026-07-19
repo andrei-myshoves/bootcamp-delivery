@@ -1,5 +1,5 @@
 import { AppRouter } from '@/app/router'
-import { ErrorBoundary } from '@/src/providers/error-boundary/ErrorBoundary'
+import { ErrorBoundary } from '@/app/providers/error-boundary/ErrorBoundary'
 
 function App() {
     return (

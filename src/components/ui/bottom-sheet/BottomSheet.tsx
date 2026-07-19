@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 
-import { cn } from '@/src/shared/lib/utils'
+import { cn } from '@/shared/lib/utils'
 
 function BottomSheet({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
     return <DialogPrimitive.Root data-slot="bottom-sheet" {...props} />

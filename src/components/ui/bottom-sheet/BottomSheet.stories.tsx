@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Button } from '@/src/components/ui/button/Button'
+import { Button } from '@/components/ui/button/Button'
 import {
     BottomSheet,
     BottomSheetTrigger,

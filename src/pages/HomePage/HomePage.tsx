@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { apiClient } from '@/src/shared/api/ky/instance'
+import { apiClient } from '@/shared/api/ky/instance'
 
 const HomePage = () => {
     useEffect(() => {
