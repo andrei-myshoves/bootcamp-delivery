@@ -2,6 +2,7 @@ import { History, User } from 'lucide-react'
 
 import { Button } from '@/components/ui/button/Button'
 import { Logo } from './Logo'
+import LogOutIcon from '@/shared/assets/LogOutIcon.svg'
 
 export function Header() {
     return (
@@ -25,7 +26,10 @@ export function Header() {
                     <User size={18} />
                 </button>
 
-                <Button variant="primary">Выйти</Button>
+                <Button variant="primary">
+                    <span>Выйти</span>
+                    <img src={LogOutIcon} alt="" aria-hidden className="h-4 w-4" />
+                </Button>
             </div>
         </header>
     )

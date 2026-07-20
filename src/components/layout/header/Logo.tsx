@@ -1,5 +1,5 @@
-import LogoIcon from '@/components/layout/header/assets/LogoIcon.svg'
-import LogoText from '@/components/layout/header/assets/LogoText.svg'
+import LogoIcon from '@/shared/assets/LogoIcon.svg'
+import LogoText from '@/shared/assets/LogoText.svg'
 
 export function Logo() {
     return (
