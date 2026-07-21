@@ -12,9 +12,12 @@ const buttonVariants = cva(
                 primary: 'bg-primary text-primary-foreground hover:opacity-90',
 
                 secondary: 'bg-secondary text-secondary-foreground border border-border hover:bg-secondary/80',
+
+                wrapper: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
             },
 
             size: {
+                icon: 'size-8 p-0',
                 regular: 'h-8 px-4 text-sm',
                 large: 'h-13 px-6 text-sm',
             },
