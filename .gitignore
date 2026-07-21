@@ -26,8 +26,11 @@ playwright-report
 test-results
 blob-report
 
-# Loki
-.loki
+# Visual regression artifacts (reference screenshots in screenshots/ are committed)
+.vitest-attachments
+.storybook/screenshots/.diffs
+.storybook/screenshots/.actual
+.storybook/screenshots/report
 
 # Cache
 .cache

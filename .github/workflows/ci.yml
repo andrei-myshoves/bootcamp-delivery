@@ -18,16 +18,23 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: 22
-                  cache: npm
 
-            - name: Debug npm
+            - name: Debug npm environment
               run: |
                   node -v
                   npm -v
                   npm config list
+                  npm config get install-strategy
+                  npm config get package-lock
 
             - name: Install dependencies
-              run: npm ci
+              run: |
+                  npm ci --loglevel verbose
+
+            - name: Debug installed dependencies
+              run: |
+                  npm ls @emnapi/runtime || true
+                  npm ls @emnapi/core || true
 
             - name: Run ESLint
               run: npm run lint
@@ -41,9 +48,6 @@ jobs:
             - name: Build project
               run: npm run build
 
-            - name: Build Storybook
-              run: npm run build-storybook
-
             - name: Start Storybook
               run: npm run storybook -- --ci &
 
@@ -55,3 +59,22 @@ jobs:
 
             - name: Run Storybook Test Runner
               run: npm run test-storybook
+
+            - name: Run visual (screenshot) tests
+              run: |
+                  npm run ci:test:visual || true
+
+            - name: Debug screenshots after tests
+              if: always()
+              run: |
+                  find .storybook/screenshots -maxdepth 3 -type f | sort
+
+            - name: Upload visual diffs & report
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: visual-report
+                  path: |
+                      .storybook/screenshots/.diffs
+                      .storybook/screenshots/report
+                  if-no-files-found: ignore
