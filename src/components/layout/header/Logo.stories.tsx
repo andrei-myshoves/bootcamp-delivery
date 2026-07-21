@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite'
 
-import { Logo } from './Logo';
+import { Logo } from './Logo'
 
 const meta = {
     title: 'Layout/Header/Logo',
@@ -8,10 +8,10 @@ const meta = {
     parameters: {
         layout: 'centered',
     },
-} satisfies Meta<typeof Logo>;
+} satisfies Meta<typeof Logo>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
-export const Default: Story = {};
+export const Default: Story = {}
