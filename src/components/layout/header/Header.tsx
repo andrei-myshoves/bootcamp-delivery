@@ -9,10 +9,10 @@ export function Header() {
         <header className="hidden items-center justify-between rounded-full border border-border bg-background p-3 lg:flex">
             <Logo />
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
                 <button
                     type="button"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-border"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary"
                     aria-label="History"
                 >
                     <History size={18} />
@@ -20,13 +20,13 @@ export function Header() {
 
                 <button
                     type="button"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-border"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary"
                     aria-label="Profile"
                 >
                     <User size={18} />
                 </button>
 
-                <Button variant="primary">
+                <Button variant="primary" className="ml-2">
                     <span>Выйти</span>
                     <img src={LogOutIcon} alt="" aria-hidden className="h-4 w-4" />
                 </Button>
