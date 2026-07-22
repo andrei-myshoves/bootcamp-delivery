@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button/Button'
 import { Logo } from './Logo'
 import LogOutIcon from '@/shared/assets/LogOutIcon.svg'
 
+import i18n from '@/app/i18n'
+
 export function Header() {
     return (
         <header className="hidden items-center justify-between rounded-full border border-border bg-background p-3 lg:flex">
@@ -19,7 +21,7 @@ export function Header() {
                 </Button>
 
                 <Button variant="primary" className="ml-6">
-                    <span>Выйти</span>
+                    <span>{i18n.t('header.exit')}</span>
 
                     <img src={LogOutIcon} alt="" aria-hidden className="size-4" />
                 </Button>
