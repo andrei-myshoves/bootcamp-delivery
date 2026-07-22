@@ -1,6 +1,6 @@
 {
     "hello": "Hello",
-		"exit":"Exit",
+    "exit": "Exit",
     "errorBoundary": {
         "title": "Something went wrong",
         "description": "Please refresh the page and try again."
