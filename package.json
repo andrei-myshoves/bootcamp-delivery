@@ -17,8 +17,8 @@
         "test:storybook": "vitest --project storybook",
         "test-storybook": "test-storybook",
         "ci:test:visual": "vitest run --project storybook",
-        "test:visual": "docker run --rm -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.60.0-noble sh -c \"npm ci && npm run ci:test:visual\"",
-        "test:visual:update": "docker run --rm -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.60.0-noble sh -c \"npm ci && npm run ci:test:visual -- -u\"",
+        "test:visual": "docker run --rm -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.61.1-noble sh -c \"npm ci && npm run ci:test:visual\"",
+        "test:visual:update": "docker run --rm -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.61.1-noble sh -c \"npm ci && npm run ci:test:visual -- -u\"",
         "report": "vite preview --outDir .storybook/screenshots/report"
     },
     "dependencies": {
