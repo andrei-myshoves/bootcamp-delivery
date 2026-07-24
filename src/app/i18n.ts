@@ -8,7 +8,15 @@ i18n.use(initReactI18next).init({
         ru: {
             translation: {
                 hello: 'Привет',
-                exit: 'Выход',
+                header: {
+                    exit: 'Выход',
+                },
+
+                footer: {
+                    calculate: 'Расчёт',
+                    history: 'История',
+                    profile: 'Профиль',
+                },
 
                 errorBoundary: {
                     title: 'Что-то пошло не так',
