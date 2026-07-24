@@ -1,8 +1,13 @@
+import { cn } from '@/shared/lib/utils'
 import { TabBar } from './TabBar'
 
-export function Footer() {
+interface FooterProps {
+    className?: string
+}
+
+export function Footer({ className }: FooterProps) {
     return (
-        <footer className="border-t border-border bg-background lg:hidden">
+        <footer className={cn(className)}>
             <TabBar />
         </footer>
     )

@@ -8,8 +8,8 @@ const tabBarItemVariants = cva(
     {
         variants: {
             active: {
-                true: 'bg-primary text-primary-foreground',
-                false: 'text-foreground hover:bg-secondary',
+                true: 'bg-green-500 text-white',
+                false: 'text-foreground',
             },
         },
         defaultVariants: {
@@ -21,12 +21,13 @@ const tabBarItemVariants = cva(
 interface TabBarItemProps extends VariantProps<typeof tabBarItemVariants> {
     icon: ReactNode
     label: string
+    onClick: () => void
 }
 
-export function TabBarItem({ icon, label, active }: TabBarItemProps) {
+export function TabBarItem({ icon, label, active, onClick }: TabBarItemProps) {
     return (
         <li className="flex-1 px-1">
-            <button type="button" className={cn(tabBarItemVariants({ active }))}>
+            <button type="button" onClick={onClick} className={cn(tabBarItemVariants({ active }))}>
                 {icon}
 
                 <span>{label}</span>
