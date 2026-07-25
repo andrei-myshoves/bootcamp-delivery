@@ -1,22 +1,16 @@
 import '@testing-library/jest-dom/vitest'
 
 import { render, screen } from '@testing-library/react'
-import { I18nextProvider } from 'react-i18next'
 import { describe, expect, it } from 'vitest'
-import { Router } from 'wouter'
 
-import i18n from '@/app/i18n'
+import { ComponentWrapper } from '@/shared/tests/ComponentWrapper'
 
 import { Footer } from './Footer'
 
 function renderFooter() {
-    return render(
-        <Router>
-            <I18nextProvider i18n={i18n}>
-                <Footer className="block static" />
-            </I18nextProvider>
-        </Router>
-    )
+    return render(<Footer />, {
+        wrapper: ComponentWrapper,
+    })
 }
 
 describe('Footer', () => {
@@ -36,11 +30,11 @@ describe('Footer', () => {
         expect(screen.getAllByRole('button')).toHaveLength(3)
     })
 
-    it('renders all navigation labels', () => {
+    it('renders all tabs', () => {
         renderFooter()
 
-        expect(screen.getByText('Расчёт')).toBeInTheDocument()
-        expect(screen.getByText('История')).toBeInTheDocument()
-        expect(screen.getByText('Профиль')).toBeInTheDocument()
+        expect(screen.getByTestId('footer-tab-calculate')).toBeInTheDocument()
+        expect(screen.getByTestId('footer-tab-history')).toBeInTheDocument()
+        expect(screen.getByTestId('footer-tab-profile')).toBeInTheDocument()
     })
 })
