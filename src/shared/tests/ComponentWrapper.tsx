@@ -8,9 +8,7 @@ import i18n from '@/app/i18n'
 export function ComponentWrapper({ children }: PropsWithChildren) {
     return (
         <Router>
-            <I18nextProvider i18n={i18n}>
-                {children}
-            </I18nextProvider>
+            <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
         </Router>
     )
 }
