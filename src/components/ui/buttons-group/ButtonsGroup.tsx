@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { cn } from '@/shared/lib/utils'
+import { zIndex } from '@/shared/constants/z-index'
 
 interface ButtonsGroupOption {
     value: string
@@ -26,7 +27,6 @@ function ButtonsGroup({
     indicatorClassName,
 }: ButtonsGroupProps) {
     const activeIndex = options.findIndex(option => option.value === value)
-
     return (
         <div className={cn('relative inline-flex w-full rounded-full bg-muted p-1', className)}>
             <div
@@ -41,25 +41,22 @@ function ButtonsGroup({
                 }}
             />
 
-            {options.map(option => {
-                const isActive = option.value === value
-
-                return (
-                    <button
-                        key={option.value}
-                        data-testid={option.testId}
-                        type="button"
-                        onClick={() => onValueChange(option.value)}
-                        className={cn(
-                            'relative z-10 flex-1 rounded-full px-3 py-2 transition-colors duration-300',
-                            isActive ? 'text-white' : 'text-foreground',
-                            buttonClassName
-                        )}
-                    >
-                        {option.label}
-                    </button>
-                )
-            })}
+            {options.map(option => (
+                <button
+                    key={option.value}
+                    data-testid={option.testId}
+                    type="button"
+                    onClick={() => onValueChange(option.value)}
+                    className={cn(
+                        'relative flex-1 rounded-full px-3 py-2 transition-colors duration-300',
+                        zIndex.buttonsGroup,
+                        option.value === value ? 'text-white' : 'text-foreground',
+                        buttonClassName
+                    )}
+                >
+                    {option.label}
+                </button>
+            ))}
         </div>
     )
 }
