@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
-import { cn } from '@/shared/lib/utils'
 import { zIndex } from '@/shared/constants/z-index'
+import { cn } from '@/shared/lib/utils'
 
 interface ButtonsGroupOption {
     value: string
@@ -16,6 +16,7 @@ interface ButtonsGroupProps {
     className?: string
     buttonClassName?: string
     indicatorClassName?: string
+    activeButtonClassName?: string
 }
 
 function ButtonsGroup({
@@ -25,14 +26,16 @@ function ButtonsGroup({
     className,
     buttonClassName,
     indicatorClassName,
+    activeButtonClassName,
 }: ButtonsGroupProps) {
     const activeIndex = options.findIndex(option => option.value === value)
+
     return (
         <div className={cn('relative inline-flex w-full rounded-full bg-muted p-1', className)}>
             <div
                 data-testid="ui-buttons-group-indicator"
                 className={cn(
-                    'absolute top-1 bottom-1 rounded-full shadow-sm transition-transform duration-300 ease-in-out',
+                    'absolute top-1 bottom-1 rounded-full bg-background shadow-sm transition-transform duration-300 ease-in-out',
                     indicatorClassName
                 )}
                 style={{
@@ -50,7 +53,7 @@ function ButtonsGroup({
                     className={cn(
                         'relative flex-1 rounded-full px-3 py-2 transition-colors duration-300',
                         zIndex.buttonsGroup,
-                        option.value === value ? 'text-white' : 'text-foreground',
+                        option.value === value ? cn('text-foreground', activeButtonClassName) : 'text-foreground',
                         buttonClassName
                     )}
                 >
