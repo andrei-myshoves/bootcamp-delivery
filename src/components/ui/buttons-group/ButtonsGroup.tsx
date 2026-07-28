@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 
-import { zIndex } from '@/shared/constants/z-index'
 import { cn } from '@/shared/lib/utils'
 
 interface ButtonsGroupOption {
@@ -51,8 +50,7 @@ function ButtonsGroup({
                     type="button"
                     onClick={() => onValueChange(option.value)}
                     className={cn(
-                        'relative flex-1 rounded-full px-3 py-2 transition-colors duration-300',
-                        zIndex.buttonsGroup,
+                        'relative flex-1  rounded-full px-3 py-2 transition-colors duration-300 z-(--z-buttons-group)',
                         option.value === value ? cn('text-foreground', activeButtonClassName) : 'text-foreground',
                         buttonClassName
                     )}
