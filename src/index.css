@@ -62,6 +62,7 @@ body {
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
     --color-border-hard: var(--border-hard);
+    --z-buttons-group: var(--z-buttons-group);
 }
 
 :root {
@@ -106,6 +107,7 @@ body {
     --border: oklch(1 0 0 / 10%);
     --input: oklch(1 0 0 / 15%);
     --ring: oklch(0.556 0 0);
+    --z-buttons-group: 10;
 }
 
 @layer base {

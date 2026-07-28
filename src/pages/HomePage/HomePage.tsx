@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { apiClient } from '@/shared/api/ky/instance'
-import { Header } from '@/components/layout/header/Header'
 
 const HomePage = () => {
     useEffect(() => {
@@ -15,7 +14,6 @@ const HomePage = () => {
 
     return (
         <>
-            <Header />
             <div>Home Page</div>
         </>
     )
