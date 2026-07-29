@@ -12,7 +12,7 @@ export function Layout({ children }: LayoutProps) {
         <div className="flex min-h-screen flex-col px-4 pt-4">
             <Header />
             <main className="flex-1">{children}</main>
-            <Footer />
+            <Footer className="px-4 pt-2 pb-4" />
         </div>
     )
 }
