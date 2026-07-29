@@ -1,6 +1,6 @@
 import ky from 'ky'
 
-export const apiClient = ky.extend({
+export const apiClientV1 = ky.extend({
     prefix: '/api/v1',
 
     headers: {
