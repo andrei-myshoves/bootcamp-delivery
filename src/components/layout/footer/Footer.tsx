@@ -52,16 +52,18 @@ export function Footer({ className }: FooterProps) {
     )
 
     return (
-        <footer className={cn('fixed inset-x-0 bottom-0 border-t border-border bg-background lg:hidden', className)}>
-            <ButtonsGroup
-                value={location}
-                onValueChange={navigate}
-                options={options}
-                className="rounded-full border border-border-hard bg-background shadow-sm"
-                indicatorClassName="bg-green-500"
-                activeButtonClassName="text-white"
-                buttonClassName="flex flex-col items-center gap-1 py-2 text-xs font-medium"
-            />
+        <footer className={cn('fixed inset-x-0 bottom-0  border-border px-3 lg:hidden', className)}>
+            <div className="px-4 py-3">
+                <ButtonsGroup
+                    value={location}
+                    onValueChange={navigate}
+                    options={options}
+                    className="rounded-full border border-border-hard bg-background shadow-sm"
+                    indicatorClassName="bg-green-500"
+                    activeButtonClassName="text-white"
+                    buttonClassName="flex flex-col items-center gap-1 py-2 text-xs font-medium"
+                />
+            </div>
         </footer>
     )
 }
