@@ -1,7 +1,12 @@
 import { useEffect } from 'react'
-import { apiClientV1 } from '@/shared/api/ky/instance'
+
 import { Card } from '@/components/ui/card/Card'
-import DekstopBanner from '@/shared/assets/DekstopBanner.webp'
+import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
+
+import { apiClientV1 } from '@/shared/api/ky/instance'
+
+import DesktopBanner from '@/shared/assets/DekstopBanner.webp'
+import ReferralBannerHands from '@/shared/assets/ReferalBannerHands.webp'
 
 const HomePage = () => {
     useEffect(() => {
@@ -15,11 +20,23 @@ const HomePage = () => {
     }, [])
 
     return (
-        <>
+        <div className="space-y-4">
             <Card className="hidden overflow-hidden p-0 lg:block">
-                <img src={DekstopBanner} className="h-full w-full object-cover  scale-130 translate-y-35" />
+                <img
+                    src={DesktopBanner}
+                    alt="Delivery"
+                    className="h-full w-full object-cover scale-130 translate-y-35"
+                />
             </Card>
-        </>
+
+            <ReferralBanner
+                title="Бесплатная доставка"
+                subtitle="за приведенного друга"
+                image={ReferralBannerHands}
+                className="h-[90px] lg:h-[172px]"
+                imageClassName="right-0 bottom-0 h-full lg:h-[115%]"
+            />
+        </div>
     )
 }
 
