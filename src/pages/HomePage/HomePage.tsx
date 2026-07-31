@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-import { apiClient } from '@/shared/api/ky/instance'
+import { apiClientV1 } from '@/shared/api/ky/instance'
 
 const HomePage = () => {
     useEffect(() => {
         const fetchData = async () => {
-            const data = await apiClient.get('delivery/points').json()
+            const data = await apiClientV1.get('delivery/points').json()
 
             console.log(data)
         }
