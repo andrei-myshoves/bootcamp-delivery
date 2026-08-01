@@ -21,16 +21,16 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Mobile: Story = {
+export const Default: Story = {
+    decorators: [
+        Story => (
+            <div className="w-full max-w-[596px]">
+                <Story />
+            </div>
+        ),
+    ],
     args: {
-        className: 'h-[90px] w-[328px]',
-        imageClassName: 'right-0 bottom-0 h-full',
-    },
-}
-
-export const Desktop: Story = {
-    args: {
-        className: 'h-[172px] w-[596px] p-8',
+        className: 'h-[172px] w-full p-8',
         imageClassName: 'right-0 bottom-0 h-[115%]',
     },
 }

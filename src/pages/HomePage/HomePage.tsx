@@ -7,6 +7,7 @@ import { apiClientV1 } from '@/shared/api/ky/instance'
 
 import DesktopBanner from '@/shared/assets/DekstopBanner.webp'
 import ReferralBannerHands from '@/shared/assets/ReferalBannerHands.webp'
+import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
     useEffect(() => {
@@ -19,6 +20,8 @@ const HomePage = () => {
         fetchData()
     }, [])
 
+    const { t } = useTranslation()
+
     return (
         <div className="space-y-4">
             <Card className="hidden overflow-hidden p-0 lg:block">
@@ -30,8 +33,8 @@ const HomePage = () => {
             </Card>
 
             <ReferralBanner
-                title="Бесплатная доставка"
-                subtitle="за приведенного друга"
+                title={t('referralBanner.freeDelivery')}
+                subtitle={t('referralBanner.inviteFriend')}
                 image={ReferralBannerHands}
                 className="h-[90px] lg:h-[172px]"
                 imageClassName="right-0 bottom-0 h-full lg:h-[115%]"

@@ -22,6 +22,13 @@ i18n.use(initReactI18next).init({
                     title: 'Что-то пошло не так',
                     description: 'Пожалуйста, обновите страницу и попробуйте снова.',
                 },
+
+                referralBanner: {
+                    freeDelivery: 'Бесплатная доставка',
+                    inviteFriend: 'за приведенного друга',
+                    giftDelivery: '1+1=3',
+                    thirdDelivery: '3-я доставка в подарок!',
+                },
             },
         },
     },
