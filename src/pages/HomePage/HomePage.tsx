@@ -36,7 +36,7 @@ const HomePage = () => {
                 title={t('referralBanner.freeDelivery')}
                 subtitle={t('referralBanner.inviteFriend')}
                 image={ReferralBannerHands}
-                className="h-[90px] lg:h-[172px]"
+                className="h-22.5 lg:h-43"
                 imageClassName="right-0 bottom-0 h-full lg:h-[115%]"
             />
         </div>
