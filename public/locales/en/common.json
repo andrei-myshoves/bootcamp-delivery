@@ -4,5 +4,11 @@
     "errorBoundary": {
         "title": "Something went wrong",
         "description": "Please refresh the page and try again."
+    },
+    "referralBanner": {
+        "freeDelivery": "Free delivery",
+        "inviteFriend": "for referring a friend",
+        "giftDelivery": "1+1=3",
+        "thirdDelivery": "3rd delivery is free!"
     }
 }
