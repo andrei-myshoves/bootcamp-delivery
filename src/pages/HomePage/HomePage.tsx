@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 
 import { Card } from '@/components/ui/card/Card'
+import { Input } from '@/components/ui/input/Input'
+import { Button } from '@/components/ui/button/Button'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 
 import { apiClientV1 } from '@/shared/api/ky/instance'
@@ -24,21 +26,53 @@ const HomePage = () => {
 
     return (
         <div className="space-y-4">
-            <Card className="hidden overflow-hidden p-0 lg:block">
-                <img
-                    src={DesktopBanner}
-                    alt="Delivery"
-                    className="h-full w-full object-cover scale-130 translate-y-35"
-                />
-            </Card>
+            {/* Desktop */}
+            <div className="hidden gap-4 lg:grid lg:grid-cols-2">
+                <Card>Calculator</Card>
 
-            <ReferralBanner
-                title={t('referralBanner.freeDelivery')}
-                subtitle={t('referralBanner.inviteFriend')}
-                image={ReferralBannerHands}
-                className="h-22.5 lg:h-43"
-                imageClassName="right-0 bottom-0 h-full lg:h-[115%]"
-            />
+                <Card className="overflow-hidden p-0">
+                    <img src={DesktopBanner} alt="Delivery" className="h-full w-full object-cover" />
+                </Card>
+
+                <ReferralBanner
+                    title={t('referralBanner.freeDelivery')}
+                    subtitle={t('referralBanner.inviteFriend')}
+                    image={ReferralBannerHands}
+                    className="h-43"
+                    imageClassName="right-0 bottom-0 h-[115%]"
+                />
+
+                <Card className="space-y-6">
+                    <h2 className="text-3xl font-bold">{t('trackParcel.title')}</h2>
+
+                    <div className="flex flex-col gap-4 lg:flex-row">
+                        <Input className="flex-1" placeholder={t('trackParcel.placeholder')} />
+
+                        <Button className="lg:px-10">{t('trackParcel.find')}</Button>
+                    </div>
+                </Card>
+            </div>
+
+            {/* Mobile */}
+            <div className="space-y-4 lg:hidden">
+                <Card>Calculator</Card>
+
+                <Card className="space-y-6">
+                    <h2 className="text-3xl font-bold">{t('trackParcel.title')}</h2>
+
+                    <Input placeholder={t('trackParcel.placeholder')} />
+
+                    <Button className="w-full lg:w-auto lg:px-10">{t('trackParcel.find')}</Button>
+                </Card>
+
+                <ReferralBanner
+                    title={t('referralBanner.freeDelivery')}
+                    subtitle={t('referralBanner.inviteFriend')}
+                    image={ReferralBannerHands}
+                    className="h-22.5"
+                    imageClassName="right-0 bottom-0 h-full"
+                />
+            </div>
         </div>
     )
 }

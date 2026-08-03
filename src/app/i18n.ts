@@ -29,6 +29,11 @@ i18n.use(initReactI18next).init({
                     giftDelivery: '1+1=3',
                     thirdDelivery: '3-я доставка в подарок!',
                 },
+                trackParcel: {
+                    title: 'Отследить посылку',
+                    placeholder: 'Номер заказа',
+                    find: 'Найти',
+                },
             },
         },
     },
