@@ -43,12 +43,15 @@ const HomePage = () => {
                 />
 
                 <Card className="space-y-6">
-                    <h2 className="text-3xl font-bold">{t('trackParcel.title')}</h2>
+                    <h2 className="text-2xl font-bold">{t('trackParcel.title')}</h2>
 
                     <div className="flex flex-col gap-4 lg:flex-row">
-                        <Input className="flex-1" placeholder={t('trackParcel.placeholder')} />
+                        <Input
+                            className="py-3.5 px-4  flex-1 text-2xl placeholder:text-input-placeholder"
+                            placeholder={t('trackParcel.placeholder')}
+                        />
 
-                        <Button className="lg:px-10">{t('trackParcel.find')}</Button>
+                        <Button size="form">{t('trackParcel.find')}</Button>
                     </div>
                 </Card>
             </div>
@@ -57,12 +60,12 @@ const HomePage = () => {
             <div className="space-y-4 lg:hidden">
                 <Card>Calculator</Card>
 
-                <Card className="space-y-6">
-                    <h2 className="text-3xl font-bold">{t('trackParcel.title')}</h2>
+                <Card className="space-y-6 p-6">
+                    <h2 className="text-2xl font-bold">{t('trackParcel.title')}</h2>
 
                     <Input placeholder={t('trackParcel.placeholder')} />
 
-                    <Button className="w-full lg:w-auto lg:px-10">{t('trackParcel.find')}</Button>
+                    <Button size="form">{t('trackParcel.find')}</Button>
                 </Card>
 
                 <ReferralBanner
