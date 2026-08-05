@@ -3,7 +3,9 @@ import { useEffect } from 'react'
 import { Card } from '@/components/ui/card/Card'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
+import { UiSelect } from '@/components/ui/select/Select'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
+import { ArrowRight } from 'lucide-react'
 
 import { apiClientV1 } from '@/shared/api/ky/instance'
 
@@ -28,7 +30,34 @@ const HomePage = () => {
         <div className="space-y-4">
             {/* Desktop */}
             <div className="hidden gap-4 lg:grid lg:grid-cols-2">
-                <Card>Calculator</Card>
+                <Card className="space-y-6">
+                    <h2 className="text-4xl font-bold">{t('calculator.title')}</h2>
+
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <p className="text-sm font-medium">{t('calculator.from')}</p>
+
+                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                        </div>
+
+                        <div className="space-y-2">
+                            <p className="text-sm font-medium">{t('calculator.to')}</p>
+
+                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                        </div>
+
+                        <div className="space-y-2">
+                            <p className="text-sm font-medium">{t('calculator.size')}</p>
+
+                            <UiSelect size="form" placeholder={t('calculator.selectSize')} options={[]} />
+                        </div>
+                    </div>
+
+                    <Button size="form" className="w-full">
+                        {t('calculator.calculate')}
+                        <ArrowRight className="size-4" />
+                    </Button>
+                </Card>
 
                 <Card className="overflow-hidden p-0">
                     <img src={DesktopBanner} alt="Delivery" className="h-full w-full object-cover" />
@@ -58,7 +87,34 @@ const HomePage = () => {
 
             {/* Mobile */}
             <div className="space-y-4 lg:hidden">
-                <Card>Calculator</Card>
+                <Card className="p-6">
+                    <h2 className="text-2xl font-bold">{t('calculator.title')}</h2>
+
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <p className="text-sm font-medium">{t('calculator.from')}</p>
+
+                            <UiSelect size='form' placeholder={t('calculator.selectCity')} options={[]} />
+                        </div>
+
+                        <div className="space-y-2">
+                            <p className="text-sm font-medium">{t('calculator.to')}</p>
+
+                            <UiSelect size='form' placeholder={t('calculator.selectCity')} options={[]} />
+                        </div>
+
+                        <div className="space-y-2">
+                            <p className="text-sm font-medium">{t('calculator.size')}</p>
+
+                            <UiSelect size='form' placeholder={t('calculator.selectSize')} options={[]} />
+                        </div>
+                    </div>
+
+                    <Button size="form" className="w-full">
+                        {t('calculator.calculate')}
+                        <ArrowRight className="size-4" />
+                    </Button>
+                </Card>
 
                 <Card className="space-y-6 p-6">
                     <h2 className="text-2xl font-bold">{t('trackParcel.title')}</h2>
