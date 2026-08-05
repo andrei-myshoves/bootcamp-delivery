@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
     decorators: [
         Story => (
-            <div className="w-full max-w-[596px] min-w-[596px]">
+            <div className="w-full max-w-149 min-w-149">
                 <Story />
             </div>
         ),

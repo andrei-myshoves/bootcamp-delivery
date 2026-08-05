@@ -94,19 +94,19 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.from')}</p>
 
-                            <UiSelect size='form' placeholder={t('calculator.selectCity')} options={[]} />
+                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.to')}</p>
 
-                            <UiSelect size='form' placeholder={t('calculator.selectCity')} options={[]} />
+                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <UiSelect size='form' placeholder={t('calculator.selectSize')} options={[]} />
+                            <UiSelect size="form" placeholder={t('calculator.selectSize')} options={[]} />
                         </div>
                     </div>
 
