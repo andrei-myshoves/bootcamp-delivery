@@ -23,11 +23,26 @@ i18n.use(initReactI18next).init({
                     description: 'Пожалуйста, обновите страницу и попробуйте снова.',
                 },
 
+                calculator: {
+                    title: 'Рассчитать доставку',
+                    from: 'Город отправки',
+                    to: 'Город назначения',
+                    size: 'Размер посылки',
+                    selectCity: 'Выберите город',
+                    selectSize: 'Выберите размер',
+                    calculate: 'Рассчитать',
+                },
+
                 referralBanner: {
                     freeDelivery: 'Бесплатная доставка',
                     inviteFriend: 'за приведенного друга',
                     giftDelivery: '1+1=3',
                     thirdDelivery: '3-я доставка в подарок!',
+                },
+                trackParcel: {
+                    title: 'Отследить посылку',
+                    placeholder: 'Номер заказа',
+                    find: 'Найти',
                 },
             },
         },

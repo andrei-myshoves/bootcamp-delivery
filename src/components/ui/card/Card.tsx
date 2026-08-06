@@ -7,7 +7,7 @@ type CardProps = React.HTMLAttributes<HTMLDivElement>
 function Card({ className, children, ...props }: CardProps) {
     return (
         <div
-            className={cn('flex flex-col gap-6 rounded-3xl border border-border-hard bg-background p-8', className)}
+            className={cn('flex flex-col  rounded-3xl border border-border-hard bg-background p-8', className)}
             {...props}
         >
             {children}

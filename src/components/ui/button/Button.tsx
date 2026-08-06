@@ -20,6 +20,8 @@ const buttonVariants = cva(
                 icon: 'size-8 p-0',
                 regular: 'h-8 px-4 text-sm',
                 large: 'h-13 px-6 text-sm',
+
+                form: 'h-auto py-3.5 px-4 text-sm lg:py-4 lg:px-10',
             },
         },
 
