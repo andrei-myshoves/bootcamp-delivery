@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Card } from '@/components/ui/card/Card'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { UiSelect } from '@/components/ui/select/Select'
+import { CitySelectTrigger } from '@/features/delivery-calculator/ui/CitySelectTrigger'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { ArrowRight } from 'lucide-react'
 
@@ -37,19 +37,19 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.from')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.to')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectSize')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
                     </div>
 
@@ -94,19 +94,19 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.from')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.to')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectSize')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
                     </div>
 
