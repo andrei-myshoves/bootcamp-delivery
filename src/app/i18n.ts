@@ -26,6 +26,7 @@ i18n.use(initReactI18next).init({
                 calculator: {
                     title: 'Рассчитать доставку',
                     from: 'Город отправки',
+                    where: 'Куда',
                     to: 'Город назначения',
                     size: 'Размер посылки',
                     selectCity: 'Выберите город',

@@ -1,4 +1,5 @@
 import type { DeliveryPoint } from '@/features/delivery-calculator/model/types'
+import { ChevronRight } from 'lucide-react'
 
 interface CityItemProps {
     city: DeliveryPoint
@@ -17,7 +18,7 @@ export function CityItem({ city, selected, onClick }: CityItemProps) {
         >
             <span>{city.name}</span>
 
-            {selected && <div className="size-2 rounded-full bg-primary" />}
+            <ChevronRight className="size-5 text-muted-foreground" />
         </button>
     )
 }

@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card/Card'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
 import { CitySelectTrigger } from '@/features/delivery-calculator/ui/CitySelectTrigger'
+import { CitySelectSheet } from '@/features/delivery-calculator/ui/CitySelectSheet'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { ArrowRight } from 'lucide-react'
 
@@ -37,7 +38,30 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.from')}</p>
 
-                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
+                            <CitySelectSheet
+                                sheetTitle={t('calculator.where')}
+                                placeholder={t('calculator.selectCity')}
+                                cities={[
+                                    {
+                                        id: '1',
+                                        name: 'Warszawa',
+                                        latitude: '',
+                                        longitude: '',
+                                    },
+                                    {
+                                        id: '2',
+                                        name: 'Gdańsk',
+                                        latitude: '',
+                                        longitude: '',
+                                    },
+                                    {
+                                        id: '3',
+                                        name: 'Kraków',
+                                        latitude: '',
+                                        longitude: '',
+                                    },
+                                ]}
+                            />
                         </div>
 
                         <div className="space-y-2">
@@ -94,7 +118,30 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.from')}</p>
 
-                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
+                            <CitySelectSheet
+                                sheetTitle={t('calculator.where')}
+                                placeholder={t('calculator.selectCity')}
+                                cities={[
+                                    {
+                                        id: '1',
+                                        name: 'Warszawa',
+                                        latitude: '',
+                                        longitude: '',
+                                    },
+                                    {
+                                        id: '2',
+                                        name: 'Gdańsk',
+                                        latitude: '',
+                                        longitude: '',
+                                    },
+                                    {
+                                        id: '3',
+                                        name: 'Kraków',
+                                        latitude: '',
+                                        longitude: '',
+                                    },
+                                ]}
+                            />
                         </div>
 
                         <div className="space-y-2">

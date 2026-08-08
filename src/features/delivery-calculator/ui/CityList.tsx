@@ -1,16 +1,18 @@
 import type { DeliveryPoint } from '@/features/delivery-calculator/model/types'
 
 import { CityItem } from './CityItem'
+import { cn } from '@/shared/lib/utils'
 
 interface CityListProps {
     cities: DeliveryPoint[]
     selectedCityId?: string
     onSelect?: (city: DeliveryPoint) => void
+    className?: string
 }
 
-export function CityList({ cities, selectedCityId, onSelect }: CityListProps) {
+export function CityList({ cities, selectedCityId, className, onSelect }: CityListProps) {
     return (
-        <div className="space-y-1">
+        <div className={cn('space-y-1', className)}>
             {cities.map(city => (
                 <CityItem
                     key={city.id}
