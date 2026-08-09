@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTitle } from '@/components/ui/sheet/sheet'
 import { X } from 'lucide-react'
 
@@ -14,22 +12,36 @@ interface CitySelectSheetProps {
 
     cities: DeliveryPoint[]
 
+    open: boolean
+    onOpenChange: (open: boolean) => void
+
     value?: DeliveryPoint
 
     onChange?: (city: DeliveryPoint) => void
 }
 
-export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChange }: CitySelectSheetProps) {
-    const [open, setOpen] = useState(false)
-
+export function CitySelectSheet({
+    sheetTitle,
+    placeholder,
+    cities,
+    value,
+    open,
+    onOpenChange,
+    onChange,
+}: CitySelectSheetProps) {
     const handleSelect = (city: DeliveryPoint) => {
         onChange?.(city)
-        setOpen(false)
+        onOpenChange(false)
     }
 
     return (
-        <Sheet open={open} onOpenChange={setOpen}>
-            <CitySelectTrigger value={value?.name} placeholder={placeholder} onClick={() => setOpen(true)} />
+        <Sheet open={open} onOpenChange={onOpenChange}>
+            <CitySelectTrigger
+                value={value?.name}
+                placeholder={placeholder}
+                selected={!!value}
+                onClick={() => onOpenChange(true)}
+            />
 
             <SheetContent side="left" showCloseButton={false}>
                 <SheetHeader className="flex flex-row items-center gap-4 border-b px-6 py-5">

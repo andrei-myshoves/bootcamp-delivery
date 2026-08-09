@@ -1,29 +1,30 @@
 import { ChevronDown } from 'lucide-react'
 
 import { cn } from '@/shared/lib/utils'
-
 interface CitySelectTriggerProps {
     value?: string
     placeholder: string
     className?: string
+    selected?: boolean
     onClick?: () => void
 }
 
-export function CitySelectTrigger({ value, placeholder, className, onClick }: CitySelectTriggerProps) {
+export function CitySelectTrigger({ value, placeholder, selected = false, onClick }: CitySelectTriggerProps) {
     return (
         <button
             type="button"
             onClick={onClick}
-            className={cn(
-                'flex h-13 w-full items-center justify-between rounded-full border border-input bg-background px-3 py-2',
-                className
-            )}
+            className="flex w-full items-center justify-between rounded-full border border-input px-3 py-3.5"
         >
-            <span className={cn('text-sm', value ? 'text-foreground' : 'text-input-placeholder')}>
-                {value ?? placeholder}
-            </span>
+            <div className="flex items-center gap-3">
+                <div
+                    className={cn('h-4 w-4 rounded-full border-[3px]', selected ? 'border-green-500' : 'border-black')}
+                />
 
-            <ChevronDown className="size-4 text-muted-foreground" />
+                <span className={cn(value ? 'text-foreground' : 'text-muted-foreground')}>{value ?? placeholder}</span>
+            </div>
+
+            <ChevronDown className="h-5 w-5 text-muted-foreground" />
         </button>
     )
 }

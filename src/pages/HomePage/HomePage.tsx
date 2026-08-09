@@ -13,6 +13,8 @@ import { apiClientV1 } from '@/shared/api/ky/instance'
 import DesktopBanner from '@/shared/assets/DekstopBanner.webp'
 import ReferralBannerHands from '@/shared/assets/ReferalBannerHands.webp'
 import { useTranslation } from 'react-i18next'
+import { deliveryCalculatorStore } from '@/features/delivery-calculator/model/DeliveryCalculatorStore'
+import { observer } from 'mobx-react-lite'
 
 const HomePage = () => {
     useEffect(() => {
@@ -26,6 +28,26 @@ const HomePage = () => {
     }, [])
 
     const { t } = useTranslation()
+    const mockCities = [
+        {
+            id: '1',
+            name: 'Warszawa',
+            latitude: '',
+            longitude: '',
+        },
+        {
+            id: '2',
+            name: 'Gdańsk',
+            latitude: '',
+            longitude: '',
+        },
+        {
+            id: '3',
+            name: 'Kraków',
+            latitude: '',
+            longitude: '',
+        },
+    ]
 
     return (
         <div className="space-y-4">
@@ -41,26 +63,11 @@ const HomePage = () => {
                             <CitySelectSheet
                                 sheetTitle={t('calculator.where')}
                                 placeholder={t('calculator.selectCity')}
-                                cities={[
-                                    {
-                                        id: '1',
-                                        name: 'Warszawa',
-                                        latitude: '',
-                                        longitude: '',
-                                    },
-                                    {
-                                        id: '2',
-                                        name: 'Gdańsk',
-                                        latitude: '',
-                                        longitude: '',
-                                    },
-                                    {
-                                        id: '3',
-                                        name: 'Kraków',
-                                        latitude: '',
-                                        longitude: '',
-                                    },
-                                ]}
+                                cities={mockCities}
+                                open={deliveryCalculatorStore.isFromCitySheetOpen}
+                                onOpenChange={deliveryCalculatorStore.setFromCitySheetOpen}
+                                value={deliveryCalculatorStore.fromCity}
+                                onChange={city => deliveryCalculatorStore.selectFromCity(city)}
                             />
                         </div>
 
@@ -121,26 +128,11 @@ const HomePage = () => {
                             <CitySelectSheet
                                 sheetTitle={t('calculator.where')}
                                 placeholder={t('calculator.selectCity')}
-                                cities={[
-                                    {
-                                        id: '1',
-                                        name: 'Warszawa',
-                                        latitude: '',
-                                        longitude: '',
-                                    },
-                                    {
-                                        id: '2',
-                                        name: 'Gdańsk',
-                                        latitude: '',
-                                        longitude: '',
-                                    },
-                                    {
-                                        id: '3',
-                                        name: 'Kraków',
-                                        latitude: '',
-                                        longitude: '',
-                                    },
-                                ]}
+                                cities={mockCities}
+                                open={deliveryCalculatorStore.isFromCitySheetOpen}
+                                onOpenChange={deliveryCalculatorStore.setFromCitySheetOpen}
+                                value={deliveryCalculatorStore.fromCity}
+                                onChange={city => deliveryCalculatorStore.selectFromCity(city)}
                             />
                         </div>
 
@@ -183,4 +175,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage
+export default observer(HomePage)
