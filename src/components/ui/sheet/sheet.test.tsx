@@ -2,12 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
-import {
-    Sheet,
-    SheetTrigger,
-    SheetContent,
-    SheetTitle,
-} from './sheet'
+import { Sheet, SheetTrigger, SheetContent, SheetTitle } from './sheet'
 
 describe('Sheet', () => {
     it('opens after trigger click', async () => {

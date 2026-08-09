@@ -1,13 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import {
-    Sheet,
-    SheetTrigger,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetDescription,
-} from './sheet'
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from './sheet'
 
 import { Button } from '@/components/ui/button/Button'
 
@@ -33,9 +26,7 @@ export const Default: Story = {
                     <SheetDescription>Description</SheetDescription>
                 </SheetHeader>
 
-                <div className="p-4">
-                    Content
-                </div>
+                <div className="p-4">Content</div>
             </SheetContent>
         </Sheet>
     ),
