@@ -17,9 +17,7 @@ export function CitySelectTrigger({ value, placeholder, selected = false, onClic
             className="flex w-full items-center justify-between rounded-full border border-input px-3 py-3.5"
         >
             <div className="flex items-center gap-3">
-                <div
-                    className={cn('h-4 w-4 rounded-full border-2', selected ? 'border-green-500' : 'border-black')}
-                />
+                <div className={cn('h-4 w-4 rounded-full border-2', selected ? 'border-green-500' : 'border-black')} />
 
                 <span className={cn(value ? 'text-foreground' : 'text-muted-foreground')}>{value ?? placeholder}</span>
             </div>
