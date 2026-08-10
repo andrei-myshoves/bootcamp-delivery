@@ -1,9 +1,29 @@
 import { makeAutoObservable } from 'mobx'
-import type { DeliveryPoint } from './types'
+
+export interface DeliveryPoint {
+    id: string
+    name: string
+    latitude: string
+    longitude: string
+}
+
+const DEFAULT_FROM_CITY: DeliveryPoint = {
+    id: '1',
+    name: 'Москва',
+    latitude: '',
+    longitude: '',
+}
+
+const DEFAULT_TO_CITY: DeliveryPoint = {
+    id: '2',
+    name: 'Санкт-Петербург',
+    latitude: '',
+    longitude: '',
+}
 
 export class DeliveryCalculatorStore {
-    fromCity?: DeliveryPoint
-    toCity?: DeliveryPoint
+    fromCity = DEFAULT_FROM_CITY
+    toCity = DEFAULT_TO_CITY
 
     isFromCitySheetOpen = false
     isToCitySheetOpen = false

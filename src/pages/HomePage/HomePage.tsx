@@ -16,6 +16,27 @@ import { useTranslation } from 'react-i18next'
 import { deliveryCalculatorStore } from '@/features/delivery-calculator/model/DeliveryCalculatorStore'
 import { observer } from 'mobx-react-lite'
 
+const mockCities = [
+    {
+        id: '1',
+        name: 'Warszawa',
+        latitude: '',
+        longitude: '',
+    },
+    {
+        id: '2',
+        name: 'Gdańsk',
+        latitude: '',
+        longitude: '',
+    },
+    {
+        id: '3',
+        name: 'Kraków',
+        latitude: '',
+        longitude: '',
+    },
+]
+
 const HomePage = () => {
     useEffect(() => {
         const fetchData = async () => {
@@ -28,26 +49,6 @@ const HomePage = () => {
     }, [])
 
     const { t } = useTranslation()
-    const mockCities = [
-        {
-            id: '1',
-            name: 'Warszawa',
-            latitude: '',
-            longitude: '',
-        },
-        {
-            id: '2',
-            name: 'Gdańsk',
-            latitude: '',
-            longitude: '',
-        },
-        {
-            id: '3',
-            name: 'Kraków',
-            latitude: '',
-            longitude: '',
-        },
-    ]
 
     return (
         <div className="space-y-4">
