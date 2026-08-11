@@ -1,7 +1,7 @@
 import { Sheet, SheetContent, SheetHeader, SheetClose, SheetTitle } from '@/components/ui/sheet/sheet'
 import { Button } from '@/components/ui/button/Button'
 import { X, ChevronRight } from 'lucide-react'
-import type { DeliveryPoint } from '@/features/delivery-calculator/model/DeliveryCalculatorStore'
+import type { DeliveryPoint } from '@/store/DeliveryCalculatorStore'
 import { CitySelectTrigger } from './CitySelectTrigger'
 
 interface CitySelectSheetProps {
