@@ -3,44 +3,36 @@ import { Button } from '@/components/ui/button/Button'
 import { X, ChevronRight } from 'lucide-react'
 import type { DeliveryPoint } from '@/store/DeliveryCalculatorStore'
 import { CitySelectTrigger } from './CitySelectTrigger'
+import { useState } from 'react'
 
 interface CitySelectSheetProps {
     sheetTitle: string
     placeholder: string
     cities: DeliveryPoint[]
-    open: boolean
-    onOpenChange: (open: boolean) => void
-    value?: DeliveryPoint
+    value: DeliveryPoint
     onChange?: (city: DeliveryPoint) => void
 }
 
-export function CitySelectSheet({
-    sheetTitle,
-    placeholder,
-    cities,
-    value,
-    open,
-    onOpenChange,
-    onChange,
-}: CitySelectSheetProps) {
+export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChange }: CitySelectSheetProps) {
+    const [open, setOpen] = useState(false)
     const handleSelect = (city: DeliveryPoint) => {
         onChange?.(city)
-        onOpenChange(false)
+        setOpen(false)
     }
 
     return (
-        <Sheet open={open} onOpenChange={onOpenChange}>
+        <Sheet open={open} onOpenChange={setOpen}>
             <CitySelectTrigger
-                value={value?.name}
+                value={value.name}
                 placeholder={placeholder}
-                selected={!!value}
-                onClick={() => onOpenChange(true)}
+                selected={true}
+                onClick={() => setOpen(true)}
             />
 
             <SheetContent side="left" showCloseButton={false}>
                 <SheetHeader className="flex flex-row items-center gap-4 border-b px-6 py-5">
                     <SheetClose asChild>
-                        <Button variant="wrapper" className="rounded-md p-1 hover:bg-accent">
+                        <Button variant="wrapper" className="rounded-md p-1 bg-transparent hover:bg-accent">
                             <X className="h-6 w-6" />
                         </Button>
                     </SheetClose>
@@ -50,7 +42,7 @@ export function CitySelectSheet({
 
                 <div className="mt-6 space-y-1 px-6">
                     {cities.map(city => {
-                        const selected = city.id === value?.id
+                        const selected = city.id === value.id
 
                         return (
                             <Button
@@ -58,7 +50,7 @@ export function CitySelectSheet({
                                 variant="wrapper"
                                 type="button"
                                 onClick={() => handleSelect(city)}
-                                className={`flex w-full items-center justify-between px-4 py-3 transition ${
+                                className={`flex w-full  items-center bg-transparent justify-between px-4 py-4 transition ${
                                     selected ? 'bg-accent' : 'hover:bg-accent/50'
                                 }`}
                             >

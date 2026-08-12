@@ -1,10 +1,16 @@
 import { makeAutoObservable } from 'mobx'
+import { apiClientV1 } from '@/shared/api/ky/instance'
 
 export interface DeliveryPoint {
     id: string
     name: string
     latitude: string
     longitude: string
+}
+
+export interface DeliveryPointsResponse {
+    success: boolean
+    points: DeliveryPoint[]
 }
 
 const DEFAULT_FROM_CITY: DeliveryPoint = {
@@ -25,29 +31,25 @@ export class DeliveryCalculatorStore {
     fromCity = DEFAULT_FROM_CITY
     toCity = DEFAULT_TO_CITY
 
-    isFromCitySheetOpen = false
-    isToCitySheetOpen = false
-
+    cities: DeliveryPoint[] = []
     constructor() {
         makeAutoObservable(this)
     }
 
-    setFromCitySheetOpen = (open: boolean) => {
-        this.isFromCitySheetOpen = open
-    }
-
-    openFromCitySheet = () => {
-        this.setFromCitySheetOpen(true)
-    }
-
-    closeFromCitySheet = () => {
-        this.setFromCitySheetOpen(false)
-    }
-
     selectFromCity = (city: DeliveryPoint) => {
         this.fromCity = city
-        this.closeFromCitySheet()
+    }
+
+    selectToCity = (city: DeliveryPoint) => {
+        this.toCity = city
+    }
+
+    setCities = (cities: DeliveryPoint[]) => {
+        this.cities = cities
+    }
+    fetchCities = async () => {
+        const response = await apiClientV1.get('delivery/points').json<DeliveryPointsResponse>()
+
+        this.setCities(response.points)
     }
 }
-
-export const deliveryCalculatorStore = new DeliveryCalculatorStore()

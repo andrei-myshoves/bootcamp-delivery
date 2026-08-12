@@ -8,45 +8,18 @@ import { CitySelectSheet } from '@/components/ui/city-select/CitySelectSheet'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { ArrowRight } from 'lucide-react'
 
-import { apiClientV1 } from '@/shared/api/ky/instance'
-
 import DesktopBanner from '@/shared/assets/DekstopBanner.webp'
 import ReferralBannerHands from '@/shared/assets/ReferalBannerHands.webp'
 import { useTranslation } from 'react-i18next'
-import { deliveryCalculatorStore } from '@/store/DeliveryCalculatorStore'
+import { useStore } from '@/hooks/useStore'
 import { observer } from 'mobx-react-lite'
 
-const mockCities = [
-    {
-        id: '1',
-        name: 'Warszawa',
-        latitude: '',
-        longitude: '',
-    },
-    {
-        id: '2',
-        name: 'Gdańsk',
-        latitude: '',
-        longitude: '',
-    },
-    {
-        id: '3',
-        name: 'Kraków',
-        latitude: '',
-        longitude: '',
-    },
-]
-
 const HomePage = () => {
+    const { deliveryCalculatorStore } = useStore()
+
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await apiClientV1.get('delivery/points').json()
-
-            console.log(data)
-        }
-
-        fetchData()
-    }, [])
+        void deliveryCalculatorStore.fetchCities()
+    }, [deliveryCalculatorStore])
 
     const { t } = useTranslation()
 
@@ -64,11 +37,9 @@ const HomePage = () => {
                             <CitySelectSheet
                                 sheetTitle={t('calculator.where')}
                                 placeholder={t('calculator.selectCity')}
-                                cities={mockCities}
-                                open={deliveryCalculatorStore.isFromCitySheetOpen}
-                                onOpenChange={deliveryCalculatorStore.setFromCitySheetOpen}
+                                cities={deliveryCalculatorStore.cities}
                                 value={deliveryCalculatorStore.fromCity}
-                                onChange={city => deliveryCalculatorStore.selectFromCity(city)}
+                                onChange={deliveryCalculatorStore.selectFromCity}
                             />
                         </div>
 
@@ -129,11 +100,9 @@ const HomePage = () => {
                             <CitySelectSheet
                                 sheetTitle={t('calculator.where')}
                                 placeholder={t('calculator.selectCity')}
-                                cities={mockCities}
-                                open={deliveryCalculatorStore.isFromCitySheetOpen}
-                                onOpenChange={deliveryCalculatorStore.setFromCitySheetOpen}
+                                cities={deliveryCalculatorStore.cities}
                                 value={deliveryCalculatorStore.fromCity}
-                                onChange={city => deliveryCalculatorStore.selectFromCity(city)}
+                                onChange={deliveryCalculatorStore.selectFromCity}
                             />
                         </div>
 
