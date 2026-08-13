@@ -1,40 +1,42 @@
-import '@testing-library/jest-dom/vitest'
-
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
-
-import { ComponentWrapper } from '@/shared/tests/ComponentWrapper'
+import { describe, expect, it, vi } from 'vitest'
 
 import { Footer } from './Footer'
 
-function renderFooter() {
-    return render(<Footer />, {
-        wrapper: ComponentWrapper,
-    })
-}
+vi.mock('react-i18next', () => ({
+    useTranslation: () => ({
+        t: (key: string) => {
+            const translations: Record<string, string> = {
+                'footer.calculate': 'Расчёт',
+                'footer.history': 'История',
+                'footer.profile': 'Профиль',
+            }
+
+            return translations[key] ?? key
+        },
+    }),
+}))
 
 describe('Footer', () => {
-    it('renders navigation', () => {
-        renderFooter()
+    it('renders footer', () => {
+        render(<Footer />)
 
-        expect(
-            screen.getByRole('navigation', {
-                name: /bottom navigation/i,
-            })
-        ).toBeInTheDocument()
+        expect(screen.getByRole('contentinfo')).toBeInTheDocument()
     })
 
     it('renders three navigation buttons', () => {
-        renderFooter()
-
-        expect(screen.getAllByRole('button')).toHaveLength(3)
-    })
-
-    it('renders all tabs', () => {
-        renderFooter()
+        render(<Footer />)
 
         expect(screen.getByTestId('footer-tab-calculate')).toBeInTheDocument()
         expect(screen.getByTestId('footer-tab-history')).toBeInTheDocument()
         expect(screen.getByTestId('footer-tab-profile')).toBeInTheDocument()
+    })
+
+    it('renders all tabs', () => {
+        render(<Footer />)
+
+        expect(screen.getByText('Расчёт')).toBeInTheDocument()
+        expect(screen.getByText('История')).toBeInTheDocument()
+        expect(screen.getByText('Профиль')).toBeInTheDocument()
     })
 })

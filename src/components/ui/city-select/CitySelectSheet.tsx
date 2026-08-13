@@ -33,7 +33,11 @@ export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChan
             <SheetContent side="left" showCloseButton={false}>
                 <SheetHeader className="flex flex-row items-center gap-4 border-b px-6 py-5">
                     <SheetClose asChild>
-                        <Button variant="wrapper" className="rounded-md p-1 bg-transparent hover:bg-accent">
+                        <Button
+                            variant="wrapper"
+                            aria-label="Close"
+                            className="rounded-md p-1 bg-transparent hover:bg-accent"
+                        >
                             <X className="h-6 w-6" />
                         </Button>
                     </SheetClose>

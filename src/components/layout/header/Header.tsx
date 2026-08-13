@@ -31,7 +31,7 @@ export function Header({ className }: HeaderProps) {
                     <User size={18} />
                 </Button>
 
-                <Button variant="primary" className="ml-6">
+                <Button variant="primary" aria-label="Logout" className="ml-6">
                     <span>{i18n.t('header.exit')}</span>
 
                     <img src={LogOutIcon} alt="" aria-hidden className="size-4" />

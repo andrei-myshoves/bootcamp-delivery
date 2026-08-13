@@ -14,6 +14,7 @@ export function CitySelectTrigger({ value, placeholder, selected = false, onClic
         <button
             type="button"
             onClick={onClick}
+            data-testid="city-select-trigger"
             className="flex w-full items-center justify-between rounded-full border border-input px-3 py-3.5"
         >
             <div className="flex items-center gap-3">
