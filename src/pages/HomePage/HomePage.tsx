@@ -74,7 +74,7 @@ const HomePage = () => {
                     imageClassName="right-0 bottom-0 h-[115%]"
                 />
 
-                <Card className="space-y-6">
+                <Card className="space-y-6 p-6">
                     <h2 className="text-2xl font-bold">{t('trackParcel.title')}</h2>
 
                     <div className="flex flex-col gap-4 lg:flex-row">

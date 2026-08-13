@@ -4,6 +4,7 @@ import { X, ChevronRight } from 'lucide-react'
 import type { DeliveryPoint } from '@/store/DeliveryCalculatorStore'
 import { CitySelectTrigger } from './CitySelectTrigger'
 import { useState } from 'react'
+import { cn } from '@/shared/lib/utils'
 
 interface CitySelectSheetProps {
     sheetTitle: string
@@ -25,7 +26,7 @@ export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChan
             <CitySelectTrigger
                 value={value.name}
                 placeholder={placeholder}
-                selected={true}
+                selected={!!value}
                 onClick={() => setOpen(true)}
             />
 
@@ -41,25 +42,22 @@ export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChan
                 </SheetHeader>
 
                 <div className="mt-6 space-y-1 px-6">
-                    {cities.map(city => {
-                        const selected = city.id === value.id
+                    {cities.map(city => (
+                        <Button
+                            key={city.id}
+                            variant="wrapper"
+                            type="button"
+                            onClick={() => handleSelect(city)}
+                            className={cn(
+                                'flex w-full items-center justify-between bg-transparent px-4 py-4 transition',
+                                city.id === value?.id ? 'bg-accent' : 'hover:bg-accent/50'
+                            )}
+                        >
+                            <span className="text-base">{city.name}</span>
 
-                        return (
-                            <Button
-                                key={city.id}
-                                variant="wrapper"
-                                type="button"
-                                onClick={() => handleSelect(city)}
-                                className={`flex w-full  items-center bg-transparent justify-between px-4 py-4 transition ${
-                                    selected ? 'bg-accent' : 'hover:bg-accent/50'
-                                }`}
-                            >
-                                <span>{city.name}</span>
-
-                                <ChevronRight className="size-5 text-muted-foreground" />
-                            </Button>
-                        )
-                    })}
+                            <ChevronRight className="size-5 text-muted-foreground" />
+                        </Button>
+                    ))}
                 </div>
             </SheetContent>
         </Sheet>

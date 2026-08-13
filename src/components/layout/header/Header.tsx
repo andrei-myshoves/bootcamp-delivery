@@ -1,14 +1,25 @@
 import { History, User } from 'lucide-react'
+import { type ReactNode } from 'react'
 
 import { Button } from '@/components/ui/button/Button'
 import { Logo } from './Logo'
 import LogOutIcon from '@/shared/assets/LogOutIcon.svg'
 
 import i18n from '@/app/i18n'
+import { cn } from '@/shared/lib/utils'
+interface HeaderProps {
+    className?: string
+    children?: ReactNode
+}
 
-export function Header() {
+export function Header({ className }: HeaderProps) {
     return (
-        <header className="hidden items-center justify-between rounded-full border border-border bg-background p-3 lg:flex">
+        <header
+            className={cn(
+                'hidden items-center justify-between rounded-full border border-border-hard bg-background p-3 lg:flex',
+                className
+            )}
+        >
             <Logo />
 
             <div className="flex items-center">

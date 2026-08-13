@@ -10,5 +10,5 @@ interface StoreProviderProps {
 }
 
 export function StoreProvider({ children }: StoreProviderProps) {
-    return <StoreContext.Provider value={rootStore}>{children}</StoreContext.Provider>
+    return <StoreContext value={rootStore}>{children}</StoreContext>
 }

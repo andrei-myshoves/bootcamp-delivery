@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import { apiClientV1 } from '@/shared/api/ky/instance'
 
 export interface DeliveryPoint {
@@ -44,12 +44,11 @@ export class DeliveryCalculatorStore {
         this.toCity = city
     }
 
-    setCities = (cities: DeliveryPoint[]) => {
-        this.cities = cities
-    }
     fetchCities = async () => {
         const response = await apiClientV1.get('delivery/points').json<DeliveryPointsResponse>()
 
-        this.setCities(response.points)
+        runInAction(() => {
+            this.cities = response.points
+        })
     }
 }
