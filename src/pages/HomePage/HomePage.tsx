@@ -3,26 +3,23 @@ import { useEffect } from 'react'
 import { Card } from '@/components/ui/card/Card'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { UiSelect } from '@/components/ui/select/Select'
+import { CitySelectTrigger } from '@/components/ui/city-select/CitySelectTrigger'
+import { CitySelectSheet } from '@/components/ui/city-select/CitySelectSheet'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { ArrowRight } from 'lucide-react'
-
-import { apiClientV1 } from '@/shared/api/ky/instance'
 
 import DesktopBanner from '@/shared/assets/DekstopBanner.webp'
 import ReferralBannerHands from '@/shared/assets/ReferalBannerHands.webp'
 import { useTranslation } from 'react-i18next'
+import { useStore } from '@/hooks/useStore'
+import { observer } from 'mobx-react-lite'
 
 const HomePage = () => {
+    const { deliveryCalculatorStore } = useStore()
+
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await apiClientV1.get('delivery/points').json()
-
-            console.log(data)
-        }
-
-        fetchData()
-    }, [])
+        void deliveryCalculatorStore.fetchCities()
+    }, [deliveryCalculatorStore])
 
     const { t } = useTranslation()
 
@@ -37,19 +34,25 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.from')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                            <CitySelectSheet
+                                sheetTitle={t('calculator.where')}
+                                placeholder={t('calculator.selectCity')}
+                                cities={deliveryCalculatorStore.cities}
+                                value={deliveryCalculatorStore.fromCity}
+                                onChange={deliveryCalculatorStore.selectFromCity}
+                            />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.to')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectSize')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
                     </div>
 
@@ -71,7 +74,7 @@ const HomePage = () => {
                     imageClassName="right-0 bottom-0 h-[115%]"
                 />
 
-                <Card className="space-y-6">
+                <Card className="space-y-6 p-6">
                     <h2 className="text-2xl font-bold">{t('trackParcel.title')}</h2>
 
                     <div className="flex flex-col gap-4 lg:flex-row">
@@ -94,19 +97,25 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.from')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                            <CitySelectSheet
+                                sheetTitle={t('calculator.where')}
+                                placeholder={t('calculator.selectCity')}
+                                cities={deliveryCalculatorStore.cities}
+                                value={deliveryCalculatorStore.fromCity}
+                                onChange={deliveryCalculatorStore.selectFromCity}
+                            />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.to')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectCity')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <UiSelect size="form" placeholder={t('calculator.selectSize')} options={[]} />
+                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
                         </div>
                     </div>
 
@@ -136,4 +145,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage
+export default observer(HomePage)
