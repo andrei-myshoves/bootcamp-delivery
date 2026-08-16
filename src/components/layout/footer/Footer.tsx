@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'wouter'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 
 import { Calculator, History, User } from 'lucide-react'
 
@@ -13,7 +13,8 @@ interface FooterProps {
 
 export function Footer({ className }: FooterProps) {
     const { t } = useTranslation()
-    const [location, navigate] = useLocation()
+    const { pathname } = useLocation()
+    const navigate = useNavigate()
 
     const options = useMemo(
         () => [
@@ -52,10 +53,10 @@ export function Footer({ className }: FooterProps) {
     )
 
     return (
-        <footer className={cn('fixed inset-x-0 bottom-0  lg:hidden', className)}>
+        <footer className={cn('fixed inset-x-0 bottom-0 lg:hidden', className)}>
             <ButtonsGroup
-                value={location}
-                onValueChange={navigate}
+                value={pathname}
+                onValueChange={value => navigate({ to: value })}
                 options={options}
                 className="w-full rounded-full border border-border-hard bg-background shadow-sm"
                 indicatorClassName="bg-green-500"

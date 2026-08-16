@@ -17,6 +17,13 @@ vi.mock('react-i18next', () => ({
     }),
 }))
 
+vi.mock('@tanstack/react-router', () => ({
+    useLocation: () => ({
+        pathname: '/',
+    }),
+    useNavigate: () => vi.fn(),
+}))
+
 describe('Footer', () => {
     it('renders footer', () => {
         render(<Footer />)
