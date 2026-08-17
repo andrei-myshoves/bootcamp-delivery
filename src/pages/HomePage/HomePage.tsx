@@ -63,7 +63,11 @@ const HomePage = () => {
                 </Card>
 
                 <Card className="overflow-hidden p-0">
-                    <img src={DesktopBanner} alt="Delivery" className="h-full w-full object-cover" />
+                    <img
+                        src={DesktopBanner}
+                        alt="Delivery"
+                        className="h-full w-full scale-[1.4] object-cover translate-y-20"
+                    />
                 </Card>
 
                 <ReferralBanner
