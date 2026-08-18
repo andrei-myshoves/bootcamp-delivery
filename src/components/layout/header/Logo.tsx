@@ -1,9 +1,9 @@
 import LogoDelivery from '@/shared/assets/LogoDelivery.svg'
-import { Link } from 'wouter'
+import { Link } from '@tanstack/react-router'
 
 export function Logo() {
     return (
-        <Link href="/">
+        <Link to="/">
             <img src={LogoDelivery} alt="Delivery" className="h-6 w-auto" />
         </Link>
     )

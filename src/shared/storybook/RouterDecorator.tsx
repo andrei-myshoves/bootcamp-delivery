@@ -1,11 +1,17 @@
 import type { Decorator } from '@storybook/react-vite'
-import { Router } from 'wouter'
-import { memoryLocation } from 'wouter/memory-location'
+import { createMemoryHistory, createRootRoute, createRouter, RouterProvider } from '@tanstack/react-router'
 
-const { hook } = memoryLocation({ path: '/' })
+export const RouterDecorator: Decorator = Story => {
+    const rootRoute = createRootRoute({
+        component: Story,
+    })
 
-export const RouterDecorator: Decorator = Story => (
-    <Router hook={hook}>
-        <Story />
-    </Router>
-)
+    const router = createRouter({
+        routeTree: rootRoute,
+        history: createMemoryHistory({
+            initialEntries: ['/'],
+        }),
+    })
+
+    return <RouterProvider router={router} />
+}
