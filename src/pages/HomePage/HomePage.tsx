@@ -7,6 +7,7 @@ import { CitySelectTrigger } from '@/components/ui/city-select/CitySelectTrigger
 import { CitySelectSheet } from '@/components/ui/city-select/CitySelectSheet'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { ArrowRight } from 'lucide-react'
+import type { DeliveryPoint } from '@/store/DeliveryCalculatorStore'
 
 import DesktopBanner from '@/shared/assets/DekstopBanner.webp'
 import ReferralBannerHands from '@/shared/assets/ReferalBannerHands.webp'
@@ -22,6 +23,14 @@ const HomePage = () => {
     }, [deliveryCalculatorStore])
 
     const { t } = useTranslation()
+
+    const getPopularCities = (names: string[]) =>
+        names
+            .map(name => deliveryCalculatorStore.cities.find(city => city.name === name))
+            .filter((city): city is DeliveryPoint => Boolean(city))
+
+    const fromPopularCities = getPopularCities(['Санкт-Петербург', 'Новосибирск', 'Томск'])
+    const toPopularCities = getPopularCities(['Новосибирск', 'Томск', 'Москва'])
 
     return (
         <div className="space-y-4">
@@ -41,12 +50,42 @@ const HomePage = () => {
                                 value={deliveryCalculatorStore.fromCity}
                                 onChange={deliveryCalculatorStore.selectFromCity}
                             />
+                            <div className="flex flex-wrap gap-x-2 gap-y-1">
+                                {fromPopularCities.map(city => (
+                                    <button
+                                        key={city.id}
+                                        type="button"
+                                        onClick={() => deliveryCalculatorStore.selectFromCity(city)}
+                                        className="text-lg leading-6 text-muted-foreground underline decoration-1 underline-offset-4"
+                                    >
+                                        {city.name}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.to')}</p>
 
-                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
+                            <CitySelectSheet
+                                sheetTitle={t('calculator.where')}
+                                placeholder={t('calculator.selectCity')}
+                                cities={deliveryCalculatorStore.cities}
+                                value={deliveryCalculatorStore.toCity}
+                                onChange={deliveryCalculatorStore.selectToCity}
+                            />
+                            <div className="flex flex-wrap gap-x-2 gap-y-1">
+                                {toPopularCities.map(city => (
+                                    <button
+                                        key={city.id}
+                                        type="button"
+                                        onClick={() => deliveryCalculatorStore.selectToCity(city)}
+                                        className="text-lg leading-6 text-muted-foreground underline decoration-1 underline-offset-4"
+                                    >
+                                        {city.name}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="space-y-2">
@@ -95,7 +134,7 @@ const HomePage = () => {
             {/* Mobile */}
             <div className="space-y-4 lg:hidden">
                 <Card className="p-6">
-                    <h2 className="text-2xl font-bold">{t('calculator.title')}</h2>
+                    <h2 className="text-2xl font-bold mb-6">{t('calculator.title')}</h2>
 
                     <div className="space-y-4">
                         <div className="space-y-2">
@@ -108,12 +147,42 @@ const HomePage = () => {
                                 value={deliveryCalculatorStore.fromCity}
                                 onChange={deliveryCalculatorStore.selectFromCity}
                             />
+                            <div className="flex flex-wrap gap-x-2 gap-y-1">
+                                {fromPopularCities.map(city => (
+                                    <button
+                                        key={city.id}
+                                        type="button"
+                                        onClick={() => deliveryCalculatorStore.selectFromCity(city)}
+                                        className="text-lg leading-6 text-muted-foreground underline decoration-1 underline-offset-4"
+                                    >
+                                        {city.name}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.to')}</p>
 
-                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
+                            <CitySelectSheet
+                                sheetTitle={t('calculator.where')}
+                                placeholder={t('calculator.selectCity')}
+                                cities={deliveryCalculatorStore.cities}
+                                value={deliveryCalculatorStore.toCity}
+                                onChange={deliveryCalculatorStore.selectToCity}
+                            />
+                            <div className="flex flex-wrap gap-x-2 gap-y-1">
+                                {toPopularCities.map(city => (
+                                    <button
+                                        key={city.id}
+                                        type="button"
+                                        onClick={() => deliveryCalculatorStore.selectToCity(city)}
+                                        className="text-lg leading-6 text-muted-foreground underline decoration-1 underline-offset-4"
+                                    >
+                                        {city.name}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="space-y-2">
@@ -123,7 +192,7 @@ const HomePage = () => {
                         </div>
                     </div>
 
-                    <Button size="form" className="w-full">
+                    <Button size="form" className="w-ful mt-6">
                         {t('calculator.calculate')}
                         <ArrowRight className="size-4" />
                     </Button>
