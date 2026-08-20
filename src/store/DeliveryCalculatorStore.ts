@@ -36,6 +36,18 @@ export class DeliveryCalculatorStore {
         makeAutoObservable(this)
     }
 
+    get fromPopularCities() {
+        return ['Санкт-Петербург', 'Новосибирск', 'Томск']
+            .map(name => this.cities.find(city => city.name === name))
+            .filter((city): city is DeliveryPoint => Boolean(city))
+    }
+
+    get toPopularCities() {
+        return ['Новосибирск', 'Томск', 'Москва']
+            .map(name => this.cities.find(city => city.name === name))
+            .filter((city): city is DeliveryPoint => Boolean(city))
+    }
+
     selectFromCity = (city: DeliveryPoint) => {
         this.fromCity = city
     }

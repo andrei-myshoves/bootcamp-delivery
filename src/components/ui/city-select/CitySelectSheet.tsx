@@ -10,11 +10,19 @@ interface CitySelectSheetProps {
     sheetTitle: string
     placeholder: string
     cities: DeliveryPoint[]
+    popularCities: DeliveryPoint[]
     value: DeliveryPoint
     onChange?: (city: DeliveryPoint) => void
 }
 
-export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChange }: CitySelectSheetProps) {
+export function CitySelectSheet({
+    sheetTitle,
+    placeholder,
+    cities,
+    popularCities,
+    value,
+    onChange,
+}: CitySelectSheetProps) {
     const [open, setOpen] = useState(false)
     const handleSelect = (city: DeliveryPoint) => {
         onChange?.(city)
@@ -30,13 +38,28 @@ export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChan
                 onClick={() => setOpen(true)}
             />
 
+            {popularCities.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1">
+                    {popularCities.map(city => (
+                        <button
+                            key={city.id}
+                            type="button"
+                            onClick={() => handleSelect(city)}
+                            className="text-sm text-muted-foreground underline"
+                        >
+                            {city.name}
+                        </button>
+                    ))}
+                </div>
+            )}
+
             <SheetContent side="left" showCloseButton={false}>
                 <SheetHeader className="flex flex-row items-center gap-4 border-b px-6 py-5">
                     <SheetClose asChild>
                         <Button
                             variant="wrapper"
                             aria-label="Close"
-                            className="rounded-md p-1 bg-transparent hover:bg-accent"
+                            className="rounded-md bg-transparent p-1 hover:bg-accent"
                         >
                             <X className="h-6 w-6" />
                         </Button>
