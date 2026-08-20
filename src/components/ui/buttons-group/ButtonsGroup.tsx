@@ -30,11 +30,11 @@ function ButtonsGroup({
     const activeIndex = options.findIndex(option => option.value === value)
 
     return (
-        <div className={cn('relative inline-flex w-full rounded-full bg-muted p-1', className)}>
+        <div className={cn('bg-muted relative inline-flex w-full rounded-full p-1', className)}>
             <div
                 data-testid="ui-buttons-group-indicator"
                 className={cn(
-                    'absolute top-1 bottom-1 rounded-full bg-background shadow-sm transition-transform duration-300 ease-in-out',
+                    'bg-background absolute top-1 bottom-1 rounded-full shadow-sm transition-transform duration-300 ease-in-out',
                     indicatorClassName
                 )}
                 style={{
@@ -50,7 +50,7 @@ function ButtonsGroup({
                     type="button"
                     onClick={() => onValueChange(option.value)}
                     className={cn(
-                        'relative flex-1  rounded-full px-3 py-2 transition-colors duration-300 z-(--z-buttons-group)',
+                        'relative z-(--z-buttons-group) flex-1 rounded-full px-3 py-2 transition-colors duration-300',
                         option.value === value ? cn('text-foreground', activeButtonClassName) : 'text-foreground',
                         buttonClassName
                     )}

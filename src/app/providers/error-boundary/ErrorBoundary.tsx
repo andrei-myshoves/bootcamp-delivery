@@ -31,7 +31,7 @@ export class ErrorBoundary extends Component<Props, State> {
                     <div className="text-center">
                         <h1 className="text-2xl font-semibold">{i18n.t('errorBoundary.title')}</h1>
 
-                        <p className="mt-2 text-sm text-muted-foreground"> {i18n.t('errorBoundary.description')}</p>
+                        <p className="text-muted-foreground mt-2 text-sm"> {i18n.t('errorBoundary.description')}</p>
                     </div>
                 </div>
             )

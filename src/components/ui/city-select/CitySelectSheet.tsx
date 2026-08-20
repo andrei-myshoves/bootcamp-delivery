@@ -45,7 +45,7 @@ export function CitySelectSheet({
                             key={city.id}
                             type="button"
                             onClick={() => handleSelect(city)}
-                            className="text-sm text-muted-foreground underline"
+                            className="text-muted-foreground text-sm underline"
                         >
                             {city.name}
                         </button>
@@ -59,7 +59,7 @@ export function CitySelectSheet({
                         <Button
                             variant="wrapper"
                             aria-label="Close"
-                            className="rounded-md bg-transparent p-1 hover:bg-accent"
+                            className="hover:bg-accent rounded-md bg-transparent p-1"
                         >
                             <X className="h-6 w-6" />
                         </Button>
@@ -82,7 +82,7 @@ export function CitySelectSheet({
                         >
                             <span className="text-base">{city.name}</span>
 
-                            <ChevronRight className="size-5 text-muted-foreground" />
+                            <ChevronRight className="text-muted-foreground size-5" />
                         </Button>
                     ))}
                 </div>

@@ -24,7 +24,7 @@ function BottomSheetOverlay({ className, ...props }: React.ComponentProps<typeof
         <DialogPrimitive.Overlay
             data-slot="bottom-sheet-overlay"
             className={cn(
-                'fixed inset-0 z-50 bg-black/30 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0',
+                'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 fixed inset-0 z-50 bg-black/30',
                 className
             )}
             {...props}
@@ -40,7 +40,7 @@ function BottomSheetContent({ className, children, ...props }: React.ComponentPr
             <DialogPrimitive.Content
                 data-slot="bottom-sheet-content"
                 className={cn(
-                    'fixed inset-x-0 bottom-0 z-50 max-h-[90vh] overflow-y-auto rounded-t-3xl bg-background p-4 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom',
+                    'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom fixed inset-x-0 bottom-0 z-50 max-h-[90vh] overflow-y-auto rounded-t-3xl p-4 shadow-lg',
                     className
                 )}
                 {...props}
@@ -73,7 +73,7 @@ function BottomSheetDescription({ className, ...props }: React.ComponentProps<ty
     return (
         <DialogPrimitive.Description
             data-slot="bottom-sheet-description"
-            className={cn('text-sm text-muted-foreground', className)}
+            className={cn('text-muted-foreground text-sm', className)}
             {...props}
         />
     )

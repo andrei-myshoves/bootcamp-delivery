@@ -9,7 +9,7 @@ const meta = {
     },
     decorators: [
         Story => (
-            <div className="mx-auto max-w-md border bg-background">
+            <div className="bg-background mx-auto max-w-md border">
                 <Story />
             </div>
         ),

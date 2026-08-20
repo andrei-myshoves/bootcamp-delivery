@@ -74,7 +74,7 @@ const HomePage = () => {
                     <img
                         src={DesktopBanner}
                         alt="Delivery"
-                        className="h-full w-full scale-[1.4] object-cover translate-y-20"
+                        className="h-full w-full translate-y-20 scale-[1.4] object-cover"
                     />
                 </Card>
 
@@ -91,7 +91,7 @@ const HomePage = () => {
 
                     <div className="flex flex-col gap-4 lg:flex-row">
                         <Input
-                            className="py-3.5 px-4  flex-1 text-2xl placeholder:text-input-placeholder"
+                            className="placeholder:text-input-placeholder flex-1 px-4 py-3.5 text-2xl"
                             placeholder={t('trackParcel.placeholder')}
                         />
 
@@ -103,7 +103,7 @@ const HomePage = () => {
             {/* Mobile */}
             <div className="space-y-4 lg:hidden">
                 <Card className="p-6">
-                    <h2 className="text-2xl font-bold mb-6">{t('calculator.title')}</h2>
+                    <h2 className="mb-6 text-2xl font-bold">{t('calculator.title')}</h2>
 
                     <div className="space-y-4">
                         <div className="space-y-2">

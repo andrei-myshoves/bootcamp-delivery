@@ -53,12 +53,12 @@ export function Footer({ className }: FooterProps) {
     )
 
     return (
-        <footer className={cn(' lg:hidden', className)}>
+        <footer className={cn('lg:hidden', className)}>
             <ButtonsGroup
                 value={pathname}
                 onValueChange={value => navigate({ to: value })}
                 options={options}
-                className="w-full rounded-full border border-border-hard bg-background shadow-sm"
+                className="border-border-hard bg-background w-full rounded-full border shadow-sm"
                 indicatorClassName="bg-green-500"
                 activeButtonClassName="text-white"
                 buttonClassName="flex flex-col items-center gap-1 py-2 text-xs font-medium"
