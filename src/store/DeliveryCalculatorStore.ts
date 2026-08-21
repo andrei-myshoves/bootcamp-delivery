@@ -35,7 +35,7 @@ export class DeliveryCalculatorStore {
     constructor() {
         makeAutoObservable(this)
     }
-		
+
     private preparePopularCities(names: string[]): DeliveryPoint[] {
         const nameSet = new Set(names)
 
