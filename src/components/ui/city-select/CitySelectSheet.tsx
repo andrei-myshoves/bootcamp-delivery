@@ -41,14 +41,15 @@ export function CitySelectSheet({
             {popularCities.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1">
                     {popularCities.map(city => (
-                        <button
+                        <Button
                             key={city.id}
+                            variant="wrapper"
                             type="button"
                             onClick={() => handleSelect(city)}
-                            className="text-muted-foreground text-sm underline"
+                            className="text-muted-foreground bg-transparent px-0 text-base underline"
                         >
                             {city.name}
-                        </button>
+                        </Button>
                     ))}
                 </div>
             )}
