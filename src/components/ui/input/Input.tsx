@@ -30,7 +30,7 @@ function Input({ className, inputSize, label, id, ...props }: InputProps) {
     return (
         <div className="flex w-full flex-col gap-1">
             {label && (
-                <label htmlFor={inputId} className="text-sm font-medium text-foreground">
+                <label htmlFor={inputId} className="text-foreground text-sm font-medium">
                     {label}
                 </label>
             )}

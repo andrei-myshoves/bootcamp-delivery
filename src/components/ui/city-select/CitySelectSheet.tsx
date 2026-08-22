@@ -10,11 +10,19 @@ interface CitySelectSheetProps {
     sheetTitle: string
     placeholder: string
     cities: DeliveryPoint[]
+    popularCities: DeliveryPoint[]
     value: DeliveryPoint
     onChange?: (city: DeliveryPoint) => void
 }
 
-export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChange }: CitySelectSheetProps) {
+export function CitySelectSheet({
+    sheetTitle,
+    placeholder,
+    cities,
+    popularCities,
+    value,
+    onChange,
+}: CitySelectSheetProps) {
     const [open, setOpen] = useState(false)
     const handleSelect = (city: DeliveryPoint) => {
         onChange?.(city)
@@ -30,13 +38,29 @@ export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChan
                 onClick={() => setOpen(true)}
             />
 
+            {popularCities.length > 0 && (
+                <div className="mt-2 flex flex-wrap gap-x-2 gap-y-1">
+                    {popularCities.map(city => (
+                        <Button
+                            key={city.id}
+                            variant="wrapper"
+                            type="button"
+                            onClick={() => handleSelect(city)}
+                            className="text-muted-foreground bg-transparent px-0 text-base underline"
+                        >
+                            {city.name}
+                        </Button>
+                    ))}
+                </div>
+            )}
+
             <SheetContent side="left" showCloseButton={false}>
                 <SheetHeader className="flex flex-row items-center gap-4 border-b px-6 py-5">
                     <SheetClose asChild>
                         <Button
                             variant="wrapper"
                             aria-label="Close"
-                            className="rounded-md p-1 bg-transparent hover:bg-accent"
+                            className="hover:bg-accent rounded-md bg-transparent p-1"
                         >
                             <X className="h-6 w-6" />
                         </Button>
@@ -59,7 +83,7 @@ export function CitySelectSheet({ sheetTitle, placeholder, cities, value, onChan
                         >
                             <span className="text-base">{city.name}</span>
 
-                            <ChevronRight className="size-5 text-muted-foreground" />
+                            <ChevronRight className="text-muted-foreground size-5" />
                         </Button>
                     ))}
                 </div>

@@ -11,8 +11,8 @@ export function Layout({ children }: LayoutProps) {
     return (
         <div className="flex min-h-screen flex-col px-4 pt-4">
             <Header className="mb-2" />
-            <main className="flex-1">{children}</main>
-            <Footer className="px-4 pt-2 pb-4" />
+            <main className="lg:flex-1">{children}</main>
+            <Footer className="pt-2 pb-4" />
         </div>
     )
 }

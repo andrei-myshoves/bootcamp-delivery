@@ -15,7 +15,7 @@ export function CitySelectTrigger({ value, placeholder, selected = false, onClic
             type="button"
             onClick={onClick}
             data-testid="city-select-trigger"
-            className="flex w-full items-center justify-between rounded-full border border-input px-3 py-3.5"
+            className="border-input flex w-full items-center justify-between rounded-full border px-3 py-3.5"
         >
             <div className="flex items-center gap-3">
                 <div className={cn('h-4 w-4 rounded-full border-2', selected ? 'border-green-500' : 'border-black')} />
@@ -23,7 +23,7 @@ export function CitySelectTrigger({ value, placeholder, selected = false, onClic
                 <span className={cn(value ? 'text-foreground' : 'text-muted-foreground')}>{value ?? placeholder}</span>
             </div>
 
-            <ChevronDown className="h-5 w-5 text-muted-foreground" />
+            <ChevronDown className="text-muted-foreground h-5 w-5" />
         </button>
     )
 }

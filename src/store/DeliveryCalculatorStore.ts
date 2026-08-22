@@ -36,6 +36,20 @@ export class DeliveryCalculatorStore {
         makeAutoObservable(this)
     }
 
+    private preparePopularCities(names: string[]): DeliveryPoint[] {
+        const nameSet = new Set(names)
+
+        return this.cities.filter(city => nameSet.has(city.name))
+    }
+
+    get fromPopularCities() {
+        return this.preparePopularCities(['Санкт-Петербург', 'Новосибирск', 'Томск'])
+    }
+
+    get toPopularCities() {
+        return this.preparePopularCities(['Новосибирск', 'Томск', 'Москва'])
+    }
+
     selectFromCity = (city: DeliveryPoint) => {
         this.fromCity = city
     }

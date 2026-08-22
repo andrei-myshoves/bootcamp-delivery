@@ -16,7 +16,7 @@ export function Header({ className }: HeaderProps) {
     return (
         <header
             className={cn(
-                'hidden items-center justify-between rounded-full border border-border-hard bg-background p-3 lg:flex',
+                'border-border-hard bg-background hidden items-center justify-between rounded-full border p-3 lg:flex',
                 className
             )}
         >
