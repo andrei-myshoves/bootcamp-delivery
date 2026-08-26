@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import { Card } from '@/components/ui/card/Card'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { CitySelectTrigger } from '@/components/ui/city-select/CitySelectTrigger'
 import { CitySelectSheet } from '@/components/ui/city-select/CitySelectSheet'
+import { PackageSelectSheet } from '@/components/ui/package-select/PackageSelectSheet'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { ArrowRight } from 'lucide-react'
 
@@ -16,12 +16,12 @@ import { observer } from 'mobx-react-lite'
 
 const HomePage = () => {
     const { deliveryCalculatorStore } = useStore()
+    const { t } = useTranslation()
 
     useEffect(() => {
         void deliveryCalculatorStore.fetchCities()
+        void deliveryCalculatorStore.fetchPackageTypes()
     }, [deliveryCalculatorStore])
-
-    const { t } = useTranslation()
 
     return (
         <div className="space-y-4">
@@ -60,7 +60,11 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
+                            <PackageSelectSheet
+                                packages={deliveryCalculatorStore.packageTypes}
+                                value={deliveryCalculatorStore.packageType}
+                                onChange={deliveryCalculatorStore.selectPackageType}
+                            />
                         </div>
                     </div>
 
@@ -135,7 +139,11 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
+                            <PackageSelectSheet
+                                packages={deliveryCalculatorStore.packageTypes}
+                                value={deliveryCalculatorStore.packageType}
+                                onChange={deliveryCalculatorStore.selectPackageType}
+                            />
                         </div>
                     </div>
 

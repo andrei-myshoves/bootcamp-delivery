@@ -47,6 +47,7 @@ export class DeliveryCalculatorStore {
 
     cities: DeliveryPoint[] = []
     packageTypes: PackageType[] = []
+    packageType: PackageType | null = null
     constructor() {
         makeAutoObservable(this)
     }
@@ -71,6 +72,10 @@ export class DeliveryCalculatorStore {
 
     selectToCity = (city: DeliveryPoint) => {
         this.toCity = city
+    }
+
+    selectPackageType = (packageType: PackageType) => {
+        this.packageType = packageType
     }
 
     fetchCities = async () => {
