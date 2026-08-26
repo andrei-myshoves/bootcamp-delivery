@@ -12,6 +12,20 @@ export interface DeliveryPointsResponse {
     success: boolean
     points: DeliveryPoint[]
 }
+export interface PackageType {
+    id: string
+    name: string
+    length: string
+    width: string
+    weight: string
+    height: string
+}
+
+export interface PackageTypesResponse {
+    success: boolean
+    reason: string
+    packages: PackageType[]
+}
 
 const DEFAULT_FROM_CITY: DeliveryPoint = {
     id: '1',
@@ -32,6 +46,7 @@ export class DeliveryCalculatorStore {
     toCity = DEFAULT_TO_CITY
 
     cities: DeliveryPoint[] = []
+    packageTypes: PackageType[] = []
     constructor() {
         makeAutoObservable(this)
     }
@@ -63,6 +78,14 @@ export class DeliveryCalculatorStore {
 
         runInAction(() => {
             this.cities = response.points
+        })
+    }
+
+    fetchPackageTypes = async () => {
+        const response = await apiClientV1.get('delivery/package/types').json<PackageTypesResponse>()
+
+        runInAction(() => {
+            this.packageTypes = response.packages
         })
     }
 }
