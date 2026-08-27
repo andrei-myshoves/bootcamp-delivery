@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react'
 import { Sheet, SheetContent } from '@/components/ui/sheet/sheet'
 import { Button } from '@/components/ui/button/Button'
 import { ButtonsGroup } from '@/components/ui/buttons-group/ButtonsGroup'
+import { Input } from '@/components/ui/input/Input'
 import type { PackageType } from '@/store/DeliveryCalculatorStore'
 
 interface PackageSelectSheetProps {
@@ -54,31 +55,40 @@ export function PackageSelectSheet({ packages, value, onChange }: PackageSelectS
                         className="mb-4"
                     />
 
-                    <div className="space-y-2">
-                        {packages.map(packageType => (
-                            <Button
-                                key={packageType.id}
-                                type="button"
-                                variant="wrapper"
-                                onClick={() => handleSelect(packageType)}
-                                className="flex w-full items-center justify-between rounded-xl border px-4 py-3"
-                            >
-                                <div className="flex flex-col items-start">
-                                    <span className="text-base font-bold">{packageType.name}</span>
+                    {sizeMode === 'approximate' ? (
+                        <div className="space-y-2">
+                            {packages.map(packageType => (
+                                <Button
+                                    key={packageType.id}
+                                    type="button"
+                                    variant="wrapper"
+                                    onClick={() => handleSelect(packageType)}
+                                    className="flex w-full items-center justify-between rounded-xl border px-4 py-3"
+                                >
+                                    <div className="flex flex-col items-start">
+                                        <span className="text-base font-bold">{packageType.name}</span>
 
-                                    <span className="text-muted-foreground text-sm">
-                                        {packageType.length}x{packageType.width}x{packageType.height} см
-                                    </span>
-                                </div>
+                                        <span className="text-muted-foreground text-sm">
+                                            {packageType.length}x{packageType.width}x{packageType.height} см
+                                        </span>
+                                    </div>
 
-                                <span
-                                    className={`h-3 w-3 rounded-full border ${
-                                        packageType.id === value?.id ? 'bg-black' : ''
-                                    }`}
-                                />
-                            </Button>
-                        ))}
-                    </div>
+                                    <span
+                                        className={`h-3 w-3 rounded-full border ${
+                                            packageType.id === value?.id ? 'bg-black' : ''
+                                        }`}
+                                    />
+                                </Button>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="space-y-2">
+                            <Input inputSize="large" label="Длина" placeholder="см" />
+                            <Input inputSize="large" label="Ширина" placeholder="см" />
+                            <Input inputSize="large" label="Высота" placeholder="см" />
+                            <Input inputSize="large" label="Вес" placeholder="кг" />
+                        </div>
+                    )}
                 </div>
             </SheetContent>
         </Sheet>
