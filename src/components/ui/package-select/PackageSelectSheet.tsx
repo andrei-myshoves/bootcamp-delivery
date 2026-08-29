@@ -81,7 +81,7 @@ export function PackageSelectSheet({ packages, value, onChange }: PackageSelectS
                                         type="button"
                                         variant="wrapper"
                                         onClick={() => handleSelect(packageType)}
-                                        className="bg-background flex h-16 w-full items-center justify-between rounded-xl border p-4"
+                                        className="bg-background flex h-22.5 w-full items-center justify-between rounded-xl border p-4"
                                     >
                                         <div className="flex items-center gap-3">
                                             {packageImages[packageType.id] && (
