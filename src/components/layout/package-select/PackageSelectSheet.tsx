@@ -45,7 +45,6 @@ export function PackageSelectSheet({ packages, value, onChange, images }: Packag
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <Button
-                type="button"
                 variant="wrapper"
                 onClick={() => setOpen(true)}
                 className="border-input bg-background flex h-13 w-full items-center justify-between rounded-full border px-3 py-3.5"
