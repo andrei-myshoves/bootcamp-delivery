@@ -66,6 +66,10 @@ export class DeliveryCalculatorStore {
         return this.preparePopularCities(['Новосибирск', 'Томск', 'Москва'])
     }
 
+    get visiblePackages() {
+        return this.packageTypes.filter(packageType => packageType.id !== 'bag' && packageType.id !== 'pallet')
+    }
+
     selectFromCity = (city: DeliveryPoint) => {
         this.fromCity = city
     }

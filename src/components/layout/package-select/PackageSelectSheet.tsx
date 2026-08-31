@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { cn } from '@/shared/lib/utils'
 
 import { Sheet, SheetContent } from '@/components/ui/sheet/sheet'
 import { Button } from '@/components/ui/button/Button'
@@ -30,7 +31,16 @@ export function PackageSelectSheet({ packages, value, onChange, images }: Packag
         setOpen(false)
     }
 
-    const visiblePackages = packages.filter(packageType => packageType.id !== 'bag' && packageType.id !== 'pallet')
+    const sizeModeOptions = [
+        {
+            value: 'approximate',
+            label: 'Примерные',
+        },
+        {
+            value: 'exact',
+            label: 'Точные',
+        },
+    ]
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -52,25 +62,15 @@ export function PackageSelectSheet({ packages, value, onChange, images }: Packag
                     <ButtonsGroup
                         value={sizeMode}
                         onValueChange={setSizeMode}
-                        options={[
-                            {
-                                value: 'approximate',
-                                label: 'Примерные',
-                            },
-                            {
-                                value: 'exact',
-                                label: 'Точные',
-                            },
-                        ]}
+                        options={sizeModeOptions}
                         className="mb-4"
                     />
 
                     {sizeMode === 'approximate' ? (
                         <div className="space-y-2">
-                            {visiblePackages.map(packageType => (
+                            {packages.map(packageType => (
                                 <Button
                                     key={packageType.id}
-                                    type="button"
                                     variant="wrapper"
                                     onClick={() => handleSelect(packageType)}
                                     className="bg-background flex h-22.5 w-full items-center justify-between rounded-xl border p-4"
@@ -90,9 +90,10 @@ export function PackageSelectSheet({ packages, value, onChange, images }: Packag
                                     </div>
 
                                     <span
-                                        className={`size-3 shrink-0 rounded-full border ${
-                                            packageType.id === value?.id ? 'bg-black' : ''
-                                        }`}
+                                        className={cn(
+                                            'size-3 shrink-0 rounded-full border',
+                                            packageType.id === value?.id && 'bg-black'
+                                        )}
                                     />
                                 </Button>
                             ))}

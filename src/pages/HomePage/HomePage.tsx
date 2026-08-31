@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card/Card'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
 import { CitySelectSheet } from '@/components/ui/city-select/CitySelectSheet'
-import { PackageSelectSheet } from '@/components/ui/package-select/PackageSelectSheet'
+import { PackageSelectSheet } from '@/components/layout/package-select/PackageSelectSheet'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { ArrowRight } from 'lucide-react'
 
@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next'
 import { useStore } from '@/hooks/useStore'
 import { observer } from 'mobx-react-lite'
 
-const packageImages: Record<string, string> = {
+const packageImages = {
     envelope: Envelope,
     'box-xs': BoxXS,
     'box-s': BoxS,
@@ -77,7 +77,7 @@ const HomePage = () => {
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
                             <PackageSelectSheet
-                                packages={deliveryCalculatorStore.packageTypes}
+                                packages={deliveryCalculatorStore.visiblePackages}
                                 value={deliveryCalculatorStore.packageType}
                                 onChange={deliveryCalculatorStore.selectPackageType}
                                 images={packageImages}
@@ -157,7 +157,7 @@ const HomePage = () => {
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
                             <PackageSelectSheet
-                                packages={deliveryCalculatorStore.packageTypes}
+                                packages={deliveryCalculatorStore.visiblePackages}
                                 value={deliveryCalculatorStore.packageType}
                                 onChange={deliveryCalculatorStore.selectPackageType}
                                 images={packageImages}
