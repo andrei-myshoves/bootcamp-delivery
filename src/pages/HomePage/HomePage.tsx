@@ -3,25 +3,41 @@ import { useEffect } from 'react'
 import { Card } from '@/components/ui/card/Card'
 import { Input } from '@/components/ui/input/Input'
 import { Button } from '@/components/ui/button/Button'
-import { CitySelectTrigger } from '@/components/ui/city-select/CitySelectTrigger'
 import { CitySelectSheet } from '@/components/ui/city-select/CitySelectSheet'
+import { PackageSelectSheet } from '@/components/layout/package-select/PackageSelectSheet'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { ArrowRight } from 'lucide-react'
 
 import DesktopBanner from '@/shared/assets/DekstopBanner.webp'
 import ReferralBannerHands from '@/shared/assets/ReferalBannerHands.webp'
+import Envelope from '@/shared/assets/Envelope.svg'
+import BoxXS from '@/shared/assets/Box XS.svg'
+import BoxS from '@/shared/assets/Box S.svg'
+import BoxM from '@/shared/assets/Box M.svg'
+import BoxL from '@/shared/assets/Box L.svg'
+import BoxXL from '@/shared/assets/Box XL.svg'
+
 import { useTranslation } from 'react-i18next'
 import { useStore } from '@/hooks/useStore'
 import { observer } from 'mobx-react-lite'
 
+const packageImages = {
+    envelope: Envelope,
+    'box-xs': BoxXS,
+    'box-s': BoxS,
+    'box-m': BoxM,
+    'box-l': BoxL,
+    'box-xl': BoxXL,
+}
+
 const HomePage = () => {
     const { deliveryCalculatorStore } = useStore()
+    const { t } = useTranslation()
 
     useEffect(() => {
         void deliveryCalculatorStore.fetchCities()
+        void deliveryCalculatorStore.fetchPackageTypes()
     }, [deliveryCalculatorStore])
-
-    const { t } = useTranslation()
 
     return (
         <div className="space-y-4">
@@ -60,7 +76,12 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
+                            <PackageSelectSheet
+                                packages={deliveryCalculatorStore.visiblePackages}
+                                value={deliveryCalculatorStore.packageType}
+                                onChange={deliveryCalculatorStore.selectPackageType}
+                                images={packageImages}
+                            />
                         </div>
                     </div>
 
@@ -135,11 +156,16 @@ const HomePage = () => {
                         <div className="space-y-2">
                             <p className="text-sm font-medium">{t('calculator.size')}</p>
 
-                            <CitySelectTrigger placeholder={t('calculator.selectCity')} />
+                            <PackageSelectSheet
+                                packages={deliveryCalculatorStore.visiblePackages}
+                                value={deliveryCalculatorStore.packageType}
+                                onChange={deliveryCalculatorStore.selectPackageType}
+                                images={packageImages}
+                            />
                         </div>
                     </div>
 
-                    <Button size="form" className="w-ful mt-6">
+                    <Button size="form" className="mt-6 w-full">
                         {t('calculator.calculate')}
                         <ArrowRight className="size-4" />
                     </Button>

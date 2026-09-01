@@ -47,6 +47,7 @@ export class DeliveryCalculatorStore {
 
     cities: DeliveryPoint[] = []
     packageTypes: PackageType[] = []
+    packageType: PackageType | null = null
     constructor() {
         makeAutoObservable(this)
     }
@@ -65,12 +66,20 @@ export class DeliveryCalculatorStore {
         return this.preparePopularCities(['Новосибирск', 'Томск', 'Москва'])
     }
 
+    get visiblePackages() {
+        return this.packageTypes.filter(packageType => packageType.id !== 'bag' && packageType.id !== 'pallet')
+    }
+
     selectFromCity = (city: DeliveryPoint) => {
         this.fromCity = city
     }
 
     selectToCity = (city: DeliveryPoint) => {
         this.toCity = city
+    }
+
+    selectPackageType = (packageType: PackageType) => {
+        this.packageType = packageType
     }
 
     fetchCities = async () => {
