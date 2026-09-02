@@ -4,8 +4,8 @@ import { apiClientV1 } from '@/shared/api/ky/instance'
 export interface DeliveryPoint {
     id: string
     name: string
-    latitude: string
-    longitude: string
+    latitude: number
+    longitude: number
 }
 
 export interface DeliveryPointsResponse {
@@ -30,15 +30,15 @@ export interface PackageTypesResponse {
 const DEFAULT_FROM_CITY: DeliveryPoint = {
     id: '1',
     name: 'Москва',
-    latitude: '',
-    longitude: '',
+    latitude: 0,
+    longitude: 0,
 }
 
 const DEFAULT_TO_CITY: DeliveryPoint = {
     id: '2',
     name: 'Санкт-Петербург',
-    latitude: '',
-    longitude: '',
+    latitude: 0,
+    longitude: 0,
 }
 
 export class DeliveryCalculatorStore {
