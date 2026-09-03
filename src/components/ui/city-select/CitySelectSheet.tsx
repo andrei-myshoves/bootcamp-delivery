@@ -53,7 +53,12 @@ export function CitySelectSheet({
                 </div>
             )}
 
-            <SheetContent side="bottom" desktopSide="left" showCloseButton={false} className="lg:max-w-sm rounded-t-2xl lg:rounded-none">
+            <SheetContent
+                side="bottom"
+                desktopSide="left"
+                showCloseButton={false}
+                className="rounded-t-2xl lg:max-w-sm lg:rounded-none"
+            >
                 <SheetHeader className="flex flex-row items-center gap-4 border-b px-6 py-5">
                     <SheetClose asChild>
                         <Button
