@@ -6,6 +6,7 @@ import { Sheet, SheetContent } from '@/components/ui/sheet/sheet'
 import { Button } from '@/components/ui/button/Button'
 import { ButtonsGroup } from '@/components/ui/buttons-group/ButtonsGroup'
 import { Input } from '@/components/ui/input/Input'
+
 export interface PackageSelectItem {
     id: string
     name: string
@@ -22,6 +23,17 @@ interface PackageSelectSheetProps {
     images?: Record<string, string>
 }
 
+const sizeModeOptions = [
+    {
+        value: 'approximate',
+        label: 'Примерные',
+    },
+    {
+        value: 'exact',
+        label: 'Точные',
+    },
+]
+
 export function PackageSelectSheet({ packages, value, onChange, images }: PackageSelectSheetProps) {
     const [open, setOpen] = useState(false)
     const [sizeMode, setSizeMode] = useState('approximate')
@@ -30,17 +42,6 @@ export function PackageSelectSheet({ packages, value, onChange, images }: Packag
         onChange(packageItem)
         setOpen(false)
     }
-
-    const sizeModeOptions = [
-        {
-            value: 'approximate',
-            label: 'Примерные',
-        },
-        {
-            value: 'exact',
-            label: 'Точные',
-        },
-    ]
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -56,8 +57,10 @@ export function PackageSelectSheet({ packages, value, onChange, images }: Packag
                 <ChevronDown className="text-muted-foreground size-5" />
             </Button>
 
-            <SheetContent side="bottom" showCloseButton={false}>
-                <div className="p-4">
+            <SheetContent side="bottom" showCloseButton={false} className="rounded-t-2xl px-3.5 pt-4 lg:rounded-none">
+                <div className="pb-4">
+                    <h2 className="mb-3 ml-2 text-2xl font-bold lg:hidden">Размер посылки</h2>
+
                     <ButtonsGroup
                         value={sizeMode}
                         onValueChange={setSizeMode}

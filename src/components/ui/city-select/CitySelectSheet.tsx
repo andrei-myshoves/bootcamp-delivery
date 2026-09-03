@@ -44,7 +44,6 @@ export function CitySelectSheet({
                         <Button
                             key={city.id}
                             variant="wrapper"
-                            type="button"
                             onClick={() => handleSelect(city)}
                             className="text-muted-foreground bg-transparent px-0 text-base underline"
                         >
@@ -54,7 +53,7 @@ export function CitySelectSheet({
                 </div>
             )}
 
-            <SheetContent side="left" showCloseButton={false}>
+            <SheetContent side="bottom" desktopSide="left" showCloseButton={false} className="lg:max-w-sm rounded-t-2xl lg:rounded-none">
                 <SheetHeader className="flex flex-row items-center gap-4 border-b px-6 py-5">
                     <SheetClose asChild>
                         <Button
@@ -62,19 +61,18 @@ export function CitySelectSheet({
                             aria-label="Close"
                             className="hover:bg-accent rounded-md bg-transparent p-1"
                         >
-                            <X className="h-6 w-6" />
+                            <X className="size-6" />
                         </Button>
                     </SheetClose>
 
                     <SheetTitle className="text-2xl font-bold">{sheetTitle}</SheetTitle>
                 </SheetHeader>
 
-                <div className="mt-6 space-y-1 px-6">
+                <div className="mb-4 space-y-1 overflow-y-auto px-6">
                     {cities.map(city => (
                         <Button
                             key={city.id}
                             variant="wrapper"
-                            type="button"
                             onClick={() => handleSelect(city)}
                             className={cn(
                                 'flex w-full items-center justify-between bg-transparent px-4 py-4 transition',
