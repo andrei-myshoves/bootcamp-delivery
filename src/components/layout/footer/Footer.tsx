@@ -53,7 +53,7 @@ export function Footer({ className }: FooterProps) {
     )
 
     return (
-        <footer className={cn('lg:hidden', className)}>
+        <footer className={cn('fixed inset-x-4 bottom-4 z-50 lg:hidden', className)}>
             <ButtonsGroup
                 value={pathname}
                 onValueChange={value => navigate({ to: value })}
