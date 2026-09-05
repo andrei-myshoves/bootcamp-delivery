@@ -1,7 +1,23 @@
 {
     "hello": "Hello",
+    "exit": "Exit",
     "errorBoundary": {
         "title": "Something went wrong",
         "description": "Please refresh the page and try again."
+    },
+    "calculator": {
+        "title": "Calculate Delivery",
+        "from": "Departure city",
+        "to": "Destination city",
+        "size": "Package size",
+        "selectCity": "Select city",
+        "selectSize": "Select package size",
+        "calculate": "Calculate"
+    },
+    "referralBanner": {
+        "freeDelivery": "Free delivery",
+        "inviteFriend": "for referring a friend",
+        "giftDelivery": "1+1=3",
+        "thirdDelivery": "3rd delivery is free!"
     }
 }

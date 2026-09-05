@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-
-class AppStore {
+export class AppStore {
     isLoading = false
 
     constructor() {
@@ -11,5 +10,3 @@ class AppStore {
         this.isLoading = value
     }
 }
-
-export const appStore = new AppStore()
