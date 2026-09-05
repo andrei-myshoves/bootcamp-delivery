@@ -66,6 +66,7 @@ body {
     --color-input-placeholder: var(--color-input-placeholder);
     --z-buttons-group: var(--z-buttons-group);
     --z-referral-banner-content: var(--z-referral-banner-content);
+    --z-footer: var(--z-footer);
 }
 
 :root {
@@ -92,6 +93,7 @@ body {
     --referral-banner: #6ac66a;
     --color-input-placeholder: #b7b7b7;
     --z-referral-banner-content: 10;
+    --z-footer: 50;
 }
 
 .dark {
