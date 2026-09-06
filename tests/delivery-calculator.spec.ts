@@ -154,4 +154,26 @@ test.describe('Delivery calculator', () => {
         await expect(dialog.getByLabel('Высота')).toBeVisible()
         await expect(dialog.getByLabel('Вес')).toBeVisible()
     })
+
+    test('user can complete delivery calculator form', async ({ page }) => {
+        const fromCityTrigger = page.getByTestId('city-select-trigger').nth(0)
+        const toCityTrigger = page.getByTestId('city-select-trigger').nth(1)
+        const packageTrigger = page.getByRole('button', { name: 'Выберите размер' })
+
+        await fromCityTrigger.click()
+        await page.getByRole('dialog').getByRole('button', { name: 'Санкт-Петербург' }).click()
+
+        await toCityTrigger.click()
+        await page.getByRole('dialog').getByRole('button', { name: 'Новосибирск' }).click()
+
+        await packageTrigger.click()
+        await page
+            .getByRole('dialog')
+            .getByRole('button', { name: /Короб M/ })
+            .click()
+
+        await expect(fromCityTrigger).toContainText('Санкт-Петербург')
+        await expect(toCityTrigger).toContainText('Новосибирск')
+        await expect(page.getByRole('button', { name: /Короб M/ })).toBeVisible()
+    })
 })
