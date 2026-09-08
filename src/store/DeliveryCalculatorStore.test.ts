@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 
 import { DeliveryCalculatorStore, type DeliveryPoint, type PackageType } from './DeliveryCalculatorStore'
 
@@ -47,6 +47,14 @@ const packages: PackageType[] = [
         weight: '5',
     },
     {
+        id: 'box-m',
+        name: 'Короб M',
+        length: '30',
+        width: '30',
+        height: '30',
+        weight: '10',
+    },
+    {
         id: 'bag',
         name: 'Пакет',
         length: '30',
@@ -65,58 +73,46 @@ const packages: PackageType[] = [
 ]
 
 describe('DeliveryCalculatorStore', () => {
-    it('has default cities', () => {
-        const store = new DeliveryCalculatorStore()
+    let store: DeliveryCalculatorStore
 
+    beforeEach(() => {
+        store = new DeliveryCalculatorStore()
+        store.cities = cities
+        store.packageTypes = packages
+    })
+
+    it('has default cities', () => {
         expect(store.fromCity.name).toBe('Москва')
         expect(store.toCity.name).toBe('Санкт-Петербург')
     })
 
     it('selects departure city', () => {
-        const store = new DeliveryCalculatorStore()
+        store.selectFromCity(cities[1])
 
-        store.selectFromCity(cities[2])
-
-        expect(store.fromCity).toEqual(cities[2])
+        expect(store.fromCity).toEqual(cities[1])
     })
 
     it('selects destination city', () => {
-        const store = new DeliveryCalculatorStore()
-
         store.selectToCity(cities[2])
 
         expect(store.toCity).toEqual(cities[2])
     })
 
     it('selects package type', () => {
-        const store = new DeliveryCalculatorStore()
-
         store.selectPackageType(packages[1])
 
         expect(store.packageType).toEqual(packages[1])
     })
 
     it('returns popular departure cities', () => {
-        const store = new DeliveryCalculatorStore()
-
-        store.cities = cities
-
         expect(store.fromPopularCities.map(city => city.name)).toEqual(['Санкт-Петербург', 'Новосибирск'])
     })
 
     it('returns popular destination cities', () => {
-        const store = new DeliveryCalculatorStore()
-
-        store.cities = cities
-
         expect(store.toPopularCities.map(city => city.name)).toEqual(['Москва', 'Новосибирск'])
     })
 
     it('excludes bag and pallet from visible packages', () => {
-        const store = new DeliveryCalculatorStore()
-
-        store.packageTypes = packages
-
-        expect(store.visiblePackages.map(packageType => packageType.id)).toEqual(['envelope', 'box-s'])
+        expect(store.visiblePackages.map(packageType => packageType.id)).toEqual(['envelope', 'box-s', 'box-m'])
     })
 })
