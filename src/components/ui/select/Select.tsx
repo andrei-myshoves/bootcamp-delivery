@@ -9,12 +9,13 @@ interface UiSelectProps {
     placeholder?: string
     options: Option[]
     defaultValue?: string
+    size?: 'default' | 'form'
 }
 
-export function UiSelect({ placeholder, options }: UiSelectProps) {
+export function UiSelect({ placeholder, options, size = 'default' }: UiSelectProps) {
     return (
         <Select>
-            <SelectTrigger>
+            <SelectTrigger size={size}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
 

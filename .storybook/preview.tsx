@@ -1,7 +1,10 @@
 import '@/index.css'
 import type { Preview } from '@storybook/react-vite'
+import { I18nDecorator } from '@/shared/storybook/I18nDecorator'
+import { RouterDecorator } from '@/shared/storybook/RouterDecorator'
 
 const preview: Preview = {
+    decorators: [RouterDecorator, I18nDecorator],
     parameters: {
         controls: {
             matchers: {

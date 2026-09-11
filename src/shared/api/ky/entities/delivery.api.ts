@@ -1,4 +1,4 @@
-import { apiClient } from '@/shared/api/ky/instance'
+import { apiClientV1 } from '@/shared/api/ky/instance'
 
 export interface DeliveryPoint {
     id: number
@@ -6,5 +6,5 @@ export interface DeliveryPoint {
 }
 
 export const getDeliveryPoints = async () => {
-    return apiClient.get('delivery/points').json<DeliveryPoint[]>()
+    return apiClientV1.get('delivery/points').json<DeliveryPoint[]>()
 }

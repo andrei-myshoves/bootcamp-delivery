@@ -27,7 +27,7 @@ describe('ErrorBoundary', () => {
             </ErrorBoundary>
         )
 
-        expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument()
+        expect(screen.getByText(/Что-то пошло не так/i)).toBeInTheDocument()
 
         consoleError.mockRestore()
     })
