@@ -37,6 +37,12 @@ const sizeModeOptions = [
 export function PackageSelectSheet({ packages, value, onChange, images }: PackageSelectSheetProps) {
     const [open, setOpen] = useState(false)
     const [sizeMode, setSizeMode] = useState('approximate')
+    const [exactSize, setExactSize] = useState({
+        length: '',
+        width: '',
+        height: '',
+        weight: '',
+    })
 
     const handleSelect = (packageItem: PackageSelectItem) => {
         onChange(packageItem)
@@ -57,7 +63,12 @@ export function PackageSelectSheet({ packages, value, onChange, images }: Packag
                 <ChevronDown className="text-muted-foreground size-5" />
             </Button>
 
-            <SheetContent side="bottom" showCloseButton={false} className="rounded-t-2xl px-3.5 pt-4 lg:rounded-none">
+            <SheetContent
+                side="bottom"
+                desktopSide="left"
+                showCloseButton={false}
+                className="rounded-t-2xl px-3.5 pt-4 lg:rounded-none"
+            >
                 <div className="pb-4">
                     <h2 className="mb-3 ml-2 text-2xl font-bold lg:hidden">Размер посылки</h2>
 
@@ -102,10 +113,38 @@ export function PackageSelectSheet({ packages, value, onChange, images }: Packag
                         </div>
                     ) : (
                         <div className="space-y-2">
-                            <Input inputSize="large" label="Длина" placeholder="см" />
-                            <Input inputSize="large" label="Ширина" placeholder="см" />
-                            <Input inputSize="large" label="Высота" placeholder="см" />
-                            <Input inputSize="large" label="Вес" placeholder="кг" />
+                            <Input
+                                inputSize="large"
+                                label="Длина"
+                                placeholder="см"
+                                type="number"
+                                value={exactSize.length}
+                                onChange={event => setExactSize(prev => ({ ...prev, length: event.target.value }))}
+                            />
+                            <Input
+                                inputSize="large"
+                                label="Ширина"
+                                placeholder="см"
+                                type="number"
+                                value={exactSize.width}
+                                onChange={event => setExactSize(prev => ({ ...prev, width: event.target.value }))}
+                            />
+                            <Input
+                                inputSize="large"
+                                label="Высота"
+                                placeholder="см"
+                                type="number"
+                                value={exactSize.height}
+                                onChange={event => setExactSize(prev => ({ ...prev, height: event.target.value }))}
+                            />
+                            <Input
+                                inputSize="large"
+                                label="Вес"
+                                placeholder="кг"
+                                type="number"
+                                value={exactSize.weight}
+                                onChange={event => setExactSize(prev => ({ ...prev, weight: event.target.value }))}
+                            />
                         </div>
                     )}
                 </div>
