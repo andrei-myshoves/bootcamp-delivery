@@ -23,6 +23,13 @@ interface PackageSelectSheetProps {
     images?: Record<string, string>
 }
 
+const initialExactSize = {
+    length: '',
+    width: '',
+    height: '',
+    weight: '',
+}
+
 const sizeModeOptions = [
     {
         value: 'approximate',
@@ -37,12 +44,7 @@ const sizeModeOptions = [
 export function PackageSelectSheet({ packages, value, onChange, images }: PackageSelectSheetProps) {
     const [open, setOpen] = useState(false)
     const [sizeMode, setSizeMode] = useState('approximate')
-    const [exactSize, setExactSize] = useState({
-        length: '',
-        width: '',
-        height: '',
-        weight: '',
-    })
+    const [exactSize, setExactSize] = useState(initialExactSize)
 
     const handleSelect = (packageItem: PackageSelectItem) => {
         onChange(packageItem)
