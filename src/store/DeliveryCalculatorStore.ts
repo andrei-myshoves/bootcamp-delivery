@@ -26,6 +26,36 @@ export interface PackageTypesResponse {
     reason: string
     packages: PackageType[]
 }
+export interface DeliveryCalculationRequest {
+    package: {
+        length: number
+        width: number
+        weight: number
+        height: number
+    }
+    senderPoint: {
+        latitude: number
+        longitude: number
+    }
+    receiverPoint: {
+        latitude: number
+        longitude: number
+    }
+}
+
+export interface DeliveryOption {
+    id: string
+    price: number
+    days: number
+    name: string
+    type: string
+}
+
+export interface DeliveryCalculationResponse {
+    success: boolean
+    reason: string
+    options: DeliveryOption[]
+}
 
 const DEFAULT_FROM_CITY: DeliveryPoint = {
     id: '1',
@@ -48,6 +78,11 @@ export class DeliveryCalculatorStore {
     cities: DeliveryPoint[] = []
     packageTypes: PackageType[] = []
     packageType: PackageType | null = null
+
+    deliveryOptions: DeliveryOption[] = []
+    isCalculating = false
+    calculationError: string | null = null
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -80,6 +115,52 @@ export class DeliveryCalculatorStore {
 
     selectPackageType = (packageType: PackageType) => {
         this.packageType = packageType
+    }
+
+    calculateDelivery = async () => {
+        if (!this.packageType || this.isCalculating) {
+            return
+        }
+
+        this.isCalculating = true
+        this.calculationError = null
+
+        const request: DeliveryCalculationRequest = {
+            package: {
+                length: Number(this.packageType.length),
+                width: Number(this.packageType.width),
+                height: Number(this.packageType.height),
+                weight: Number(this.packageType.weight),
+            },
+            senderPoint: {
+                latitude: this.fromCity.latitude,
+                longitude: this.fromCity.longitude,
+            },
+            receiverPoint: {
+                latitude: this.toCity.latitude,
+                longitude: this.toCity.longitude,
+            },
+        }
+
+        try {
+            const response = await apiClientV1
+                .post('delivery/calc', {
+                    json: request,
+                })
+                .json<DeliveryCalculationResponse>()
+
+            runInAction(() => {
+                this.deliveryOptions = response.options
+            })
+        } catch {
+            runInAction(() => {
+                this.calculationError = 'Не удалось рассчитать доставку'
+            })
+        } finally {
+            runInAction(() => {
+                this.isCalculating = false
+            })
+        }
     }
 
     fetchCities = async () => {

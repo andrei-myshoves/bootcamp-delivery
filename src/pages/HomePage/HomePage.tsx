@@ -33,6 +33,9 @@ const packageImages = {
 const HomePage = () => {
     const { deliveryCalculatorStore } = useStore()
     const { t } = useTranslation()
+    const handleCalculate = () => {
+        void deliveryCalculatorStore.calculateDelivery()
+    }
 
     useEffect(() => {
         void deliveryCalculatorStore.fetchCities()
@@ -85,7 +88,12 @@ const HomePage = () => {
                         </div>
                     </div>
 
-                    <Button size="form" className="w-full">
+                    <Button
+                        size="form"
+                        className="w-full"
+                        onClick={handleCalculate}
+                        disabled={deliveryCalculatorStore.isCalculating}
+                    >
                         {t('calculator.calculate')}
                         <ArrowRight className="size-4" />
                     </Button>
@@ -165,7 +173,12 @@ const HomePage = () => {
                         </div>
                     </div>
 
-                    <Button size="form" className="mt-6 w-full">
+                    <Button
+                        size="form"
+                        className="mt-6 w-full"
+                        onClick={handleCalculate}
+                        disabled={deliveryCalculatorStore.isCalculating}
+                    >
                         {t('calculator.calculate')}
                         <ArrowRight className="size-4" />
                     </Button>
