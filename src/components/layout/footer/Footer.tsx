@@ -16,10 +16,6 @@ export function Footer({ className }: FooterProps) {
     const { pathname } = useLocation()
     const navigate = useNavigate()
 
-    if (pathname === '/deliverymethod') {
-        return null
-    }
-
     const options = useMemo(
         () => [
             {
@@ -55,6 +51,10 @@ export function Footer({ className }: FooterProps) {
         ],
         [t]
     )
+
+    if (pathname === '/deliverymethod') {
+        return null
+    }
 
     return (
         <footer className={cn('fixed inset-x-4 bottom-4 z-(--z-footer) lg:hidden', className)}>
