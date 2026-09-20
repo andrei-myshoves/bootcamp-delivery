@@ -18,6 +18,7 @@ import BoxL from '@/shared/assets/Box L.svg'
 import BoxXL from '@/shared/assets/Box XL.svg'
 
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from '@tanstack/react-router'
 import { useStore } from '@/hooks/useStore'
 import { observer } from 'mobx-react-lite'
 
@@ -33,8 +34,13 @@ const packageImages = {
 const HomePage = () => {
     const { deliveryCalculatorStore } = useStore()
     const { t } = useTranslation()
-    const handleCalculate = () => {
-        void deliveryCalculatorStore.calculateDelivery()
+    const navigate = useNavigate()
+    const handleCalculate = async () => {
+        await deliveryCalculatorStore.calculateDelivery()
+
+        if (deliveryCalculatorStore.deliveryOptions.length > 0) {
+            void navigate({ to: '/deliverymethod' })
+        }
     }
 
     useEffect(() => {

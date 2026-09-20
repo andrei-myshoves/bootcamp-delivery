@@ -16,6 +16,10 @@ export function Footer({ className }: FooterProps) {
     const { pathname } = useLocation()
     const navigate = useNavigate()
 
+    if (pathname === '/deliverymethod') {
+        return null
+    }
+
     const options = useMemo(
         () => [
             {
