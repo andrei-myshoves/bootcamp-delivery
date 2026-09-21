@@ -108,18 +108,21 @@ const DeliveryMethodPage = () => {
                 images={[
                     {
                         src: ReferalBox3,
-                        className: 'z-0 right-[40px] bottom-[40px] w-[63.95px] h-[50.25px] rotate-[2deg]',
+                        className:
+                            'z-0 right-[40px] bottom-[40px] w-[63.95px] h-[50.25px] rotate-[2deg] lg:left-[240px] lg:bottom-[55px] lg:w-[107.48px] lg:h-[84.24px]',
                     },
                     {
                         src: ReferalBox1,
-                        className: 'z-10 right-[2px] bottom-[5px] w-[90.7px] h-[71.27px] rotate-[2deg]',
+                        className:
+                            'z-10 right-[0px] bottom-[0px] w-[90.7px] h-[71.27px] rotate-[2deg] lg:left-[260px] lg:bottom-[0px] lg:w-[151.09px] lg:h-[118.71px]',
                     },
                     {
                         src: ReferalBox2,
-                        className: 'z-20 right-[10px] bottom-[40px] w-[47.6px] h-[37.4px] rotate-[2deg]',
+                        className:
+                            'z-20 right-[10px] bottom-[40px] w-[47.6px] h-[37.4px] rotate-[2deg] lg:left-[310px] lg:bottom-[65px] lg:w-[80.33px] lg:h-[63.33px]',
                     },
                 ]}
-                className="mt-4 h-28"
+                className="mt-4 h-28 lg:h-37"
                 imageClassName="right-4 bottom-0 h-full"
             />
         </div>
