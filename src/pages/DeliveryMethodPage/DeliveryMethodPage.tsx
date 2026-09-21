@@ -6,7 +6,9 @@ import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { useStore } from '@/hooks/useStore'
 import { useNavigate } from '@tanstack/react-router'
 
-import BoxM from '@/shared/assets/Box M.svg'
+import ReferalBox1 from '@/shared/assets/ReferalBox1.webp'
+import ReferalBox2 from '@/shared/assets/ReferalBox2.webp'
+import ReferalBox3 from '@/shared/assets/ReferalBox3.webp'
 
 const DeliveryMethodPage = () => {
     const { deliveryCalculatorStore } = useStore()
@@ -103,7 +105,20 @@ const DeliveryMethodPage = () => {
             <ReferralBanner
                 title="1+1=3"
                 subtitle="3-я доставка в подарок!"
-                image={BoxM}
+                images={[
+                    {
+                        src: ReferalBox3,
+                        className: 'z-0 right-[40px] bottom-[40px] w-[63.95px] h-[50.25px] rotate-[2deg]',
+                    },
+                    {
+                        src: ReferalBox1,
+                        className: 'z-10 right-[2px] bottom-[5px] w-[90.7px] h-[71.27px] rotate-[2deg]',
+                    },
+                    {
+                        src: ReferalBox2,
+                        className: 'z-20 right-[10px] bottom-[40px] w-[47.6px] h-[37.4px] rotate-[2deg]',
+                    },
+                ]}
                 className="mt-4 h-28"
                 imageClassName="right-4 bottom-0 h-full"
             />
