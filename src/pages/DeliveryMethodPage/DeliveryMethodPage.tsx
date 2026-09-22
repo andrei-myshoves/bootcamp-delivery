@@ -15,7 +15,7 @@ const DeliveryMethodPage = () => {
     const navigate = useNavigate()
 
     return (
-        <div className="mx-auto max-w-5xl">
+        <div className="w-full max-w-5xl lg:max-w-184">
             <div className="hidden lg:block">
                 <div className="text-muted-foreground mt-40 mb-6 flex items-center text-sm">
                     <House className="size-4" />
