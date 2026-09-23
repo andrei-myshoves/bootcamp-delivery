@@ -67,6 +67,9 @@ body {
     --z-buttons-group: var(--z-buttons-group);
     --z-referral-banner-content: var(--z-referral-banner-content);
     --z-footer: var(--z-footer);
+    --z-referral-banner-image-back: var(--z-referral-banner-image-back);
+    --z-referral-banner-image-middle: var(--z-referral-banner-image-middle);
+    --z-referral-banner-image-front: var(--z-referral-banner-image-front);
 }
 
 :root {
@@ -94,6 +97,9 @@ body {
     --color-input-placeholder: #b7b7b7;
     --z-referral-banner-content: 10;
     --z-footer: 50;
+    --z-referral-banner-image-back: 0;
+    --z-referral-banner-image-middle: 2;
+    --z-referral-banner-image-front: 3;
 }
 
 .dark {
