@@ -6,14 +6,38 @@ import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { useStore } from '@/hooks/useStore'
 import { useMemo } from 'react'
 import { useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 import ReferalBox1 from '@/shared/assets/ReferalBox1.webp'
 import ReferalBox2 from '@/shared/assets/ReferalBox2.webp'
 import ReferalBox3 from '@/shared/assets/ReferalBox3.webp'
 
+const handleContinue = () => {
+    // TODO: navigate to recipient page
+}
+
+const referralImages = [
+    {
+        src: ReferalBox3,
+        className:
+            'z-(--z-referral-banner-image-back) right-7 bottom-9 w-16 h-12 rotate-2 lg:left-60 lg:bottom-14 lg:w-27 lg:h-21',
+    },
+    {
+        src: ReferalBox1,
+        className:
+            'z-(--z-referral-banner-image-middle) right-0 bottom-0 w-23 h-18 rotate-2 lg:left-65 lg:bottom-0 lg:w-38 lg:h-30',
+    },
+    {
+        src: ReferalBox2,
+        className:
+            'z-(--z-referral-banner-image-front) right-2.5 bottom-10 w-12 h-9 rotate-2 lg:left-77 lg:bottom-16 lg:w-20 lg:h-16',
+    },
+]
+
 const DeliveryMethodPage = () => {
     const { deliveryCalculatorStore } = useStore()
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const deliveryOptions = useMemo(
         () =>
             [...deliveryCalculatorStore.deliveryOptions].sort((a, b) => {
@@ -23,26 +47,6 @@ const DeliveryMethodPage = () => {
             }),
         [deliveryCalculatorStore.deliveryOptions]
     )
-    const handleContinue = () => {
-        // TODO: navigate to recipient page
-    }
-    const referralImages = [
-        {
-            src: ReferalBox3,
-            className:
-                'z-(--z-referral-banner-image-back) right-7 bottom-9 w-16 h-12 rotate-2 lg:left-60 lg:bottom-14 lg:w-27 lg:h-21',
-        },
-        {
-            src: ReferalBox1,
-            className:
-                'z-(--z-referral-banner-image-middle) right-0 bottom-0 w-23 h-18 rotate-2 lg:left-65 lg:bottom-0 lg:w-38 lg:h-30',
-        },
-        {
-            src: ReferalBox2,
-            className:
-                'z-(--z-referral-banner-image-front) right-2.5 bottom-10 w-12 h-9 rotate-2 lg:left-77 lg:bottom-16 lg:w-20 lg:h-16',
-        },
-    ]
 
     return (
         <div className="w-full max-w-5xl lg:max-w-184">
@@ -131,8 +135,8 @@ const DeliveryMethodPage = () => {
             </div>
 
             <ReferralBanner
-                title="1+1=3"
-                subtitle="3-я доставка в подарок!"
+                title={t('referralBanner.giftDelivery')}
+                subtitle={t('referralBanner.thirdDelivery')}
                 images={referralImages}
                 className="mt-4 h-28 lg:h-37"
                 imageClassName="right-4 bottom-0 h-full"
