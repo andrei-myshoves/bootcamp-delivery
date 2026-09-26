@@ -57,6 +57,13 @@ export interface DeliveryCalculationResponse {
     options: DeliveryOption[]
 }
 
+export interface RecipientData {
+    firstname: string
+    middlename: string
+    lastname: string
+    phone: string
+}
+
 const DEFAULT_FROM_CITY: DeliveryPoint = {
     id: '1',
     name: 'Москва',
@@ -84,6 +91,12 @@ export class DeliveryCalculatorStore {
     deliveryOptions: DeliveryOption[] = JSON.parse(localStorage.getItem(DELIVERY_OPTIONS_LS_KEY) ?? '[]')
     isCalculating = false
     calculationError: string | null = null
+    recipient: RecipientData = {
+        firstname: '',
+        middlename: '',
+        lastname: '',
+        phone: '',
+    }
 
     constructor() {
         makeAutoObservable(this)
@@ -117,6 +130,10 @@ export class DeliveryCalculatorStore {
 
     selectPackageType = (packageType: PackageType) => {
         this.packageType = packageType
+    }
+
+    setRecipient = (data: RecipientData) => {
+        this.recipient = data
     }
 
     selectDeliveryOption = (option: DeliveryOption) => {
