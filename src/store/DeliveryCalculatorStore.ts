@@ -64,6 +64,8 @@ const DEFAULT_FROM_CITY: DeliveryPoint = {
     longitude: 0,
 }
 
+const DELIVERY_OPTIONS_LS_KEY = 'deliveryOptions'
+
 const DEFAULT_TO_CITY: DeliveryPoint = {
     id: '2',
     name: 'Санкт-Петербург',
@@ -78,8 +80,8 @@ export class DeliveryCalculatorStore {
     cities: DeliveryPoint[] = []
     packageTypes: PackageType[] = []
     packageType: PackageType | null = null
-
-    deliveryOptions: DeliveryOption[] = []
+    selectedDeliveryOption: DeliveryOption | null = null
+    deliveryOptions: DeliveryOption[] = JSON.parse(localStorage.getItem(DELIVERY_OPTIONS_LS_KEY) ?? '[]')
     isCalculating = false
     calculationError: string | null = null
 
@@ -117,6 +119,10 @@ export class DeliveryCalculatorStore {
         this.packageType = packageType
     }
 
+    selectDeliveryOption = (option: DeliveryOption) => {
+        this.selectedDeliveryOption = option
+    }
+
     calculateDelivery = async () => {
         if (!this.packageType || this.isCalculating) {
             return
@@ -151,6 +157,7 @@ export class DeliveryCalculatorStore {
 
             runInAction(() => {
                 this.deliveryOptions = response.options
+                localStorage.setItem(DELIVERY_OPTIONS_LS_KEY, JSON.stringify(response.options))
             })
         } catch {
             runInAction(() => {
