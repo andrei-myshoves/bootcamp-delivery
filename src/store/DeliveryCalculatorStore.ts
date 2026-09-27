@@ -58,9 +58,9 @@ export interface DeliveryCalculationResponse {
 }
 
 export interface RecipientData {
-    firstname: string
-    middlename: string
-    lastname: string
+    firstName: string
+    middleName: string
+    lastName: string
     phone: string
 }
 
@@ -92,9 +92,9 @@ export class DeliveryCalculatorStore {
     isCalculating = false
     calculationError: string | null = null
     recipient: RecipientData = {
-        firstname: '',
-        middlename: '',
-        lastname: '',
+        firstName: '',
+        middleName: '',
+        lastName: '',
         phone: '',
     }
 

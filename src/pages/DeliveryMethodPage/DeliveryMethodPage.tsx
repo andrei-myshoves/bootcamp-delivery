@@ -12,10 +12,6 @@ import ReferalBox1 from '@/shared/assets/ReferalBox1.webp'
 import ReferalBox2 from '@/shared/assets/ReferalBox2.webp'
 import ReferalBox3 from '@/shared/assets/ReferalBox3.webp'
 
-const handleContinue = () => {
-    // TODO: navigate to recipient page
-}
-
 const referralImages = [
     {
         src: ReferalBox3,
@@ -38,6 +34,9 @@ const DeliveryMethodPage = () => {
     const { deliveryCalculatorStore } = useStore()
     const navigate = useNavigate()
     const { t } = useTranslation()
+    const handleContinue = () => {
+        void navigate({ to: '/recipient' })
+    }
     const deliveryOptions = useMemo(
         () =>
             [...deliveryCalculatorStore.deliveryOptions].sort((a, b) => {
@@ -51,7 +50,7 @@ const DeliveryMethodPage = () => {
     return (
         <div className="w-full max-w-5xl lg:max-w-184">
             <div className="hidden lg:block">
-                <div className="text-muted-foreground mt-40 mb-6 flex items-center text-sm">
+                <div className="text-muted-foreground mt-12 mb-6 flex items-center text-sm">
                     <House className="size-4" />
                     <ChevronRight className="mx-2 size-4">›</ChevronRight>
                     <span className="text-black">Тип доставки</span>
@@ -80,7 +79,7 @@ const DeliveryMethodPage = () => {
                 <p className="mb-1 text-sm">Шаг 1 из 7</p>
 
                 <div className="bg-muted h-1 overflow-hidden rounded-full">
-                    <div className="h-full w-[10%] rounded-full bg-green-500" />
+                    <div className="bg-progress-bar h-full w-[10%] rounded-full" />
                 </div>
             </div>
 
