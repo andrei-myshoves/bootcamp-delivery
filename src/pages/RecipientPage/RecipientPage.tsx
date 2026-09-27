@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { ChevronLeft } from 'lucide-react'
-import { useState } from 'react'
+import { type ChangeEvent, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui/button/Button'
@@ -16,7 +16,35 @@ const RecipientPage = () => {
     const { recipient, selectedDeliveryOption } = deliveryCalculatorStore
 
     const handleBack = () => {
-        void navigate({ to: '/delivery-method' })
+        void navigate({ to: '/deliverymethod' })
+    }
+
+    const handleLastNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        deliveryCalculatorStore.setRecipient({
+            ...recipient,
+            lastName: event.target.value,
+        })
+    }
+
+    const handleFirstNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        deliveryCalculatorStore.setRecipient({
+            ...recipient,
+            firstName: event.target.value,
+        })
+    }
+
+    const handleMiddleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        deliveryCalculatorStore.setRecipient({
+            ...recipient,
+            middleName: event.target.value,
+        })
+    }
+
+    const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+        deliveryCalculatorStore.setRecipient({
+            ...recipient,
+            phone: event.target.value.replace(/[^\d+() -]/g, ''),
+        })
     }
 
     const handleContinue = () => {
@@ -85,7 +113,7 @@ const RecipientPage = () => {
                         <p className="mb-1 text-sm">Шаг 2 из 7</p>
 
                         <div className="bg-muted h-1 overflow-hidden rounded-full">
-                            <div className="bg-progress-bar h-full w-[28%] rounded-full" />
+                            <div className="bg-progress-bar h-full w-1/4 rounded-full" />
                         </div>
                     </div>
 
@@ -95,12 +123,7 @@ const RecipientPage = () => {
                                 label="Фамилия"
                                 placeholder="Иванов"
                                 value={recipient.lastName}
-                                onChange={event =>
-                                    deliveryCalculatorStore.setRecipient({
-                                        ...recipient,
-                                        lastName: event.target.value,
-                                    })
-                                }
+                                onChange={handleLastNameChange}
                             />
 
                             {errors.lastName && <p className="text-destructive text-sm">{errors.lastName}</p>}
@@ -109,12 +132,7 @@ const RecipientPage = () => {
                                 label="Имя"
                                 placeholder="Иван"
                                 value={recipient.firstName}
-                                onChange={event =>
-                                    deliveryCalculatorStore.setRecipient({
-                                        ...recipient,
-                                        firstName: event.target.value,
-                                    })
-                                }
+                                onChange={handleFirstNameChange}
                             />
 
                             {errors.firstName && <p className="text-destructive text-sm">{errors.firstName}</p>}
@@ -123,12 +141,7 @@ const RecipientPage = () => {
                                 label="Отчество"
                                 placeholder="Иванович"
                                 value={recipient.middleName}
-                                onChange={event =>
-                                    deliveryCalculatorStore.setRecipient({
-                                        ...recipient,
-                                        middleName: event.target.value,
-                                    })
-                                }
+                                onChange={handleMiddleNameChange}
                             />
 
                             {errors.middleName && <p className="text-destructive text-sm">{errors.middleName}</p>}
@@ -140,31 +153,20 @@ const RecipientPage = () => {
                                 inputMode="numeric"
                                 pattern="[0-9+() -]*"
                                 value={recipient.phone}
-                                onChange={event =>
-                                    deliveryCalculatorStore.setRecipient({
-                                        ...recipient,
-                                        phone: event.target.value.replace(/[^\d+() -]/g, ''),
-                                    })
-                                }
+                                onChange={handlePhoneChange}
                             />
 
                             {errors.phone && <p className="text-destructive text-sm">{errors.phone}</p>}
                         </div>
+                    </div>
+                    <div className="mt-6 flex w-full gap-3">
+                        <Button variant="secondary" size="form" className="hidden flex-1 lg:flex" onClick={handleBack}>
+                            Назад
+                        </Button>
 
-                        <div className="mt-6 flex gap-3">
-                            <Button
-                                variant="secondary"
-                                size="form"
-                                className="hidden flex-1 lg:flex"
-                                onClick={handleBack}
-                            >
-                                Назад
-                            </Button>
-
-                            <Button variant="primary" size="form" className="flex-1" onClick={handleContinue}>
-                                Продолжить
-                            </Button>
-                        </div>
+                        <Button variant="primary" size="form" className="flex-1" onClick={handleContinue}>
+                            Продолжить
+                        </Button>
                     </div>
                 </div>
 
@@ -181,10 +183,12 @@ const RecipientPage = () => {
                         <p className="text-muted-foreground text-sm">Получатель</p>
 
                         <p className="mt-1 text-sm">
-                            {recipient.lastName || recipient.firstName
-                                ? `${recipient.lastName} ${recipient.firstName}`.trim()
+                            {recipient.lastName || recipient.firstName || recipient.middleName
+                                ? `${recipient.lastName} ${recipient.firstName} ${recipient.middleName}`.trim()
                                 : 'Заполните поля'}
                         </p>
+
+                        {recipient.phone && <p className="mt-1 text-sm">{recipient.phone}</p>}
                     </div>
                 </div>
             </div>
