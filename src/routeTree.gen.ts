@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DeliverymethodRouteImport } from './routes/deliverymethod'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as RecipientRouteImport } from './routes/recipient'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecipientRoute = RecipientRouteImport.update({
+  id: '/recipient',
+  path: '/recipient',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/deliverymethod': typeof DeliverymethodRoute
   '/profile': typeof ProfileRoute
+  '/recipient': typeof RecipientRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/deliverymethod': typeof DeliverymethodRoute
   '/profile': typeof ProfileRoute
+  '/recipient': typeof RecipientRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/deliverymethod': typeof DeliverymethodRoute
   '/profile': typeof ProfileRoute
+  '/recipient': typeof RecipientRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/deliverymethod' | '/profile'
+  fullPaths: '/' | '/deliverymethod' | '/profile' | '/recipient'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/deliverymethod' | '/profile'
-  id: '__root__' | '/' | '/deliverymethod' | '/profile'
+  to: '/' | '/deliverymethod' | '/profile' | '/recipient'
+  id: '__root__' | '/' | '/deliverymethod' | '/profile' | '/recipient'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DeliverymethodRoute: typeof DeliverymethodRoute
   ProfileRoute: typeof ProfileRoute
+  RecipientRoute: typeof RecipientRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recipient': {
+      id: '/recipient'
+      path: '/recipient'
+      fullPath: '/recipient'
+      preLoaderRoute: typeof RecipientRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DeliverymethodRoute: DeliverymethodRoute,
   ProfileRoute: ProfileRoute,
+  RecipientRoute: RecipientRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

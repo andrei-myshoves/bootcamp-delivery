@@ -62,6 +62,7 @@ body {
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
     --color-border-hard: var(--border-hard);
+    --color-progress-bar: var(--progress-bar);
     --color-referal-banner: var(--referral-banner);
     --color-input-placeholder: var(--color-input-placeholder);
     --z-buttons-group: var(--z-buttons-group);
@@ -94,6 +95,7 @@ body {
     --radius: 0.625rem;
     --border-hard: #0b0b0b;
     --referral-banner: #6ac66a;
+    --progress-bar: #22c55e;
     --color-input-placeholder: #b7b7b7;
     --z-referral-banner-content: 10;
     --z-footer: 50;
