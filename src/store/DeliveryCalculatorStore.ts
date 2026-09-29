@@ -97,6 +97,12 @@ export class DeliveryCalculatorStore {
         lastName: '',
         phone: '',
     }
+    sender: RecipientData = {
+        lastName: '',
+        firstName: '',
+        middleName: '',
+        phone: '',
+    }
 
     constructor() {
         makeAutoObservable(this)
@@ -134,6 +140,10 @@ export class DeliveryCalculatorStore {
 
     setRecipient = (data: RecipientData) => {
         this.recipient = data
+    }
+
+    setSender = (data: RecipientData) => {
+        this.sender = data
     }
 
     selectDeliveryOption = (option: DeliveryOption) => {

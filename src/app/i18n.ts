@@ -67,6 +67,12 @@ i18n.use(initReactI18next).init({
                     breadcrumbRecipient: 'Получатель',
                     backAriaLabel: 'Назад',
                 },
+                sender: {
+                    breadcrumbSender: 'Отправитель',
+                    title: 'Отправитель',
+                    step: 'Шаг 3 из 7',
+                    sender: 'Отправитель',
+                },
                 trackParcel: {
                     title: 'Отследить посылку',
                     placeholder: 'Номер заказа',
