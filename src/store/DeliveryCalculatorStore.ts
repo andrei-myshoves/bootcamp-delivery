@@ -72,6 +72,9 @@ const DEFAULT_FROM_CITY: DeliveryPoint = {
 }
 
 const DELIVERY_OPTIONS_LS_KEY = 'deliveryOptions'
+const SELECTED_DELIVERY_OPTION_LS_KEY = 'selectedDeliveryOption'
+const RECIPIENT_LS_KEY = 'recipient'
+const SENDER_LS_KEY = 'sender'
 
 const DEFAULT_TO_CITY: DeliveryPoint = {
     id: '2',
@@ -97,9 +100,31 @@ export class DeliveryCalculatorStore {
         lastName: '',
         phone: '',
     }
+    sender: RecipientData = {
+        lastName: '',
+        firstName: '',
+        middleName: '',
+        phone: '',
+    }
 
     constructor() {
         makeAutoObservable(this)
+
+        const savedOption = localStorage.getItem(SELECTED_DELIVERY_OPTION_LS_KEY)
+        const savedRecipient = localStorage.getItem(RECIPIENT_LS_KEY)
+        const savedSender = localStorage.getItem(SENDER_LS_KEY)
+
+        if (savedOption) {
+            this.selectedDeliveryOption = JSON.parse(savedOption) as DeliveryOption
+        }
+
+        if (savedRecipient) {
+            this.recipient = JSON.parse(savedRecipient) as RecipientData
+        }
+
+        if (savedSender) {
+            this.sender = JSON.parse(savedSender) as RecipientData
+        }
     }
 
     private preparePopularCities(names: string[]): DeliveryPoint[] {
@@ -134,10 +159,17 @@ export class DeliveryCalculatorStore {
 
     setRecipient = (data: RecipientData) => {
         this.recipient = data
+        localStorage.setItem(RECIPIENT_LS_KEY, JSON.stringify(data))
     }
 
-    selectDeliveryOption = (option: DeliveryOption) => {
+    setSender = (data: RecipientData) => {
+        this.sender = data
+        localStorage.setItem(SENDER_LS_KEY, JSON.stringify(data))
+    }
+
+    setSelectedDeliveryOption = (option: DeliveryOption) => {
         this.selectedDeliveryOption = option
+        localStorage.setItem(SELECTED_DELIVERY_OPTION_LS_KEY, JSON.stringify(option))
     }
 
     calculateDelivery = async () => {

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DeliverymethodRouteImport } from './routes/deliverymethod'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RecipientRouteImport } from './routes/recipient'
+import { Route as SenderRouteImport } from './routes/sender'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const RecipientRoute = RecipientRouteImport.update({
   path: '/recipient',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SenderRoute = SenderRouteImport.update({
+  id: '/sender',
+  path: '/sender',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/deliverymethod': typeof DeliverymethodRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
+  '/sender': typeof SenderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/deliverymethod': typeof DeliverymethodRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
+  '/sender': typeof SenderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,15 @@ export interface FileRoutesById {
   '/deliverymethod': typeof DeliverymethodRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
+  '/sender': typeof SenderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/deliverymethod' | '/profile' | '/recipient'
+  fullPaths: '/' | '/deliverymethod' | '/profile' | '/recipient' | '/sender'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/deliverymethod' | '/profile' | '/recipient'
-  id: '__root__' | '/' | '/deliverymethod' | '/profile' | '/recipient'
+  to: '/' | '/deliverymethod' | '/profile' | '/recipient' | '/sender'
+  id:
+    '__root__' | '/' | '/deliverymethod' | '/profile' | '/recipient' | '/sender'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +77,7 @@ export interface RootRouteChildren {
   DeliverymethodRoute: typeof DeliverymethodRoute
   ProfileRoute: typeof ProfileRoute
   RecipientRoute: typeof RecipientRoute
+  SenderRoute: typeof SenderRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +110,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecipientRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sender': {
+      id: '/sender'
+      path: '/sender'
+      fullPath: '/sender'
+      preLoaderRoute: typeof SenderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +125,7 @@ const rootRouteChildren: RootRouteChildren = {
   DeliverymethodRoute: DeliverymethodRoute,
   ProfileRoute: ProfileRoute,
   RecipientRoute: RecipientRoute,
+  SenderRoute: SenderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

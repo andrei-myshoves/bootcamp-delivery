@@ -96,7 +96,7 @@ const DeliveryMethodPage = () => {
                         >
                             <button
                                 type="button"
-                                onClick={() => deliveryCalculatorStore.selectDeliveryOption(option)}
+                                onClick={() => deliveryCalculatorStore.setSelectedDeliveryOption(option)}
                                 className="flex min-w-0 flex-1 items-center gap-4 text-left"
                             >
                                 <div className="bg-muted flex size-10 shrink-0 items-center justify-center rounded-full">
