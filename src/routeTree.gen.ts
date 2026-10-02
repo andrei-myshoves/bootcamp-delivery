@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DeliverymethodRouteImport } from './routes/deliverymethod'
+import { Route as PickupAddressRouteImport } from './routes/pickup-address'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RecipientRouteImport } from './routes/recipient'
 import { Route as SenderRouteImport } from './routes/sender'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const DeliverymethodRoute = DeliverymethodRouteImport.update({
   id: '/deliverymethod',
   path: '/deliverymethod',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PickupAddressRoute = PickupAddressRouteImport.update({
+  id: '/pickup-address',
+  path: '/pickup-address',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -44,6 +50,7 @@ const SenderRoute = SenderRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/deliverymethod': typeof DeliverymethodRoute
+  '/pickup-address': typeof PickupAddressRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
   '/sender': typeof SenderRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/deliverymethod': typeof DeliverymethodRoute
+  '/pickup-address': typeof PickupAddressRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
   '/sender': typeof SenderRoute
@@ -59,22 +67,42 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/deliverymethod': typeof DeliverymethodRoute
+  '/pickup-address': typeof PickupAddressRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
   '/sender': typeof SenderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/deliverymethod' | '/profile' | '/recipient' | '/sender'
+  fullPaths:
+    | '/'
+    | '/deliverymethod'
+    | '/pickup-address'
+    | '/profile'
+    | '/recipient'
+    | '/sender'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/deliverymethod' | '/profile' | '/recipient' | '/sender'
+  to:
+    | '/'
+    | '/deliverymethod'
+    | '/pickup-address'
+    | '/profile'
+    | '/recipient'
+    | '/sender'
   id:
-    '__root__' | '/' | '/deliverymethod' | '/profile' | '/recipient' | '/sender'
+    | '__root__'
+    | '/'
+    | '/deliverymethod'
+    | '/pickup-address'
+    | '/profile'
+    | '/recipient'
+    | '/sender'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DeliverymethodRoute: typeof DeliverymethodRoute
+  PickupAddressRoute: typeof PickupAddressRoute
   ProfileRoute: typeof ProfileRoute
   RecipientRoute: typeof RecipientRoute
   SenderRoute: typeof SenderRoute
@@ -94,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/deliverymethod'
       fullPath: '/deliverymethod'
       preLoaderRoute: typeof DeliverymethodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pickup-address': {
+      id: '/pickup-address'
+      path: '/pickup-address'
+      fullPath: '/pickup-address'
+      preLoaderRoute: typeof PickupAddressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -123,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DeliverymethodRoute: DeliverymethodRoute,
+  PickupAddressRoute: PickupAddressRoute,
   ProfileRoute: ProfileRoute,
   RecipientRoute: RecipientRoute,
   SenderRoute: SenderRoute,
