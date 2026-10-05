@@ -12,6 +12,19 @@ interface FooterProps {
     className?: string
 }
 
+const getStepTitle = (pathname: string) => {
+    switch (pathname) {
+        case '/recipient':
+            return 'Кто получатель?'
+        case '/sender':
+            return 'Кто отправитель?'
+        case '/pickup-address':
+            return 'Откуда забрать?'
+        default:
+            return ''
+    }
+}
+
 export function Footer({ className }: FooterProps) {
     const { t } = useTranslation()
     const { pathname } = useLocation()
@@ -58,9 +71,10 @@ export function Footer({ className }: FooterProps) {
         return null
     }
 
-    if (pathname === '/recipient' || pathname === '/sender') {
+    if (pathname === '/recipient' || pathname === '/sender' || pathname === '/pickup-address') {
         const totalPrice = deliveryCalculatorStore.selectedDeliveryOption?.price ?? 250
-        const stepTitle = pathname === '/recipient' ? 'Кто получатель?' : 'Кто отправитель?'
+
+        const stepTitle = getStepTitle(pathname)
 
         return (
             <footer className={cn('fixed inset-x-0 bottom-0 z-(--z-footer) lg:hidden', className)}>

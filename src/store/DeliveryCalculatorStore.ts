@@ -63,6 +63,12 @@ export interface RecipientData {
     lastName: string
     phone: string
 }
+export interface AddressData {
+    street: string
+    house: string
+    apartment: string
+    courierNote: string
+}
 
 const DEFAULT_FROM_CITY: DeliveryPoint = {
     id: '1',
@@ -75,6 +81,7 @@ const DELIVERY_OPTIONS_LS_KEY = 'deliveryOptions'
 const SELECTED_DELIVERY_OPTION_LS_KEY = 'selectedDeliveryOption'
 const RECIPIENT_LS_KEY = 'recipient'
 const SENDER_LS_KEY = 'sender'
+const PICKUP_ADDRESS_LS_KEY = 'pickupAddress'
 
 const DEFAULT_TO_CITY: DeliveryPoint = {
     id: '2',
@@ -106,6 +113,12 @@ export class DeliveryCalculatorStore {
         middleName: '',
         phone: '',
     }
+    pickupAddress: AddressData = {
+        street: '',
+        house: '',
+        apartment: '',
+        courierNote: '',
+    }
 
     constructor() {
         makeAutoObservable(this)
@@ -113,6 +126,7 @@ export class DeliveryCalculatorStore {
         const savedOption = localStorage.getItem(SELECTED_DELIVERY_OPTION_LS_KEY)
         const savedRecipient = localStorage.getItem(RECIPIENT_LS_KEY)
         const savedSender = localStorage.getItem(SENDER_LS_KEY)
+        const savedPickupAddress = localStorage.getItem(PICKUP_ADDRESS_LS_KEY)
 
         if (savedOption) {
             this.selectedDeliveryOption = JSON.parse(savedOption) as DeliveryOption
@@ -124,6 +138,9 @@ export class DeliveryCalculatorStore {
 
         if (savedSender) {
             this.sender = JSON.parse(savedSender) as RecipientData
+        }
+        if (savedPickupAddress) {
+            this.pickupAddress = JSON.parse(savedPickupAddress) as AddressData
         }
     }
 
@@ -170,6 +187,10 @@ export class DeliveryCalculatorStore {
     setSelectedDeliveryOption = (option: DeliveryOption) => {
         this.selectedDeliveryOption = option
         localStorage.setItem(SELECTED_DELIVERY_OPTION_LS_KEY, JSON.stringify(option))
+    }
+    setPickupAddress = (data: AddressData) => {
+        this.pickupAddress = data
+        localStorage.setItem(PICKUP_ADDRESS_LS_KEY, JSON.stringify(data))
     }
 
     calculateDelivery = async () => {

@@ -44,7 +44,7 @@ const SenderPage = () => {
             return
         }
 
-        // Следующий маршрут добавим после создания следующей страницы.
+        void navigate({ to: '/pickup-address' })
     }
 
     const handleLastNameChange = (event: ChangeEvent<HTMLInputElement>) => {
