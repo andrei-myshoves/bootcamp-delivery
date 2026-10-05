@@ -73,7 +73,7 @@ export function CitySelectSheet({
                     <SheetTitle className="text-2xl font-bold">{sheetTitle}</SheetTitle>
                 </SheetHeader>
 
-                <div className="mb-4 space-y-1 overflow-y-auto px-6">
+                <div className="mb-4 max-h-[60vh] space-y-1 overflow-y-auto px-6">
                     {cities.map(city => (
                         <Button
                             key={city.id}
