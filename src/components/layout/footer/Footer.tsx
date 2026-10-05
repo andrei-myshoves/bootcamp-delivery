@@ -12,23 +12,24 @@ interface FooterProps {
     className?: string
 }
 
+const getStepTitle = (pathname: string) => {
+    switch (pathname) {
+        case '/recipient':
+            return 'Кто получатель?'
+        case '/sender':
+            return 'Кто отправитель?'
+        case '/pickup-address':
+            return 'Откуда забрать?'
+        default:
+            return ''
+    }
+}
+
 export function Footer({ className }: FooterProps) {
     const { t } = useTranslation()
     const { pathname } = useLocation()
     const navigate = useNavigate()
     const { deliveryCalculatorStore } = useStore()
-    const getStepTitle = (pathname: string) => {
-        switch (pathname) {
-            case '/recipient':
-                return 'Кто получатель?'
-            case '/sender':
-                return 'Кто отправитель?'
-            case '/pickup-address':
-                return 'Откуда забрать?'
-            default:
-                return ''
-        }
-    }
 
     const options = useMemo(
         () => [
