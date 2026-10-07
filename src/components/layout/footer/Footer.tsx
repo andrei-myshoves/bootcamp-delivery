@@ -20,6 +20,8 @@ const getStepTitle = (pathname: string) => {
             return 'Кто отправитель?'
         case '/pickup-address':
             return 'Откуда забрать?'
+        case '/delivery-address':
+            return 'Куда доставить?'
         default:
             return ''
     }
@@ -71,7 +73,12 @@ export function Footer({ className }: FooterProps) {
         return null
     }
 
-    if (pathname === '/recipient' || pathname === '/sender' || pathname === '/pickup-address') {
+    if (
+        pathname === '/recipient' ||
+        pathname === '/sender' ||
+        pathname === '/pickup-address' ||
+        pathname === '/delivery-address'
+    ) {
         const totalPrice = deliveryCalculatorStore.selectedDeliveryOption?.price ?? 250
 
         const stepTitle = getStepTitle(pathname)
