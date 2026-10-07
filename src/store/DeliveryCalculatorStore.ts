@@ -90,6 +90,7 @@ const RECIPIENT_LS_KEY = 'recipient'
 const SENDER_LS_KEY = 'sender'
 const PICKUP_ADDRESS_LS_KEY = 'pickupAddress'
 const DELIVERY_ADDRESS_LS_KEY = 'deliveryAddress'
+const LEAVE_AT_DOOR_LS_KEY = 'leaveAtDoor'
 
 const DEFAULT_TO_CITY: DeliveryPoint = {
     id: '2',
@@ -144,6 +145,7 @@ export class DeliveryCalculatorStore {
         const savedSender = localStorage.getItem(SENDER_LS_KEY)
         const savedPickupAddress = localStorage.getItem(PICKUP_ADDRESS_LS_KEY)
         const savedDeliveryAddress = localStorage.getItem(DELIVERY_ADDRESS_LS_KEY)
+        const savedLeaveAtDoor = localStorage.getItem(LEAVE_AT_DOOR_LS_KEY)
 
         if (savedOption) {
             this.selectedDeliveryOption = JSON.parse(savedOption) as DeliveryOption
@@ -162,6 +164,9 @@ export class DeliveryCalculatorStore {
 
         if (savedDeliveryAddress) {
             this.deliveryAddress = JSON.parse(savedDeliveryAddress) as AddressData
+        }
+        if (savedLeaveAtDoor) {
+            this.leaveAtDoor = JSON.parse(savedLeaveAtDoor) as boolean
         }
     }
 
@@ -220,6 +225,7 @@ export class DeliveryCalculatorStore {
 
     setLeaveAtDoor = (value: boolean) => {
         this.leaveAtDoor = value
+        localStorage.setItem(LEAVE_AT_DOOR_LS_KEY, JSON.stringify(value))
     }
 
     calculateDelivery = async () => {
