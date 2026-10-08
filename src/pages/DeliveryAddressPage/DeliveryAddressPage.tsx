@@ -14,6 +14,7 @@ const DeliveryAddressPage = () => {
     const { t } = useTranslation()
 
     const [errors, setErrors] = useState<Record<string, string>>({})
+    const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
     const { deliveryAddress, leaveAtDoor, recipient, sender, selectedDeliveryOption, pickupAddress } =
         deliveryCalculatorStore
@@ -173,13 +174,31 @@ const DeliveryAddressPage = () => {
                                     onChange={handleLeaveAtDoorChange}
                                     className="peer sr-only"
                                 />
-
                                 <span className="border-border flex size-5 shrink-0 items-center justify-center rounded-[6px] border peer-checked:border-black peer-checked:bg-black">
                                     {leaveAtDoor && <Check className="size-4 text-white" strokeWidth={3} />}
                                 </span>
-
                                 <span className="text-sm">{t('deliveryAddress.leaveAtDoor')}</span>
-                                <CircleHelp className="text-muted-foreground size-5">?</CircleHelp>
+                                <div
+                                    className="relative z-50"
+                                    onMouseEnter={() => setIsTooltipOpen(true)}
+                                    onMouseLeave={() => setIsTooltipOpen(false)}
+                                >
+                                    <CircleHelp className="text-muted-foreground size-5 cursor-help" />
+
+                                    {isTooltipOpen && (
+                                        <div className="absolute bottom-full left-1/2 z-50 mb-3 w-80 -translate-x-1/2 rounded-xl bg-white px-4 py-3 shadow-lg">
+                                            <p className="text-base font-medium">
+                                                {t('deliveryAddress.contactlessTitle')}
+                                            </p>
+
+                                            <p className="text-muted-foreground mt-1 text-sm leading-5">
+                                                {t('deliveryAddress.contactlessDescription')}
+                                            </p>
+
+                                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-8 border-t-8 border-x-transparent border-t-white" />
+                                        </div>
+                                    )}
+                                </div>
                             </label>
                         </div>
                     </div>
