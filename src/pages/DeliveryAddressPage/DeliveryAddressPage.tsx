@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, CircleHelp, Check } from 'lucide-react'
 import { type ChangeEvent, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
@@ -8,56 +8,62 @@ import { Button } from '@/components/ui/button/Button'
 import { Input } from '@/components/ui/input/Input'
 import { useStore } from '@/hooks/useStore'
 
-const PickupAddressPage = () => {
+const DeliveryAddressPage = () => {
     const { deliveryCalculatorStore } = useStore()
     const navigate = useNavigate()
     const { t } = useTranslation()
 
     const [errors, setErrors] = useState<Record<string, string>>({})
+    const [isTooltipOpen, setIsTooltipOpen] = useState(false)
 
-    const { pickupAddress, recipient, sender, selectedDeliveryOption } = deliveryCalculatorStore
+    const { deliveryAddress, leaveAtDoor, recipient, sender, selectedDeliveryOption, pickupAddress } =
+        deliveryCalculatorStore
 
     const handleBack = () => {
-        void navigate({ to: '/sender' })
+        void navigate({ to: '/pickup-address' })
     }
 
     const handleStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
-        deliveryCalculatorStore.setPickupAddress({
-            ...pickupAddress,
+        deliveryCalculatorStore.setDeliveryAddress({
+            ...deliveryAddress,
             street: event.target.value,
         })
     }
 
     const handleHouseChange = (event: ChangeEvent<HTMLInputElement>) => {
-        deliveryCalculatorStore.setPickupAddress({
-            ...pickupAddress,
+        deliveryCalculatorStore.setDeliveryAddress({
+            ...deliveryAddress,
             house: event.target.value,
         })
     }
 
     const handleApartmentChange = (event: ChangeEvent<HTMLInputElement>) => {
-        deliveryCalculatorStore.setPickupAddress({
-            ...pickupAddress,
+        deliveryCalculatorStore.setDeliveryAddress({
+            ...deliveryAddress,
             apartment: event.target.value,
         })
     }
 
     const handleCourierNoteChange = (event: ChangeEvent<HTMLInputElement>) => {
-        deliveryCalculatorStore.setPickupAddress({
-            ...pickupAddress,
+        deliveryCalculatorStore.setDeliveryAddress({
+            ...deliveryAddress,
             courierNote: event.target.value,
         })
+    }
+
+    const handleLeaveAtDoorChange = (event: ChangeEvent<HTMLInputElement>) => {
+        deliveryCalculatorStore.setLeaveAtDoor(event.target.checked)
     }
 
     const handleContinue = () => {
         const newErrors: Record<string, string> = {}
 
-        if (!pickupAddress.street.trim()) {
-            newErrors.street = t('pickupAddress.fillStreet')
+        if (!deliveryAddress.street.trim()) {
+            newErrors.street = t('deliveryAddress.fillStreet')
         }
 
-        if (!pickupAddress.house.trim()) {
-            newErrors.house = t('pickupAddress.fillHouse')
+        if (!deliveryAddress.house.trim()) {
+            newErrors.house = t('deliveryAddress.fillHouse')
         }
 
         setErrors(newErrors)
@@ -66,13 +72,18 @@ const PickupAddressPage = () => {
             return
         }
 
-        void navigate({ to: '/delivery-address' })
+        // Следующую страницу добавим после этого шага.
     }
 
     const recipientName = `${recipient.lastName} ${recipient.firstName} ${recipient.middleName}`.trim()
+
     const senderName = `${sender.lastName} ${sender.firstName} ${sender.middleName}`.trim()
 
     const pickupAddressText = [pickupAddress.street, pickupAddress.house, pickupAddress.apartment]
+        .filter(Boolean)
+        .join(', ')
+
+    const deliveryAddressText = [deliveryAddress.street, deliveryAddress.house, deliveryAddress.apartment]
         .filter(Boolean)
         .join(', ')
 
@@ -89,10 +100,12 @@ const PickupAddressPage = () => {
                     <span className="mx-2">›</span>
                     <span>{t('sender.breadcrumbSender')}</span>
                     <span className="mx-2">›</span>
-                    <span className="text-primary">{t('pickupAddress.breadcrumbPickup')}</span>
+                    <span>{t('pickupAddress.breadcrumbPickup')}</span>
+                    <span className="mx-2">›</span>
+                    <span className="text-primary">{t('deliveryAddress.breadcrumbDelivery')}</span>
                 </div>
 
-                <h1 className="mb-6 text-2xl font-bold">{t('pickupAddress.title')}</h1>
+                <h1 className="mb-6 text-2xl font-bold">{t('deliveryAddress.title')}</h1>
             </div>
 
             {/* Mobile */}
@@ -108,17 +121,17 @@ const PickupAddressPage = () => {
                         <ChevronLeft className="size-6" />
                     </Button>
 
-                    <h1 className="text-2xl font-bold">{t('pickupAddress.title')}</h1>
+                    <h1 className="text-2xl font-bold">{t('deliveryAddress.title')}</h1>
                 </div>
             </div>
 
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_482px]">
                 <div>
                     <div className="mb-6">
-                        <p className="mb-1 text-sm">{t('pickupAddress.step')}</p>
+                        <p className="mb-1 text-sm">{t('deliveryAddress.step')}</p>
 
                         <div className="bg-muted h-1 overflow-hidden rounded-full">
-                            <div className="bg-progress-bar h-full w-1/2 rounded-full" />
+                            <div className="bg-progress-bar h-full w-5/7 rounded-full" />
                         </div>
                     </div>
 
@@ -126,8 +139,7 @@ const PickupAddressPage = () => {
                         <div className="space-y-4">
                             <Input
                                 label={t('pickupAddress.street')}
-                                placeholder={t('pickupAddress.streetPlaceholder')}
-                                value={pickupAddress.street}
+                                value={deliveryAddress.street}
                                 onChange={handleStreetChange}
                             />
 
@@ -136,8 +148,7 @@ const PickupAddressPage = () => {
                             <Input
                                 label={t('pickupAddress.house')}
                                 type="number"
-                                placeholder={t('pickupAddress.housePlaceholder')}
-                                value={pickupAddress.house}
+                                value={deliveryAddress.house}
                                 onChange={handleHouseChange}
                             />
 
@@ -146,17 +157,49 @@ const PickupAddressPage = () => {
                             <Input
                                 label={t('pickupAddress.apartment')}
                                 type="number"
-                                placeholder={t('pickupAddress.apartmentPlaceholder')}
-                                value={pickupAddress.apartment}
+                                value={deliveryAddress.apartment}
                                 onChange={handleApartmentChange}
                             />
 
                             <Input
                                 label={t('pickupAddress.courierNote')}
-                                placeholder={t('pickupAddress.courierNotePlaceholder')}
-                                value={pickupAddress.courierNote}
+                                value={deliveryAddress.courierNote}
                                 onChange={handleCourierNoteChange}
                             />
+
+                            <label className="mt-4 flex cursor-pointer items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    checked={leaveAtDoor}
+                                    onChange={handleLeaveAtDoorChange}
+                                    className="peer sr-only"
+                                />
+                                <span className="border-border flex size-5 shrink-0 items-center justify-center rounded-[6px] border peer-checked:border-black peer-checked:bg-black">
+                                    {leaveAtDoor && <Check className="size-4 text-white" strokeWidth={3} />}
+                                </span>
+                                <span className="text-sm">{t('deliveryAddress.leaveAtDoor')}</span>
+                                <div
+                                    className="relative z-50"
+                                    onMouseEnter={() => setIsTooltipOpen(true)}
+                                    onMouseLeave={() => setIsTooltipOpen(false)}
+                                >
+                                    <CircleHelp className="text-muted-foreground size-5 cursor-help" />
+
+                                    {isTooltipOpen && (
+                                        <div className="absolute bottom-full left-1/2 z-50 mb-3 w-80 -translate-x-1/2 rounded-xl bg-white px-4 py-3 shadow-lg">
+                                            <p className="text-base font-medium">
+                                                {t('deliveryAddress.contactlessTitle')}
+                                            </p>
+
+                                            <p className="text-muted-foreground mt-1 text-sm leading-5">
+                                                {t('deliveryAddress.contactlessDescription')}
+                                            </p>
+
+                                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-8 border-t-8 border-x-transparent border-t-white" />
+                                        </div>
+                                    )}
+                                </div>
+                            </label>
                         </div>
                     </div>
 
@@ -202,10 +245,24 @@ const PickupAddressPage = () => {
 
                         <p className="mt-1 text-sm">{pickupAddressText || t('recipient.fillFields')}</p>
                     </div>
+
+                    <div className="mt-4">
+                        <p className="text-muted-foreground text-sm">{t('deliveryAddress.deliveryAddress')}</p>
+
+                        <p className="mt-1 text-sm">{deliveryAddressText || t('recipient.fillFields')}</p>
+                    </div>
+
+                    {leaveAtDoor && (
+                        <div className="mt-4">
+                            <p className="text-muted-foreground text-sm">{t('deliveryAddress.note')}</p>
+
+                            <p className="mt-1 text-sm">{t('deliveryAddress.leaveAtDoor')}</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
     )
 }
 
-export default observer(PickupAddressPage)
+export default observer(DeliveryAddressPage)
