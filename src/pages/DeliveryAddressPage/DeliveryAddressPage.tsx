@@ -1,62 +1,92 @@
 import { observer } from 'mobx-react-lite'
-import { ChevronLeft, CircleHelp, Check } from 'lucide-react'
-import { type ChangeEvent, useState } from 'react'
+import { ChevronLeft, ChevronRight, House } from 'lucide-react'
+import { type ChangeEvent, Fragment, useId, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button/Button'
+import { Checkbox } from '@/components/ui/checkbox/Checkbox'
+import { InfoTooltip } from '@/components/ui/info-tooltip/InfoTooltip'
 import { Input } from '@/components/ui/input/Input'
 import { useStore } from '@/hooks/useStore'
+import type { AddressData, RecipientData } from '@/store/DeliveryCalculatorStore'
+
+type AddressField = keyof AddressData
+type AddressErrors = Partial<Record<AddressField, string>>
+
+interface OrderSummaryRow {
+    label: string
+    value: string
+}
+
+const formatPerson = (person: RecipientData) => {
+    const fullName = [person.lastName, person.firstName, person.middleName].filter(Boolean).join(' ')
+
+    return [fullName, person.phone].filter(Boolean).join(', ')
+}
+
+const formatAddress = (address: AddressData) =>
+    [address.street, address.house, address.apartment].filter(Boolean).join(', ')
+
+const getErrorId = (fieldId: string) => `${fieldId}-error`
 
 const DeliveryAddressPage = () => {
     const { deliveryCalculatorStore } = useStore()
     const navigate = useNavigate()
     const { t } = useTranslation()
+    const fieldIdPrefix = useId()
+    const leaveAtDoorId = useId()
 
-    const [errors, setErrors] = useState<Record<string, string>>({})
-    const [isTooltipOpen, setIsTooltipOpen] = useState(false)
+    const [errors, setErrors] = useState<AddressErrors>({})
 
     const { deliveryAddress, leaveAtDoor, recipient, sender, selectedDeliveryOption, pickupAddress } =
         deliveryCalculatorStore
+
+    const breadcrumbs = [
+        t('recipient.breadcrumbDeliveryType'),
+        t('recipient.breadcrumbRecipient'),
+        t('sender.breadcrumbSender'),
+        t('pickupAddress.breadcrumbPickup'),
+    ]
+
+    const addressFields: { name: AddressField; label: string }[] = [
+        { name: 'street', label: t('pickupAddress.street') },
+        { name: 'house', label: t('pickupAddress.house') },
+        { name: 'apartment', label: t('pickupAddress.apartment') },
+        { name: 'courierNote', label: t('pickupAddress.courierNote') },
+    ]
+
+    const fillFields = t('recipient.fillFields')
+
+    const summaryRows: OrderSummaryRow[] = [
+        { label: t('recipient.deliveryType'), value: selectedDeliveryOption?.name ?? t('recipient.notSelected') },
+        { label: t('recipient.recipient'), value: formatPerson(recipient) || fillFields },
+        { label: t('sender.sender'), value: formatPerson(sender) || fillFields },
+        { label: t('pickupAddress.pickupAddress'), value: formatAddress(pickupAddress) || fillFields },
+        { label: t('deliveryAddress.deliveryAddress'), value: formatAddress(deliveryAddress) || fillFields },
+    ]
+
+    if (leaveAtDoor) {
+        summaryRows.push({ label: t('deliveryAddress.note'), value: t('deliveryAddress.leaveAtDoor') })
+    }
 
     const handleBack = () => {
         void navigate({ to: '/pickup-address' })
     }
 
-    const handleStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleFieldChange = (field: AddressField) => (event: ChangeEvent<HTMLInputElement>) => {
         deliveryCalculatorStore.setDeliveryAddress({
             ...deliveryAddress,
-            street: event.target.value,
+            [field]: event.target.value,
         })
     }
 
-    const handleHouseChange = (event: ChangeEvent<HTMLInputElement>) => {
-        deliveryCalculatorStore.setDeliveryAddress({
-            ...deliveryAddress,
-            house: event.target.value,
-        })
-    }
-
-    const handleApartmentChange = (event: ChangeEvent<HTMLInputElement>) => {
-        deliveryCalculatorStore.setDeliveryAddress({
-            ...deliveryAddress,
-            apartment: event.target.value,
-        })
-    }
-
-    const handleCourierNoteChange = (event: ChangeEvent<HTMLInputElement>) => {
-        deliveryCalculatorStore.setDeliveryAddress({
-            ...deliveryAddress,
-            courierNote: event.target.value,
-        })
-    }
-
-    const handleLeaveAtDoorChange = (event: ChangeEvent<HTMLInputElement>) => {
-        deliveryCalculatorStore.setLeaveAtDoor(event.target.checked)
+    const handleLeaveAtDoorChange = (checked: boolean | 'indeterminate') => {
+        deliveryCalculatorStore.setLeaveAtDoor(checked === true)
     }
 
     const handleContinue = () => {
-        const newErrors: Record<string, string> = {}
+        const newErrors: AddressErrors = {}
 
         if (!deliveryAddress.street.trim()) {
             newErrors.street = t('deliveryAddress.fillStreet')
@@ -66,200 +96,138 @@ const DeliveryAddressPage = () => {
             newErrors.house = t('deliveryAddress.fillHouse')
         }
 
+        if (!deliveryAddress.apartment.trim()) {
+            newErrors.apartment = t('deliveryAddress.fillApartment')
+        }
+
         setErrors(newErrors)
 
         if (Object.keys(newErrors).length > 0) {
             return
         }
-
-        // Следующую страницу добавим после этого шага.
     }
 
-    const recipientName = `${recipient.lastName} ${recipient.firstName} ${recipient.middleName}`.trim()
-
-    const senderName = `${sender.lastName} ${sender.firstName} ${sender.middleName}`.trim()
-
-    const pickupAddressText = [pickupAddress.street, pickupAddress.house, pickupAddress.apartment]
-        .filter(Boolean)
-        .join(', ')
-
-    const deliveryAddressText = [deliveryAddress.street, deliveryAddress.house, deliveryAddress.apartment]
-        .filter(Boolean)
-        .join(', ')
-
     return (
-        <div className="w-full">
-            {/* Desktop */}
-            <div className="hidden lg:block">
-                <div className="text-muted-foreground mt-12 mb-6 flex items-center text-sm">
-                    <span>⌂</span>
-                    <span className="mx-2">›</span>
-                    <span>{t('recipient.breadcrumbDeliveryType')}</span>
-                    <span className="mx-2">›</span>
-                    <span>{t('recipient.breadcrumbRecipient')}</span>
-                    <span className="mx-2">›</span>
-                    <span>{t('sender.breadcrumbSender')}</span>
-                    <span className="mx-2">›</span>
-                    <span>{t('pickupAddress.breadcrumbPickup')}</span>
-                    <span className="mx-2">›</span>
-                    <span className="text-primary">{t('deliveryAddress.breadcrumbDelivery')}</span>
-                </div>
+        // pb-14 keeps the last controls above the fixed mobile footer, which is taller than the layout's bottom padding.
+        <div className="w-full pb-14 lg:pb-0">
+            <div className="mb-6 flex items-center gap-4 lg:hidden">
+                <Button
+                    variant="wrapper"
+                    className="bg-transparent"
+                    size="icon"
+                    aria-label={t('recipient.backAriaLabel')}
+                    onClick={handleBack}
+                >
+                    <ChevronLeft className="size-6" />
+                </Button>
 
-                <h1 className="mb-6 text-2xl font-bold">{t('deliveryAddress.title')}</h1>
+                <h1 className="text-2xl leading-8 font-bold">{t('deliveryAddress.title')}</h1>
             </div>
 
-            {/* Mobile */}
-            <div className="lg:hidden">
-                <div className="mb-6 flex items-center gap-4">
-                    <Button
-                        variant="wrapper"
-                        className="bg-transparent"
-                        size="icon"
-                        aria-label={t('recipient.backAriaLabel')}
-                        onClick={handleBack}
-                    >
-                        <ChevronLeft className="size-6" />
-                    </Button>
+            <div className="lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_482px] lg:items-start lg:gap-4">
+                <div className="flex flex-col gap-4 lg:gap-6">
+                    <nav aria-label={t('deliveryAddress.breadcrumbAriaLabel')} className="hidden lg:block">
+                        <ol className="flex min-h-9 flex-wrap items-center gap-2 px-3 text-sm">
+                            <li>
+                                <House className="text-muted-foreground size-4" aria-hidden />
+                            </li>
 
-                    <h1 className="text-2xl font-bold">{t('deliveryAddress.title')}</h1>
-                </div>
-            </div>
+                            {breadcrumbs.map(crumb => (
+                                <Fragment key={crumb}>
+                                    <li aria-hidden>
+                                        <ChevronRight className="text-muted-foreground size-4" />
+                                    </li>
+                                    <li className="text-muted-foreground">{crumb}</li>
+                                </Fragment>
+                            ))}
 
-            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_482px]">
-                <div>
-                    <div className="mb-6">
-                        <p className="mb-1 text-sm">{t('deliveryAddress.step')}</p>
+                            <li aria-hidden>
+                                <ChevronRight className="text-muted-foreground size-4" />
+                            </li>
+                            <li aria-current="page" className="text-foreground font-semibold">
+                                {t('deliveryAddress.breadcrumbDelivery')}
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <h1 className="hidden text-2xl leading-8 font-bold lg:block">{t('deliveryAddress.title')}</h1>
+
+                    <div>
+                        <p className="pb-1 text-sm font-medium">{t('deliveryAddress.step')}</p>
 
                         <div className="bg-muted h-1 overflow-hidden rounded-full">
                             <div className="bg-progress-bar h-full w-5/7 rounded-full" />
                         </div>
                     </div>
 
-                    <div className="max-w-118.75">
-                        <div className="space-y-4">
-                            <Input
-                                label={t('pickupAddress.street')}
-                                value={deliveryAddress.street}
-                                onChange={handleStreetChange}
-                            />
+                    <div className="flex flex-col gap-4 lg:max-w-85.5 lg:gap-6">
+                        {addressFields.map(({ name, label }) => {
+                            const fieldId = `${fieldIdPrefix}-${name}`
+                            const error = errors[name]
 
-                            {errors.street && <p className="text-destructive text-sm">{errors.street}</p>}
+                            return (
+                                <div key={name} className="flex flex-col gap-1">
+                                    <Input
+                                        id={fieldId}
+                                        label={label}
+                                        value={deliveryAddress[name]}
+                                        onChange={handleFieldChange(name)}
+                                        aria-invalid={error ? true : undefined}
+                                        aria-describedby={error ? getErrorId(fieldId) : undefined}
+                                    />
 
-                            <Input
-                                label={t('pickupAddress.house')}
-                                type="number"
-                                value={deliveryAddress.house}
-                                onChange={handleHouseChange}
-                            />
-
-                            {errors.house && <p className="text-destructive text-sm">{errors.house}</p>}
-
-                            <Input
-                                label={t('pickupAddress.apartment')}
-                                type="number"
-                                value={deliveryAddress.apartment}
-                                onChange={handleApartmentChange}
-                            />
-
-                            <Input
-                                label={t('pickupAddress.courierNote')}
-                                value={deliveryAddress.courierNote}
-                                onChange={handleCourierNoteChange}
-                            />
-
-                            <label className="mt-4 flex cursor-pointer items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    checked={leaveAtDoor}
-                                    onChange={handleLeaveAtDoorChange}
-                                    className="peer sr-only"
-                                />
-                                <span className="border-border flex size-5 shrink-0 items-center justify-center rounded-[6px] border peer-checked:border-black peer-checked:bg-black">
-                                    {leaveAtDoor && <Check className="size-4 text-white" strokeWidth={3} />}
-                                </span>
-                                <span className="text-sm">{t('deliveryAddress.leaveAtDoor')}</span>
-                                <div
-                                    className="relative z-50"
-                                    onMouseEnter={() => setIsTooltipOpen(true)}
-                                    onMouseLeave={() => setIsTooltipOpen(false)}
-                                >
-                                    <CircleHelp className="text-muted-foreground size-5 cursor-help" />
-
-                                    {isTooltipOpen && (
-                                        <div className="absolute bottom-full left-1/2 z-50 mb-3 w-80 -translate-x-1/2 rounded-xl bg-white px-4 py-3 shadow-lg">
-                                            <p className="text-base font-medium">
-                                                {t('deliveryAddress.contactlessTitle')}
-                                            </p>
-
-                                            <p className="text-muted-foreground mt-1 text-sm leading-5">
-                                                {t('deliveryAddress.contactlessDescription')}
-                                            </p>
-
-                                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-8 border-t-8 border-x-transparent border-t-white" />
-                                        </div>
+                                    {error && (
+                                        <p id={getErrorId(fieldId)} className="text-destructive text-sm">
+                                            {error}
+                                        </p>
                                     )}
                                 </div>
+                            )
+                        })}
+
+                        <div className="flex items-center gap-2">
+                            <Checkbox
+                                id={leaveAtDoorId}
+                                checked={leaveAtDoor}
+                                onCheckedChange={handleLeaveAtDoorChange}
+                            />
+
+                            <label htmlFor={leaveAtDoorId} className="cursor-pointer text-base leading-6 font-medium">
+                                {t('deliveryAddress.leaveAtDoor')}
                             </label>
+
+                            <InfoTooltip
+                                title={t('deliveryAddress.contactlessTitle')}
+                                description={t('deliveryAddress.contactlessDescription')}
+                                triggerLabel={t('deliveryAddress.contactlessTriggerLabel')}
+                                closeLabel={t('deliveryAddress.contactlessCloseLabel')}
+                            />
                         </div>
                     </div>
 
-                    <div className="mt-6 flex w-full gap-3">
-                        <Button variant="secondary" size="form" className="hidden flex-1 lg:flex" onClick={handleBack}>
+                    <div className="mt-4 flex w-full gap-4 lg:mt-0">
+                        <Button variant="secondary" size="large" className="hidden flex-1 lg:flex" onClick={handleBack}>
                             {t('recipient.back')}
                         </Button>
 
-                        <Button variant="primary" size="form" className="flex-1" onClick={handleContinue}>
+                        <Button variant="primary" size="large" className="flex-1" onClick={handleContinue}>
                             {t('recipient.continue')}
                         </Button>
                     </div>
                 </div>
 
-                {/* Order */}
-                <div className="bg-muted hidden self-start rounded-3xl px-10 py-6 lg:-mt-25 lg:block">
-                    <h2 className="text-2xl font-bold">{t('recipient.order')}</h2>
+                <aside className="bg-secondary hidden flex-col gap-4 rounded-3xl px-10 py-6 lg:flex">
+                    <h2 className="text-2xl leading-8 font-bold">{t('recipient.order')}</h2>
 
-                    <div className="mt-4">
-                        <p className="text-muted-foreground text-sm">{t('recipient.deliveryType')}</p>
-
-                        <p className="mt-1 text-sm">{selectedDeliveryOption?.name ?? t('recipient.notSelected')}</p>
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-muted-foreground text-sm">{t('recipient.recipient')}</p>
-
-                        <p className="mt-1 text-sm">{recipientName || t('recipient.fillFields')}</p>
-
-                        {recipient.phone && <p className="mt-1 text-sm">{recipient.phone}</p>}
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-muted-foreground text-sm">{t('sender.sender')}</p>
-
-                        <p className="mt-1 text-sm">{senderName || t('recipient.fillFields')}</p>
-
-                        {sender.phone && <p className="mt-1 text-sm">{sender.phone}</p>}
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-muted-foreground text-sm">{t('pickupAddress.pickupAddress')}</p>
-
-                        <p className="mt-1 text-sm">{pickupAddressText || t('recipient.fillFields')}</p>
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-muted-foreground text-sm">{t('deliveryAddress.deliveryAddress')}</p>
-
-                        <p className="mt-1 text-sm">{deliveryAddressText || t('recipient.fillFields')}</p>
-                    </div>
-
-                    {leaveAtDoor && (
-                        <div className="mt-4">
-                            <p className="text-muted-foreground text-sm">{t('deliveryAddress.note')}</p>
-
-                            <p className="mt-1 text-sm">{t('deliveryAddress.leaveAtDoor')}</p>
-                        </div>
-                    )}
-                </div>
+                    <dl className="flex flex-col gap-4">
+                        {summaryRows.map(row => (
+                            <div key={row.label} className="flex flex-col gap-0.5">
+                                <dt className="text-muted-foreground text-sm leading-5.5 font-medium">{row.label}</dt>
+                                <dd className="text-lg leading-6.5">{row.value}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                </aside>
             </div>
         </div>
     )

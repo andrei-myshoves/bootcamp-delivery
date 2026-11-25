@@ -115,4 +115,47 @@ describe('DeliveryCalculatorStore', () => {
     it('excludes bag and pallet from visible packages', () => {
         expect(store.visiblePackages.map(packageType => packageType.id)).toEqual(['envelope', 'box-s', 'box-m'])
     })
+
+    describe('delivery address', () => {
+        const address = {
+            street: 'Евдокима Огнева',
+            house: '19',
+            apartment: '40',
+            courierNote: 'Домофон не работает',
+        }
+
+        beforeEach(() => {
+            localStorage.clear()
+            store = new DeliveryCalculatorStore()
+        })
+
+        it('starts with an empty address and leaveAtDoor disabled', () => {
+            expect(store.deliveryAddress).toEqual({ street: '', house: '', apartment: '', courierNote: '' })
+            expect(store.leaveAtDoor).toBe(false)
+        })
+
+        it('stores the delivery address and persists it', () => {
+            store.setDeliveryAddress(address)
+
+            expect(store.deliveryAddress).toEqual(address)
+            expect(JSON.parse(localStorage.getItem('deliveryAddress') ?? 'null')).toEqual(address)
+        })
+
+        it('stores leaveAtDoor and persists it', () => {
+            store.setLeaveAtDoor(true)
+
+            expect(store.leaveAtDoor).toBe(true)
+            expect(localStorage.getItem('leaveAtDoor')).toBe('true')
+        })
+
+        it('restores saved delivery address and leaveAtDoor', () => {
+            store.setDeliveryAddress(address)
+            store.setLeaveAtDoor(true)
+
+            const restoredStore = new DeliveryCalculatorStore()
+
+            expect(restoredStore.deliveryAddress).toEqual(address)
+            expect(restoredStore.leaveAtDoor).toBe(true)
+        })
+    })
 })

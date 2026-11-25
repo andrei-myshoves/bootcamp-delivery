@@ -70,13 +70,6 @@ export interface AddressData {
     courierNote: string
 }
 
-export interface AddressData {
-    street: string
-    house: string
-    apartment: string
-    courierNote: string
-}
-
 const DEFAULT_FROM_CITY: DeliveryPoint = {
     id: '1',
     name: 'Москва',
