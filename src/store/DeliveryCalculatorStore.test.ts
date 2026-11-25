@@ -148,6 +148,16 @@ describe('DeliveryCalculatorStore', () => {
             expect(localStorage.getItem('leaveAtDoor')).toBe('true')
         })
 
+        it('persists and restores the selected cities', () => {
+            store.selectFromCity(cities[2])
+            store.selectToCity(cities[3])
+
+            const restoredStore = new DeliveryCalculatorStore()
+
+            expect(restoredStore.fromCity).toEqual(cities[2])
+            expect(restoredStore.toCity).toEqual(cities[3])
+        })
+
         it('defaults the payer to the receiver', () => {
             expect(store.payer).toBe('receiver')
         })

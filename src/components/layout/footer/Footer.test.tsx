@@ -44,6 +44,22 @@ describe('Footer', () => {
         expect(screen.queryByTestId('footer-tab-calculate')).not.toBeInTheDocument()
     })
 
+    it.each(['/deliverymethod', '/order-review'])('renders no footer on %s', pathname => {
+        mockLocation.pathname = pathname
+
+        render(<Footer />)
+
+        expect(screen.queryByRole('contentinfo')).not.toBeInTheDocument()
+    })
+
+    it('shows the fallback total in rubles, not kopecks, before a tariff is selected', () => {
+        mockLocation.pathname = '/recipient'
+
+        render(<Footer />)
+
+        expect(screen.getByText(/^от 250\s₽$/)).toBeInTheDocument()
+    })
+
     it('renders footer', () => {
         render(<Footer />)
 

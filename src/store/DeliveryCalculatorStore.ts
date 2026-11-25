@@ -94,6 +94,8 @@ const PICKUP_ADDRESS_LS_KEY = 'pickupAddress'
 const DELIVERY_ADDRESS_LS_KEY = 'deliveryAddress'
 const LEAVE_AT_DOOR_LS_KEY = 'leaveAtDoor'
 const PAYER_LS_KEY = 'payer'
+const FROM_CITY_LS_KEY = 'fromCity'
+const TO_CITY_LS_KEY = 'toCity'
 
 const DEFAULT_TO_CITY: DeliveryPoint = {
     id: '2',
@@ -144,6 +146,17 @@ export class DeliveryCalculatorStore {
 
     constructor() {
         makeAutoObservable(this)
+
+        const savedFromCity = localStorage.getItem(FROM_CITY_LS_KEY)
+        const savedToCity = localStorage.getItem(TO_CITY_LS_KEY)
+
+        if (savedFromCity) {
+            this.fromCity = JSON.parse(savedFromCity) as DeliveryPoint
+        }
+
+        if (savedToCity) {
+            this.toCity = JSON.parse(savedToCity) as DeliveryPoint
+        }
 
         const savedOption = localStorage.getItem(SELECTED_DELIVERY_OPTION_LS_KEY)
         const savedRecipient = localStorage.getItem(RECIPIENT_LS_KEY)
@@ -201,10 +214,12 @@ export class DeliveryCalculatorStore {
 
     selectFromCity = (city: DeliveryPoint) => {
         this.fromCity = city
+        localStorage.setItem(FROM_CITY_LS_KEY, JSON.stringify(city))
     }
 
     selectToCity = (city: DeliveryPoint) => {
         this.toCity = city
+        localStorage.setItem(TO_CITY_LS_KEY, JSON.stringify(city))
     }
 
     selectPackageType = (packageType: PackageType) => {

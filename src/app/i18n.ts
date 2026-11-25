@@ -97,6 +97,7 @@ i18n.use(initReactI18next).init({
                     courierNotePlaceholder: '',
                     fillStreet: 'Заполните улицу',
                     fillHouse: 'Заполните дом',
+                    fillApartment: 'Заполните квартиру',
                     pickupAddress: 'Откуда забрать',
                 },
                 deliveryAddress: {
@@ -125,6 +126,13 @@ i18n.use(initReactI18next).init({
                 },
                 checkout: {
                     breadcrumbAriaLabel: 'Шаги оформления заказа',
+                },
+                orderReview: {
+                    breadcrumb: 'Проверка данных',
+                    title: 'Проверка данных',
+                    step: 'Шаг 7 из 7',
+                    total: 'Итого:',
+                    edit: 'Редактировать данные',
                 },
             },
         },

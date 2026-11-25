@@ -4,6 +4,7 @@ import { BusFront, ChevronLeft, ChevronRight, House, Plane } from 'lucide-react'
 import { Button } from '@/components/ui/button/Button'
 import { ReferralBanner } from '@/components/ui/referral-banner/ReferralBanner'
 import { useStore } from '@/hooks/useStore'
+import { formatPrice } from '@/shared/lib/order-format'
 import { useMemo } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
@@ -110,7 +111,7 @@ const DeliveryMethodPage = () => {
                                 <div className="min-w-0 flex-1">
                                     <p className="text-muted-foreground text-sm">{option.name}</p>
 
-                                    <p className="text-2xl font-medium">{option.price} ₽</p>
+                                    <p className="text-2xl font-medium">{formatPrice(option.price)}</p>
 
                                     <p className="text-muted-foreground text-sm">
                                         {option.days} {option.days === 1 ? 'рабочий день' : 'рабочих дня'}

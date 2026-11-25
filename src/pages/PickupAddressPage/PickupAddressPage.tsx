@@ -60,6 +60,10 @@ const PickupAddressPage = () => {
             newErrors.house = t('pickupAddress.fillHouse')
         }
 
+        if (!pickupAddress.apartment.trim()) {
+            newErrors.apartment = t('pickupAddress.fillApartment')
+        }
+
         setErrors(newErrors)
 
         if (Object.keys(newErrors).length > 0) {
@@ -150,6 +154,8 @@ const PickupAddressPage = () => {
                                 value={pickupAddress.apartment}
                                 onChange={handleApartmentChange}
                             />
+
+                            {errors.apartment && <p className="text-destructive text-sm">{errors.apartment}</p>}
 
                             <Input
                                 label={t('pickupAddress.courierNote')}

@@ -18,3 +18,7 @@ export const DeliveryAddressStep: Story = {
 export const DeliveryPaymentStep: Story = {
     args: { label: 'Шаг 6 из 7', step: 6 },
 }
+
+export const OrderReviewStep: Story = {
+    args: { label: 'Шаг 7 из 7', step: 7 },
+}
