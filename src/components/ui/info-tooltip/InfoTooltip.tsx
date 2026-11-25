@@ -26,27 +26,47 @@ const isMousePointer = (event: PointerEvent) => event.pointerType === 'mouse'
  */
 export function InfoTooltip({ title, description, triggerLabel, closeLabel, className }: InfoTooltipProps) {
     const [isOpen, setIsOpen] = useState(false)
-    const closeTimerRef = useRef<number | undefined>(undefined)
-    const lastPointerTypeRef = useRef<string>('')
+    // null means "no pending hover-close timer".
+    const closeTimerRef = useRef<number | null>(null)
+    // null means "the last activation did not come from a pointer" (e.g. keyboard).
+    const lastPointerTypeRef = useRef<string | null>(null)
 
     const cancelScheduledClose = () => {
+        if (closeTimerRef.current === null) {
+            return
+        }
+
         window.clearTimeout(closeTimerRef.current)
+        closeTimerRef.current = null
     }
 
     const scheduleClose = () => {
         cancelScheduledClose()
-        closeTimerRef.current = window.setTimeout(() => setIsOpen(false), HOVER_CLOSE_DELAY_MS)
+        closeTimerRef.current = window.setTimeout(() => {
+            closeTimerRef.current = null
+            setIsOpen(false)
+        }, HOVER_CLOSE_DELAY_MS)
     }
 
-    useEffect(() => cancelScheduledClose, [])
+    // Every explicit open/close cancels a pending hover-close, so a stale timer cannot close a freshly opened tooltip.
+    const changeOpen = (nextOpen: boolean) => {
+        cancelScheduledClose()
+        setIsOpen(nextOpen)
+    }
+
+    useEffect(
+        () => () => {
+            if (closeTimerRef.current !== null) {
+                window.clearTimeout(closeTimerRef.current)
+            }
+        },
+        []
+    )
 
     const handlePointerEnter = (event: PointerEvent) => {
-        if (!isMousePointer(event)) {
-            return
+        if (isMousePointer(event)) {
+            changeOpen(true)
         }
-
-        cancelScheduledClose()
-        setIsOpen(true)
     }
 
     const handlePointerLeave = (event: PointerEvent) => {
@@ -64,15 +84,11 @@ export function InfoTooltip({ title, description, triggerLabel, closeLabel, clas
         event.preventDefault()
 
         const isMouseClick = lastPointerTypeRef.current === 'mouse'
-        lastPointerTypeRef.current = ''
+        lastPointerTypeRef.current = null
 
-        if (isMouseClick) {
-            cancelScheduledClose()
-            setIsOpen(true)
-            return
-        }
-
-        setIsOpen(previous => !previous)
+        // A mouse click keeps the hovered tooltip open; touch and keyboard activation toggle it.
+        const nextOpen = isMouseClick ? true : !isOpen
+        changeOpen(nextOpen)
     }
 
     const preventFocusMove = (event: Event) => {
@@ -80,7 +96,7 @@ export function InfoTooltip({ title, description, triggerLabel, closeLabel, clas
     }
 
     return (
-        <PopoverPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
+        <PopoverPrimitive.Root open={isOpen} onOpenChange={changeOpen}>
             <PopoverPrimitive.Trigger asChild>
                 <button
                     type="button"
@@ -106,7 +122,7 @@ export function InfoTooltip({ title, description, triggerLabel, closeLabel, clas
                     alignOffset={ARROW_ALIGN_OFFSET}
                     sideOffset={ARROW_SIDE_OFFSET}
                     collisionPadding={16}
-                    className="bg-background motion-safe:data-[state=open]:animate-in motion-safe:data-[state=open]:fade-in-0 z-50 w-60 rounded-md px-2 py-1.5 drop-shadow-[0_2px_3px_rgba(0,0,0,0.08)] focus-visible:outline-none"
+                    className="bg-background z-50 w-60 rounded-md px-2 py-1.5 drop-shadow-[0_2px_3px_rgba(0,0,0,0.08)] focus-visible:outline-none"
                     onOpenAutoFocus={preventFocusMove}
                     onCloseAutoFocus={preventFocusMove}
                     onPointerEnter={handlePointerEnter}

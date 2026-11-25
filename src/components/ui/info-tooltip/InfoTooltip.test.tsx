@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { InfoTooltip } from './InfoTooltip'
 
@@ -26,6 +26,60 @@ const props = {
 const getTrigger = () => screen.getByRole('button', { name: props.triggerLabel })
 
 describe('InfoTooltip', () => {
+    afterEach(() => {
+        vi.useRealTimers()
+    })
+
+    it('closes with a delay after the mouse leaves', () => {
+        vi.useFakeTimers()
+        render(<InfoTooltip {...props} />)
+
+        fireEvent.pointerEnter(getTrigger(), { pointerType: 'mouse' })
+        fireEvent.pointerLeave(getTrigger(), { pointerType: 'mouse' })
+
+        expect(screen.getByText(props.title)).toBeInTheDocument()
+
+        act(() => {
+            vi.advanceTimersByTime(200)
+        })
+
+        expect(screen.queryByText(props.title)).not.toBeInTheDocument()
+    })
+
+    it('stays open when the mouse returns before the close delay ends', () => {
+        vi.useFakeTimers()
+        render(<InfoTooltip {...props} />)
+
+        fireEvent.pointerEnter(getTrigger(), { pointerType: 'mouse' })
+        fireEvent.pointerLeave(getTrigger(), { pointerType: 'mouse' })
+        fireEvent.pointerEnter(getTrigger(), { pointerType: 'mouse' })
+
+        act(() => {
+            vi.advanceTimersByTime(200)
+        })
+
+        expect(screen.getByText(props.title)).toBeInTheDocument()
+    })
+
+    it('does not let a stale hover-close timer close a tooltip reopened from the keyboard', () => {
+        vi.useFakeTimers()
+        render(<InfoTooltip {...props} />)
+
+        fireEvent.pointerEnter(getTrigger(), { pointerType: 'mouse' })
+        fireEvent.pointerLeave(getTrigger(), { pointerType: 'mouse' })
+        fireEvent.keyDown(document.activeElement ?? document.body, { key: 'Escape' })
+        expect(screen.queryByText(props.title)).not.toBeInTheDocument()
+
+        // Keyboard activation: a click without a preceding pointerdown.
+        fireEvent.click(getTrigger())
+
+        act(() => {
+            vi.advanceTimersByTime(200)
+        })
+
+        expect(screen.getByText(props.title)).toBeInTheDocument()
+    })
+
     it('is closed by default', () => {
         render(<InfoTooltip {...props} />)
 
