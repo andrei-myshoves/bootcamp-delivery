@@ -148,6 +148,29 @@ describe('DeliveryCalculatorStore', () => {
             expect(localStorage.getItem('leaveAtDoor')).toBe('true')
         })
 
+        it('defaults the payer to the receiver', () => {
+            expect(store.payer).toBe('receiver')
+        })
+
+        it('stores the payer and persists it', () => {
+            store.setPayer('sender')
+
+            expect(store.payer).toBe('sender')
+            expect(localStorage.getItem('payer')).toBe('sender')
+        })
+
+        it('restores a saved payer', () => {
+            store.setPayer('sender')
+
+            expect(new DeliveryCalculatorStore().payer).toBe('sender')
+        })
+
+        it('ignores an invalid saved payer', () => {
+            localStorage.setItem('payer', 'nobody')
+
+            expect(new DeliveryCalculatorStore().payer).toBe('receiver')
+        })
+
         it('restores saved delivery address and leaveAtDoor', () => {
             store.setDeliveryAddress(address)
             store.setLeaveAtDoor(true)

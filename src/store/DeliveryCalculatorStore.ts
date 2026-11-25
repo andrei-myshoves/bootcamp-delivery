@@ -70,6 +70,15 @@ export interface AddressData {
     courierNote: string
 }
 
+/** Who pays for the delivery; values match the `payer` field of the delivery order API. */
+export type Payer = 'receiver' | 'sender'
+
+export const PAYERS: readonly Payer[] = ['receiver', 'sender']
+
+const DEFAULT_PAYER: Payer = 'receiver'
+
+export const isPayer = (value: unknown): value is Payer => PAYERS.includes(value as Payer)
+
 const DEFAULT_FROM_CITY: DeliveryPoint = {
     id: '1',
     name: 'Москва',
@@ -84,6 +93,7 @@ const SENDER_LS_KEY = 'sender'
 const PICKUP_ADDRESS_LS_KEY = 'pickupAddress'
 const DELIVERY_ADDRESS_LS_KEY = 'deliveryAddress'
 const LEAVE_AT_DOOR_LS_KEY = 'leaveAtDoor'
+const PAYER_LS_KEY = 'payer'
 
 const DEFAULT_TO_CITY: DeliveryPoint = {
     id: '2',
@@ -130,6 +140,8 @@ export class DeliveryCalculatorStore {
 
     leaveAtDoor = false
 
+    payer: Payer = DEFAULT_PAYER
+
     constructor() {
         makeAutoObservable(this)
 
@@ -160,6 +172,12 @@ export class DeliveryCalculatorStore {
         }
         if (savedLeaveAtDoor) {
             this.leaveAtDoor = JSON.parse(savedLeaveAtDoor) as boolean
+        }
+
+        const savedPayer = localStorage.getItem(PAYER_LS_KEY)
+
+        if (isPayer(savedPayer)) {
+            this.payer = savedPayer
         }
     }
 
@@ -219,6 +237,11 @@ export class DeliveryCalculatorStore {
     setLeaveAtDoor = (value: boolean) => {
         this.leaveAtDoor = value
         localStorage.setItem(LEAVE_AT_DOOR_LS_KEY, JSON.stringify(value))
+    }
+
+    setPayer = (value: Payer) => {
+        this.payer = value
+        localStorage.setItem(PAYER_LS_KEY, value)
     }
 
     calculateDelivery = async () => {
