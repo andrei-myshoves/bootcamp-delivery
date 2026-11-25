@@ -135,6 +135,7 @@ const PickupAddressPage = () => {
 
                             <Input
                                 label={t('pickupAddress.house')}
+                                type="number"
                                 placeholder={t('pickupAddress.housePlaceholder')}
                                 value={pickupAddress.house}
                                 onChange={handleHouseChange}
@@ -144,6 +145,7 @@ const PickupAddressPage = () => {
 
                             <Input
                                 label={t('pickupAddress.apartment')}
+                                type="number"
                                 placeholder={t('pickupAddress.apartmentPlaceholder')}
                                 value={pickupAddress.apartment}
                                 onChange={handleApartmentChange}
