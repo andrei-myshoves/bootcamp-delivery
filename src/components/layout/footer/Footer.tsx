@@ -12,19 +12,13 @@ interface FooterProps {
     className?: string
 }
 
-const getStepTitle = (pathname: string) => {
-    switch (pathname) {
-        case '/recipient':
-            return 'Кто получатель?'
-        case '/sender':
-            return 'Кто отправитель?'
-        case '/pickup-address':
-            return 'Откуда забрать?'
-        case '/delivery-address':
-            return 'Куда доставить?'
-        default:
-            return ''
-    }
+/** Checkout steps that show the mobile «Итого» panel, mapped to the i18n key of their step question. */
+const CHECKOUT_STEP_TITLE_KEYS: Partial<Record<string, string>> = {
+    '/recipient': 'footer.stepRecipient',
+    '/sender': 'footer.stepSender',
+    '/pickup-address': 'footer.stepPickupAddress',
+    '/delivery-address': 'footer.stepDeliveryAddress',
+    '/delivery-payment': 'footer.stepDeliveryPayment',
 }
 
 export function Footer({ className }: FooterProps) {
@@ -73,15 +67,12 @@ export function Footer({ className }: FooterProps) {
         return null
     }
 
-    if (
-        pathname === '/recipient' ||
-        pathname === '/sender' ||
-        pathname === '/pickup-address' ||
-        pathname === '/delivery-address'
-    ) {
+    const stepTitleKey = CHECKOUT_STEP_TITLE_KEYS[pathname]
+
+    if (stepTitleKey) {
         const totalPrice = deliveryCalculatorStore.selectedDeliveryOption?.price ?? 250
 
-        const stepTitle = getStepTitle(pathname)
+        const stepTitle = t(stepTitleKey)
 
         return (
             <footer className={cn('fixed inset-x-0 bottom-0 z-(--z-footer) lg:hidden', className)}>

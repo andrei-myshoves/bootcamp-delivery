@@ -1,32 +1,24 @@
 import { observer } from 'mobx-react-lite'
-import { ChevronLeft, ChevronRight, House } from 'lucide-react'
-import { type ChangeEvent, Fragment, useId, useState } from 'react'
+import { ChevronLeft } from 'lucide-react'
+import { type ChangeEvent, useId, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 
+import { CheckoutBreadcrumbs } from '@/components/checkout/CheckoutBreadcrumbs'
+import { OrderSummaryCard, type OrderSummaryRow } from '@/components/checkout/OrderSummaryCard'
+import { StepProgress } from '@/components/checkout/StepProgress'
+import { useOrderSummaryRows } from '@/components/checkout/useOrderSummaryRows'
 import { Button } from '@/components/ui/button/Button'
 import { Checkbox } from '@/components/ui/checkbox/Checkbox'
 import { InfoTooltip } from '@/components/ui/info-tooltip/InfoTooltip'
 import { Input } from '@/components/ui/input/Input'
 import { useStore } from '@/hooks/useStore'
-import type { AddressData, RecipientData } from '@/store/DeliveryCalculatorStore'
+import type { AddressData } from '@/store/DeliveryCalculatorStore'
 
 type AddressField = keyof AddressData
 type AddressErrors = Partial<Record<AddressField, string>>
 
-interface OrderSummaryRow {
-    label: string
-    value: string
-}
-
-const formatPerson = (person: RecipientData) => {
-    const fullName = [person.lastName, person.firstName, person.middleName].filter(Boolean).join(' ')
-
-    return [fullName, person.phone].filter(Boolean).join(', ')
-}
-
-const formatAddress = (address: AddressData) =>
-    [address.street, address.house, address.apartment].filter(Boolean).join(', ')
+const STEP = 5
 
 const getErrorId = (fieldId: string) => `${fieldId}-error`
 
@@ -39,15 +31,8 @@ const DeliveryAddressPage = () => {
 
     const [errors, setErrors] = useState<AddressErrors>({})
 
-    const { deliveryAddress, leaveAtDoor, recipient, sender, selectedDeliveryOption, pickupAddress } =
-        deliveryCalculatorStore
-
-    const breadcrumbs = [
-        t('recipient.breadcrumbDeliveryType'),
-        t('recipient.breadcrumbRecipient'),
-        t('sender.breadcrumbSender'),
-        t('pickupAddress.breadcrumbPickup'),
-    ]
+    const { deliveryAddress, leaveAtDoor } = deliveryCalculatorStore
+    const baseSummaryRows = useOrderSummaryRows()
 
     const addressFields: { name: AddressField; label: string }[] = [
         { name: 'street', label: t('pickupAddress.street') },
@@ -56,15 +41,7 @@ const DeliveryAddressPage = () => {
         { name: 'courierNote', label: t('pickupAddress.courierNote') },
     ]
 
-    const fillFields = t('recipient.fillFields')
-
-    const summaryRows: OrderSummaryRow[] = [
-        { label: t('recipient.deliveryType'), value: selectedDeliveryOption?.name ?? t('recipient.notSelected') },
-        { label: t('recipient.recipient'), value: formatPerson(recipient) || fillFields },
-        { label: t('sender.sender'), value: formatPerson(sender) || fillFields },
-        { label: t('pickupAddress.pickupAddress'), value: formatAddress(pickupAddress) || fillFields },
-        { label: t('deliveryAddress.deliveryAddress'), value: formatAddress(deliveryAddress) || fillFields },
-    ]
+    const summaryRows: OrderSummaryRow[] = [...baseSummaryRows]
 
     if (leaveAtDoor) {
         summaryRows.push({ label: t('deliveryAddress.note'), value: t('deliveryAddress.leaveAtDoor') })
@@ -105,6 +82,8 @@ const DeliveryAddressPage = () => {
         if (Object.keys(newErrors).length > 0) {
             return
         }
+
+        void navigate({ to: '/delivery-payment' })
     }
 
     return (
@@ -126,39 +105,11 @@ const DeliveryAddressPage = () => {
 
             <div className="lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_482px] lg:items-start lg:gap-4">
                 <div className="flex flex-col gap-4 lg:gap-6">
-                    <nav aria-label={t('deliveryAddress.breadcrumbAriaLabel')} className="hidden lg:block">
-                        <ol className="flex min-h-9 flex-wrap items-center gap-2 px-3 text-sm">
-                            <li>
-                                <House className="text-muted-foreground size-4" aria-hidden />
-                            </li>
-
-                            {breadcrumbs.map(crumb => (
-                                <Fragment key={crumb}>
-                                    <li aria-hidden>
-                                        <ChevronRight className="text-muted-foreground size-4" />
-                                    </li>
-                                    <li className="text-muted-foreground">{crumb}</li>
-                                </Fragment>
-                            ))}
-
-                            <li aria-hidden>
-                                <ChevronRight className="text-muted-foreground size-4" />
-                            </li>
-                            <li aria-current="page" className="text-foreground font-semibold">
-                                {t('deliveryAddress.breadcrumbDelivery')}
-                            </li>
-                        </ol>
-                    </nav>
+                    <CheckoutBreadcrumbs step={STEP} className="hidden lg:block" />
 
                     <h1 className="hidden text-2xl leading-8 font-bold lg:block">{t('deliveryAddress.title')}</h1>
 
-                    <div>
-                        <p className="pb-1 text-sm font-medium">{t('deliveryAddress.step')}</p>
-
-                        <div className="bg-muted h-1 overflow-hidden rounded-full">
-                            <div className="bg-progress-bar h-full w-5/7 rounded-full" />
-                        </div>
-                    </div>
+                    <StepProgress label={t('deliveryAddress.step')} step={STEP} />
 
                     <div className="flex flex-col gap-4 lg:max-w-85.5 lg:gap-6">
                         {addressFields.map(({ name, label }) => {
@@ -216,18 +167,7 @@ const DeliveryAddressPage = () => {
                     </div>
                 </div>
 
-                <aside className="bg-secondary hidden flex-col gap-4 rounded-3xl px-10 py-6 lg:flex">
-                    <h2 className="text-2xl leading-8 font-bold">{t('recipient.order')}</h2>
-
-                    <dl className="flex flex-col gap-4">
-                        {summaryRows.map(row => (
-                            <div key={row.label} className="flex flex-col gap-0.5">
-                                <dt className="text-muted-foreground text-sm leading-5.5 font-medium">{row.label}</dt>
-                                <dd className="text-lg leading-6.5">{row.value}</dd>
-                            </div>
-                        ))}
-                    </dl>
-                </aside>
+                <OrderSummaryCard title={t('recipient.order')} rows={summaryRows} className="hidden lg:flex" />
             </div>
         </div>
     )

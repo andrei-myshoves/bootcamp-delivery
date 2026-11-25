@@ -16,6 +16,11 @@ i18n.use(initReactI18next).init({
                     calculate: 'Расчёт',
                     history: 'История',
                     profile: 'Профиль',
+                    stepRecipient: 'Кто получатель?',
+                    stepSender: 'Кто отправитель?',
+                    stepPickupAddress: 'Откуда забрать?',
+                    stepDeliveryAddress: 'Куда доставить?',
+                    stepDeliveryPayment: 'Кто оплачивает доставку?',
                 },
 
                 errorBoundary: {
@@ -104,12 +109,22 @@ i18n.use(initReactI18next).init({
                     fillStreet: 'Заполните улицу',
                     fillHouse: 'Заполните дом',
                     fillApartment: 'Заполните квартиру',
-                    breadcrumbAriaLabel: 'Шаги оформления заказа',
                     contactlessTriggerLabel: 'Что такое бесконтактная доставка',
                     contactlessCloseLabel: 'Закрыть подсказку',
                     contactlessTitle: 'Бесконтактная доставка',
                     contactlessDescription:
                         'Курьер привозит заказ, оставляет его у двери и уходит, а вам приходит уведомление на телефон о том, что заказ доставлен',
+                },
+                deliveryPayment: {
+                    breadcrumb: 'Оплата доставки',
+                    title: 'Оплата доставки',
+                    step: 'Шаг 6 из 7',
+                    whoPays: 'Кто оплачивает доставку',
+                    payerReceiver: 'Получатель',
+                    payerSender: 'Отправитель',
+                },
+                checkout: {
+                    breadcrumbAriaLabel: 'Шаги оформления заказа',
                 },
             },
         },

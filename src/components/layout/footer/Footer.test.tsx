@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Footer } from './Footer'
+
+const mockLocation = vi.hoisted(() => ({ pathname: '/' }))
 
 vi.mock('react-i18next', () => ({
     useTranslation: () => ({
@@ -18,13 +20,30 @@ vi.mock('react-i18next', () => ({
 }))
 
 vi.mock('@tanstack/react-router', () => ({
-    useLocation: () => ({
-        pathname: '/',
-    }),
+    useLocation: () => mockLocation,
     useNavigate: () => vi.fn(),
 }))
 
 describe('Footer', () => {
+    beforeEach(() => {
+        mockLocation.pathname = '/'
+    })
+
+    it.each([
+        ['/recipient', 'footer.stepRecipient'],
+        ['/sender', 'footer.stepSender'],
+        ['/pickup-address', 'footer.stepPickupAddress'],
+        ['/delivery-address', 'footer.stepDeliveryAddress'],
+        ['/delivery-payment', 'footer.stepDeliveryPayment'],
+    ])('shows the checkout total panel with the step question on %s', (pathname, titleKey) => {
+        mockLocation.pathname = pathname
+
+        render(<Footer />)
+
+        expect(screen.getByText(titleKey)).toBeInTheDocument()
+        expect(screen.queryByTestId('footer-tab-calculate')).not.toBeInTheDocument()
+    })
+
     it('renders footer', () => {
         render(<Footer />)
 
