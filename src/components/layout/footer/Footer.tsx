@@ -13,8 +13,8 @@ interface FooterProps {
     className?: string
 }
 
-/** Pages without any mobile footer (Figma: «Способ отправки» and «Проверка данных»). */
-const PATHS_WITHOUT_FOOTER = new Set(['/deliverymethod', '/order-review'])
+/** Pages without any mobile footer (Figma: «Способ отправки», «Проверка данных» and «Заявка отправлена»). */
+const PATHS_WITHOUT_FOOTER = new Set(['/deliverymethod', '/order-review', '/order-success'])
 
 /** «от 250 ₽» placeholder from Figma, shown until a tariff is selected; prices are in kopecks. */
 const FALLBACK_TOTAL_IN_KOPECKS = 25_000
@@ -85,8 +85,8 @@ export function Footer({ className }: FooterProps) {
             <footer className={cn('fixed inset-x-0 bottom-0 z-(--z-footer) lg:hidden', className)}>
                 <div className="rounded-t-[20px] bg-[#FBFBFB] p-4 shadow-[0_-1px_47.3px_rgba(0,0,0,0.06)]">
                     <div className="flex items-center justify-between text-2xl leading-10 font-medium">
-                        <span>Итого:</span>
-                        <span>от {formatPrice(totalPrice)}</span>
+                        <span>{t('footer.total')}</span>
+                        <span>{t('footer.totalFrom', { price: formatPrice(totalPrice) })}</span>
                     </div>
 
                     <div className="mt-2 flex h-13.5 items-center justify-center rounded-full bg-[#F3F3F3] text-sm">

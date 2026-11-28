@@ -63,3 +63,14 @@ export const guardCheckoutStep = (targetPath: CheckoutPath) => () => {
         throw redirect({ to: redirectPath, replace: true })
     }
 }
+
+/**
+ * `beforeLoad` of «Заявка отправлена»: without a created order (direct link, cleared storage, new browser)
+ * it opens the calculator, where a new order starts. The created order is restored from localStorage, so a
+ * reload of the success screen keeps it.
+ */
+export const guardOrderCreatedSuccess = () => {
+    if (!rootStore.deliveryCalculatorStore.lastOrder) {
+        throw redirect({ to: '/', replace: true })
+    }
+}

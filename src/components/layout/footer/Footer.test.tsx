@@ -7,11 +7,13 @@ const mockLocation = vi.hoisted(() => ({ pathname: '/' }))
 
 vi.mock('react-i18next', () => ({
     useTranslation: () => ({
-        t: (key: string) => {
+        t: (key: string, options?: { price?: string }) => {
             const translations: Record<string, string> = {
                 'footer.calculate': 'Расчёт',
                 'footer.history': 'История',
                 'footer.profile': 'Профиль',
+                'footer.total': 'Итого:',
+                'footer.totalFrom': `от ${options?.price}`,
             }
 
             return translations[key] ?? key
@@ -44,7 +46,7 @@ describe('Footer', () => {
         expect(screen.queryByTestId('footer-tab-calculate')).not.toBeInTheDocument()
     })
 
-    it.each(['/deliverymethod', '/order-review'])('renders no footer on %s', pathname => {
+    it.each(['/deliverymethod', '/order-review', '/order-success'])('renders no footer on %s', pathname => {
         mockLocation.pathname = pathname
 
         render(<Footer />)
