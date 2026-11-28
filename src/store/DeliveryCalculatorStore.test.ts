@@ -115,4 +115,80 @@ describe('DeliveryCalculatorStore', () => {
     it('excludes bag and pallet from visible packages', () => {
         expect(store.visiblePackages.map(packageType => packageType.id)).toEqual(['envelope', 'box-s', 'box-m'])
     })
+
+    describe('delivery address', () => {
+        const address = {
+            street: 'Евдокима Огнева',
+            house: '19',
+            apartment: '40',
+            courierNote: 'Домофон не работает',
+        }
+
+        beforeEach(() => {
+            localStorage.clear()
+            store = new DeliveryCalculatorStore()
+        })
+
+        it('starts with an empty address and leaveAtDoor disabled', () => {
+            expect(store.deliveryAddress).toEqual({ street: '', house: '', apartment: '', courierNote: '' })
+            expect(store.leaveAtDoor).toBe(false)
+        })
+
+        it('stores the delivery address and persists it', () => {
+            store.setDeliveryAddress(address)
+
+            expect(store.deliveryAddress).toEqual(address)
+            expect(JSON.parse(localStorage.getItem('deliveryAddress') ?? 'null')).toEqual(address)
+        })
+
+        it('stores leaveAtDoor and persists it', () => {
+            store.setLeaveAtDoor(true)
+
+            expect(store.leaveAtDoor).toBe(true)
+            expect(localStorage.getItem('leaveAtDoor')).toBe('true')
+        })
+
+        it('persists and restores the selected cities', () => {
+            store.selectFromCity(cities[2])
+            store.selectToCity(cities[3])
+
+            const restoredStore = new DeliveryCalculatorStore()
+
+            expect(restoredStore.fromCity).toEqual(cities[2])
+            expect(restoredStore.toCity).toEqual(cities[3])
+        })
+
+        it('defaults the payer to the receiver', () => {
+            expect(store.payer).toBe('receiver')
+        })
+
+        it('stores the payer and persists it', () => {
+            store.setPayer('sender')
+
+            expect(store.payer).toBe('sender')
+            expect(localStorage.getItem('payer')).toBe('sender')
+        })
+
+        it('restores a saved payer', () => {
+            store.setPayer('sender')
+
+            expect(new DeliveryCalculatorStore().payer).toBe('sender')
+        })
+
+        it('ignores an invalid saved payer', () => {
+            localStorage.setItem('payer', 'nobody')
+
+            expect(new DeliveryCalculatorStore().payer).toBe('receiver')
+        })
+
+        it('restores saved delivery address and leaveAtDoor', () => {
+            store.setDeliveryAddress(address)
+            store.setLeaveAtDoor(true)
+
+            const restoredStore = new DeliveryCalculatorStore()
+
+            expect(restoredStore.deliveryAddress).toEqual(address)
+            expect(restoredStore.leaveAtDoor).toBe(true)
+        })
+    })
 })

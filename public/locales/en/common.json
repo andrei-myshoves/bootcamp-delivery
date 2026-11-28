@@ -19,5 +19,31 @@
         "inviteFriend": "for referring a friend",
         "giftDelivery": "1+1=3",
         "thirdDelivery": "3rd delivery is free!"
+    },
+    "recipient": {
+        "title": "Recipient",
+        "step": "Step 2 of 7",
+        "lastName": "Last name",
+        "firstName": "First name",
+        "middleName": "Middle name",
+        "phone": "Phone",
+        "lastNamePlaceholder": "Ivanov",
+        "firstNamePlaceholder": "Ivan",
+        "middleNamePlaceholder": "Ivanovich",
+        "phonePlaceholder": "+7",
+        "back": "Back",
+        "continue": "Continue",
+        "order": "Your order",
+        "deliveryType": "Delivery type",
+        "notSelected": "Not selected",
+        "recipient": "Recipient",
+        "fillFields": "Fill in the fields",
+        "fillLastName": "Enter last name",
+        "fillFirstName": "Enter first name",
+        "fillMiddleName": "Enter middle name",
+        "fillPhone": "Enter phone number",
+        "breadcrumbDeliveryType": "Delivery type",
+        "breadcrumbRecipient": "Recipient",
+        "backAriaLabel": "Back"
     }
 }

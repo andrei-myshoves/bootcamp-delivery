@@ -1,15 +1,19 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Footer } from './Footer'
 
+const mockLocation = vi.hoisted(() => ({ pathname: '/' }))
+
 vi.mock('react-i18next', () => ({
     useTranslation: () => ({
-        t: (key: string) => {
+        t: (key: string, options?: { price?: string }) => {
             const translations: Record<string, string> = {
                 'footer.calculate': 'Расчёт',
                 'footer.history': 'История',
                 'footer.profile': 'Профиль',
+                'footer.total': 'Итого:',
+                'footer.totalFrom': `от ${options?.price}`,
             }
 
             return translations[key] ?? key
@@ -18,13 +22,46 @@ vi.mock('react-i18next', () => ({
 }))
 
 vi.mock('@tanstack/react-router', () => ({
-    useLocation: () => ({
-        pathname: '/',
-    }),
+    useLocation: () => mockLocation,
     useNavigate: () => vi.fn(),
 }))
 
 describe('Footer', () => {
+    beforeEach(() => {
+        mockLocation.pathname = '/'
+    })
+
+    it.each([
+        ['/recipient', 'footer.stepRecipient'],
+        ['/sender', 'footer.stepSender'],
+        ['/pickup-address', 'footer.stepPickupAddress'],
+        ['/delivery-address', 'footer.stepDeliveryAddress'],
+        ['/delivery-payment', 'footer.stepDeliveryPayment'],
+    ])('shows the checkout total panel with the step question on %s', (pathname, titleKey) => {
+        mockLocation.pathname = pathname
+
+        render(<Footer />)
+
+        expect(screen.getByText(titleKey)).toBeInTheDocument()
+        expect(screen.queryByTestId('footer-tab-calculate')).not.toBeInTheDocument()
+    })
+
+    it.each(['/deliverymethod', '/order-review', '/order-success'])('renders no footer on %s', pathname => {
+        mockLocation.pathname = pathname
+
+        render(<Footer />)
+
+        expect(screen.queryByRole('contentinfo')).not.toBeInTheDocument()
+    })
+
+    it('shows the fallback total in rubles, not kopecks, before a tariff is selected', () => {
+        mockLocation.pathname = '/recipient'
+
+        render(<Footer />)
+
+        expect(screen.getByText(/^от 250\s₽$/)).toBeInTheDocument()
+    })
+
     it('renders footer', () => {
         render(<Footer />)
 
