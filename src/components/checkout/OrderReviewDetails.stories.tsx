@@ -39,3 +39,11 @@ export const Filled: Story = {
         ],
     },
 }
+
+/** While the order is being sent «Редактировать данные» is blocked. */
+export const Disabled: Story = {
+    args: {
+        ...Filled.args,
+        disabled: true,
+    },
+}

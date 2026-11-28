@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { ChevronLeft } from 'lucide-react'
 import { useNavigate } from '@tanstack/react-router'
@@ -5,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import { CheckoutBreadcrumbs } from '@/components/checkout/CheckoutBreadcrumbs'
 import { OrderReviewDetails } from '@/components/checkout/OrderReviewDetails'
+import { getOrderSubmitErrorMessage } from '@/components/checkout/orderSubmitErrorMessage'
 import { StepProgress } from '@/components/checkout/StepProgress'
 import { useOrderSummaryRows } from '@/components/checkout/useOrderSummaryRows'
 import { Button } from '@/components/ui/button/Button'
@@ -18,7 +20,12 @@ const OrderReviewPage = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
+    const { isSubmittingOrder, orderSubmitError } = deliveryCalculatorStore
     const summaryRows = useOrderSummaryRows({ includePayer: true })
+    const errorMessage = orderSubmitError && getOrderSubmitErrorMessage(orderSubmitError, t)
+
+    // An error belongs to this visit: leaving the step clears it.
+    useEffect(() => deliveryCalculatorStore.resetOrderSubmitError, [deliveryCalculatorStore])
     const price = deliveryCalculatorStore.selectedDeliveryOption?.price
     // The route guard guarantees a selected tariff; the fallback only covers an unexpected empty store.
     const totalValue = price === undefined ? t('recipient.notSelected') : formatPrice(price)
@@ -31,8 +38,13 @@ const OrderReviewPage = () => {
         void navigate({ to: '/recipient' })
     }
 
-    const handleContinue = () => {
-        // Отправка заявки и экран успеха появятся в BOO-50.
+    const handleContinue = async () => {
+        const placedOrder = await deliveryCalculatorStore.submitOrder()
+
+        if (placedOrder) {
+            // replace: «Назад» from the success screen must not return to the review step of a sent order.
+            void navigate({ to: '/order-success', replace: true })
+        }
     }
 
     return (
@@ -44,6 +56,7 @@ const OrderReviewPage = () => {
                     size="icon"
                     aria-label={t('recipient.backAriaLabel')}
                     onClick={handleBack}
+                    disabled={isSubmittingOrder}
                 >
                     <ChevronLeft className="size-6" />
                 </Button>
@@ -65,15 +78,35 @@ const OrderReviewPage = () => {
                     totalValue={totalValue}
                     editLabel={t('orderReview.edit')}
                     onEdit={handleEdit}
+                    disabled={isSubmittingOrder}
                 />
 
+                {errorMessage && (
+                    <p role="alert" className="text-destructive px-4 text-sm lg:px-0">
+                        {errorMessage}
+                    </p>
+                )}
+
                 <div className="mt-4 flex w-full gap-4 lg:mt-0">
-                    <Button variant="secondary" size="large" className="hidden flex-1 lg:flex" onClick={handleBack}>
+                    <Button
+                        variant="secondary"
+                        size="large"
+                        className="hidden flex-1 lg:flex"
+                        onClick={handleBack}
+                        disabled={isSubmittingOrder}
+                    >
                         {t('recipient.back')}
                     </Button>
 
-                    <Button variant="primary" size="large" className="flex-1" onClick={handleContinue}>
-                        {t('recipient.continue')}
+                    <Button
+                        variant="primary"
+                        size="large"
+                        className="flex-1"
+                        onClick={handleContinue}
+                        disabled={isSubmittingOrder}
+                        aria-busy={isSubmittingOrder}
+                    >
+                        {isSubmittingOrder ? t('orderReview.submitting') : t('recipient.continue')}
                     </Button>
                 </div>
             </div>

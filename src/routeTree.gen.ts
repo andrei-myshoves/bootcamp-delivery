@@ -14,6 +14,7 @@ import { Route as DeliveryAddressRouteImport } from './routes/delivery-address'
 import { Route as DeliveryPaymentRouteImport } from './routes/delivery-payment'
 import { Route as DeliverymethodRouteImport } from './routes/deliverymethod'
 import { Route as OrderReviewRouteImport } from './routes/order-review'
+import { Route as OrderSuccessRouteImport } from './routes/order-success'
 import { Route as PickupAddressRouteImport } from './routes/pickup-address'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RecipientRouteImport } from './routes/recipient'
@@ -44,6 +45,11 @@ const OrderReviewRoute = OrderReviewRouteImport.update({
   path: '/order-review',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrderSuccessRoute = OrderSuccessRouteImport.update({
+  id: '/order-success',
+  path: '/order-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PickupAddressRoute = PickupAddressRouteImport.update({
   id: '/pickup-address',
   path: '/pickup-address',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/delivery-payment': typeof DeliveryPaymentRoute
   '/deliverymethod': typeof DeliverymethodRoute
   '/order-review': typeof OrderReviewRoute
+  '/order-success': typeof OrderSuccessRoute
   '/pickup-address': typeof PickupAddressRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/delivery-payment': typeof DeliveryPaymentRoute
   '/deliverymethod': typeof DeliverymethodRoute
   '/order-review': typeof OrderReviewRoute
+  '/order-success': typeof OrderSuccessRoute
   '/pickup-address': typeof PickupAddressRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/delivery-payment': typeof DeliveryPaymentRoute
   '/deliverymethod': typeof DeliverymethodRoute
   '/order-review': typeof OrderReviewRoute
+  '/order-success': typeof OrderSuccessRoute
   '/pickup-address': typeof PickupAddressRoute
   '/profile': typeof ProfileRoute
   '/recipient': typeof RecipientRoute
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/delivery-payment'
     | '/deliverymethod'
     | '/order-review'
+    | '/order-success'
     | '/pickup-address'
     | '/profile'
     | '/recipient'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/delivery-payment'
     | '/deliverymethod'
     | '/order-review'
+    | '/order-success'
     | '/pickup-address'
     | '/profile'
     | '/recipient'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/delivery-payment'
     | '/deliverymethod'
     | '/order-review'
+    | '/order-success'
     | '/pickup-address'
     | '/profile'
     | '/recipient'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   DeliveryPaymentRoute: typeof DeliveryPaymentRoute
   DeliverymethodRoute: typeof DeliverymethodRoute
   OrderReviewRoute: typeof OrderReviewRoute
+  OrderSuccessRoute: typeof OrderSuccessRoute
   PickupAddressRoute: typeof PickupAddressRoute
   ProfileRoute: typeof ProfileRoute
   RecipientRoute: typeof RecipientRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrderReviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/order-success': {
+      id: '/order-success'
+      path: '/order-success'
+      fullPath: '/order-success'
+      preLoaderRoute: typeof OrderSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pickup-address': {
       id: '/pickup-address'
       path: '/pickup-address'
@@ -221,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   DeliveryPaymentRoute: DeliveryPaymentRoute,
   DeliverymethodRoute: DeliverymethodRoute,
   OrderReviewRoute: OrderReviewRoute,
+  OrderSuccessRoute: OrderSuccessRoute,
   PickupAddressRoute: PickupAddressRoute,
   ProfileRoute: ProfileRoute,
   RecipientRoute: RecipientRoute,

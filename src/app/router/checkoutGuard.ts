@@ -63,3 +63,10 @@ export const guardCheckoutStep = (targetPath: CheckoutPath) => () => {
         throw redirect({ to: redirectPath, replace: true })
     }
 }
+
+/** `beforeLoad` of the success screen: without a created order (direct link, cleared storage) it opens the calculator. */
+export const guardOrderSuccess = () => {
+    if (!rootStore.deliveryCalculatorStore.lastOrder) {
+        throw redirect({ to: '/', replace: true })
+    }
+}

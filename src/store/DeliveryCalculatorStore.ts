@@ -1,5 +1,9 @@
 import { makeAutoObservable, runInAction } from 'mobx'
+import { createDeliveryOrder } from '@/shared/api/ky/entities/delivery-order.api'
 import { apiClientV1 } from '@/shared/api/ky/instance'
+
+import { createOrderDto } from './createOrderDto'
+import { type OrderSubmitError, toOrderSubmitError } from './orderSubmitError'
 
 export interface DeliveryPoint {
     id: string
@@ -79,6 +83,38 @@ const DEFAULT_PAYER: Payer = 'receiver'
 
 export const isPayer = (value: unknown): value is Payer => PAYERS.includes(value as Payer)
 
+/**
+ * A created order, kept for the success screen after the draft is cleared.
+ * Everything except the id is copied from the draft the order was created from.
+ */
+export interface PlacedOrder {
+    id: string
+    /** Price of the selected tariff in kopecks, as shown on the review step. */
+    price: number
+    deliveryOptionName: string
+    fromCityName: string
+    toCityName: string
+    recipient: RecipientData
+    sender: RecipientData
+    pickupAddress: AddressData
+    deliveryAddress: AddressData
+    payer: Payer
+}
+
+const EMPTY_PERSON: RecipientData = {
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    phone: '',
+}
+
+const EMPTY_ADDRESS: AddressData = {
+    street: '',
+    house: '',
+    apartment: '',
+    courierNote: '',
+}
+
 const DEFAULT_FROM_CITY: DeliveryPoint = {
     id: '1',
     name: 'Москва',
@@ -96,6 +132,21 @@ const LEAVE_AT_DOOR_LS_KEY = 'leaveAtDoor'
 const PAYER_LS_KEY = 'payer'
 const FROM_CITY_LS_KEY = 'fromCity'
 const TO_CITY_LS_KEY = 'toCity'
+const CALCULATED_PACKAGE_ID_LS_KEY = 'calculatedPackageId'
+const LAST_ORDER_LS_KEY = 'lastOrder'
+
+/** Checkout keys removed once an order is created; the cities chosen in the calculator are kept. */
+const ORDER_DRAFT_LS_KEYS = [
+    DELIVERY_OPTIONS_LS_KEY,
+    SELECTED_DELIVERY_OPTION_LS_KEY,
+    CALCULATED_PACKAGE_ID_LS_KEY,
+    RECIPIENT_LS_KEY,
+    SENDER_LS_KEY,
+    PICKUP_ADDRESS_LS_KEY,
+    DELIVERY_ADDRESS_LS_KEY,
+    LEAVE_AT_DOOR_LS_KEY,
+    PAYER_LS_KEY,
+]
 
 const DEFAULT_TO_CITY: DeliveryPoint = {
     id: '2',
@@ -113,36 +164,25 @@ export class DeliveryCalculatorStore {
     packageType: PackageType | null = null
     selectedDeliveryOption: DeliveryOption | null = null
     deliveryOptions: DeliveryOption[] = JSON.parse(localStorage.getItem(DELIVERY_OPTIONS_LS_KEY) ?? '[]')
+    /**
+     * Id of the package the current tariffs were calculated for: the order's `packageId`.
+     * Saved separately from `packageType`, which the calculator form does not restore after a reload.
+     */
+    calculatedPackageId: string | null = localStorage.getItem(CALCULATED_PACKAGE_ID_LS_KEY)
     isCalculating = false
     calculationError: string | null = null
-    recipient: RecipientData = {
-        firstName: '',
-        middleName: '',
-        lastName: '',
-        phone: '',
-    }
-    sender: RecipientData = {
-        lastName: '',
-        firstName: '',
-        middleName: '',
-        phone: '',
-    }
-    pickupAddress: AddressData = {
-        street: '',
-        house: '',
-        apartment: '',
-        courierNote: '',
-    }
-    deliveryAddress: AddressData = {
-        street: '',
-        house: '',
-        apartment: '',
-        courierNote: '',
-    }
+    recipient: RecipientData = EMPTY_PERSON
+    sender: RecipientData = EMPTY_PERSON
+    pickupAddress: AddressData = EMPTY_ADDRESS
+    deliveryAddress: AddressData = EMPTY_ADDRESS
 
     leaveAtDoor = false
 
     payer: Payer = DEFAULT_PAYER
+
+    isSubmittingOrder = false
+    orderSubmitError: OrderSubmitError | null = null
+    lastOrder: PlacedOrder | null = null
 
     constructor() {
         makeAutoObservable(this)
@@ -156,6 +196,12 @@ export class DeliveryCalculatorStore {
 
         if (savedToCity) {
             this.toCity = JSON.parse(savedToCity) as DeliveryPoint
+        }
+
+        const savedLastOrder = localStorage.getItem(LAST_ORDER_LS_KEY)
+
+        if (savedLastOrder) {
+            this.lastOrder = JSON.parse(savedLastOrder) as PlacedOrder
         }
 
         const savedOption = localStorage.getItem(SELECTED_DELIVERY_OPTION_LS_KEY)
@@ -264,6 +310,8 @@ export class DeliveryCalculatorStore {
             return
         }
 
+        const packageId = this.packageType.id
+
         this.isCalculating = true
         this.calculationError = null
 
@@ -293,7 +341,9 @@ export class DeliveryCalculatorStore {
 
             runInAction(() => {
                 this.deliveryOptions = response.options
+                this.calculatedPackageId = packageId
                 localStorage.setItem(DELIVERY_OPTIONS_LS_KEY, JSON.stringify(response.options))
+                localStorage.setItem(CALCULATED_PACKAGE_ID_LS_KEY, packageId)
             })
         } catch {
             runInAction(() => {
@@ -303,6 +353,107 @@ export class DeliveryCalculatorStore {
             runInAction(() => {
                 this.isCalculating = false
             })
+        }
+    }
+
+    /**
+     * Sends the draft as a delivery order. Returns the created order, or null when it was not created
+     * (the reason is in `orderSubmitError`). A call while a request is in flight is ignored, so a double
+     * click cannot create two orders. The draft is cleared only after the backend confirms the order.
+     */
+    submitOrder = async (): Promise<PlacedOrder | null> => {
+        if (this.isSubmittingOrder) {
+            return null
+        }
+
+        const dtoResult = createOrderDto(this)
+        const { selectedDeliveryOption } = this
+
+        if (!dtoResult.ok || !selectedDeliveryOption) {
+            this.orderSubmitError = {
+                kind: 'missingData',
+                fields: dtoResult.ok ? ['deliveryOption'] : dtoResult.missingFields,
+            }
+
+            return null
+        }
+
+        // Taken before the request: the success screen shows exactly what was sent.
+        const orderSummary: Omit<PlacedOrder, 'id'> = {
+            price: selectedDeliveryOption.price,
+            deliveryOptionName: selectedDeliveryOption.name,
+            fromCityName: this.fromCity.name,
+            toCityName: this.toCity.name,
+            recipient: this.recipient,
+            sender: this.sender,
+            pickupAddress: this.pickupAddress,
+            deliveryAddress: this.deliveryAddress,
+            payer: this.payer,
+        }
+
+        this.isSubmittingOrder = true
+        this.orderSubmitError = null
+
+        try {
+            const response = await createDeliveryOrder(dtoResult.dto)
+            const orderId = response.order?._id
+
+            if (!response.success) {
+                runInAction(() => {
+                    this.orderSubmitError = { kind: 'rejected', reason: response.reason }
+                })
+
+                return null
+            }
+
+            if (typeof orderId !== 'string' || !orderId) {
+                runInAction(() => {
+                    this.orderSubmitError = { kind: 'server' }
+                })
+
+                return null
+            }
+
+            const placedOrder: PlacedOrder = { id: orderId, ...orderSummary }
+
+            runInAction(() => {
+                this.lastOrder = placedOrder
+                localStorage.setItem(LAST_ORDER_LS_KEY, JSON.stringify(placedOrder))
+                this.clearOrderDraft()
+            })
+
+            return placedOrder
+        } catch (error) {
+            runInAction(() => {
+                this.orderSubmitError = toOrderSubmitError(error)
+            })
+
+            return null
+        } finally {
+            runInAction(() => {
+                this.isSubmittingOrder = false
+            })
+        }
+    }
+
+    resetOrderSubmitError = () => {
+        this.orderSubmitError = null
+    }
+
+    /** Starts the next order from scratch: removes the checkout data, keeps the cities. */
+    private clearOrderDraft() {
+        this.deliveryOptions = []
+        this.selectedDeliveryOption = null
+        this.calculatedPackageId = null
+        this.recipient = EMPTY_PERSON
+        this.sender = EMPTY_PERSON
+        this.pickupAddress = EMPTY_ADDRESS
+        this.deliveryAddress = EMPTY_ADDRESS
+        this.leaveAtDoor = false
+        this.payer = DEFAULT_PAYER
+
+        for (const key of ORDER_DRAFT_LS_KEYS) {
+            localStorage.removeItem(key)
         }
     }
 
