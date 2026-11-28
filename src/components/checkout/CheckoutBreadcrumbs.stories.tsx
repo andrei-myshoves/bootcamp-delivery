@@ -30,3 +30,15 @@ export const DeliveryPaymentStepWrapped: Story = {
         ),
     ],
 }
+
+/** Figma «Проверка данных» (844px column): crumbs wrap and a «›» never starts a line; the break point depends on the font. */
+export const OrderReviewStepWrapped: Story = {
+    args: { step: 7 },
+    decorators: [
+        Story => (
+            <div className="max-w-211">
+                <Story />
+            </div>
+        ),
+    ],
+}

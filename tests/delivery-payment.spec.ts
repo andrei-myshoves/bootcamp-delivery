@@ -1,7 +1,11 @@
 import { test, expect, type Page } from '@playwright/test'
 
+const expressOption = { id: 'express', price: 78000, days: 1, name: 'Экспресс-доставка', type: 'express' }
+
+// A complete draft up to step 5; the route guards require the calculation result and every earlier step.
 const checkoutDraft = {
-    selectedDeliveryOption: { id: 'express', price: 78000, days: 1, name: 'Экспресс-доставка', type: 'express' },
+    deliveryOptions: [expressOption],
+    selectedDeliveryOption: expressOption,
     recipient: { lastName: 'Климов', firstName: 'Алексей', middleName: 'Алексеевич', phone: '+7 999 999 99 99' },
     sender: { lastName: 'Иванов', firstName: 'Иван', middleName: 'Иванович', phone: '+7 999 123 45 67' },
     pickupAddress: { street: 'Новорогожская', house: '24', apartment: '17', courierNote: '' },

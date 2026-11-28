@@ -5,20 +5,16 @@ import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 
 import { CheckoutBreadcrumbs } from '@/components/checkout/CheckoutBreadcrumbs'
+import { PAYER_LABEL_KEYS } from '@/components/checkout/checkoutSteps'
 import { OrderSummaryCard } from '@/components/checkout/OrderSummaryCard'
 import { StepProgress } from '@/components/checkout/StepProgress'
 import { useOrderSummaryRows } from '@/components/checkout/useOrderSummaryRows'
 import { Button } from '@/components/ui/button/Button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group/RadioGroup'
 import { useStore } from '@/hooks/useStore'
-import { isPayer, type Payer, PAYERS } from '@/store/DeliveryCalculatorStore'
+import { isPayer, PAYERS } from '@/store/DeliveryCalculatorStore'
 
 const STEP = 6
-
-const PAYER_LABEL_KEYS: Record<Payer, string> = {
-    receiver: 'deliveryPayment.payerReceiver',
-    sender: 'deliveryPayment.payerSender',
-}
 
 const DeliveryPaymentPage = () => {
     const { deliveryCalculatorStore } = useStore()
@@ -28,9 +24,7 @@ const DeliveryPaymentPage = () => {
     const whoPaysId = useId()
 
     const { payer } = deliveryCalculatorStore
-    const baseSummaryRows = useOrderSummaryRows()
-
-    const summaryRows = [...baseSummaryRows, { label: t('deliveryPayment.whoPays'), value: t(PAYER_LABEL_KEYS[payer]) }]
+    const summaryRows = useOrderSummaryRows({ includePayer: true })
 
     const handleBack = () => {
         void navigate({ to: '/delivery-address' })
@@ -46,7 +40,7 @@ const DeliveryPaymentPage = () => {
         // Persist the payer even if the preselected value was never changed.
         deliveryCalculatorStore.setPayer(payer)
 
-        // Переход на шаг «Проверка данных» появится вместе с этой страницей (BOO-49).
+        void navigate({ to: '/order-review' })
     }
 
     return (

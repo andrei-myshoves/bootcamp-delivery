@@ -5,12 +5,19 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { Calculator, History, User } from 'lucide-react'
 
 import { ButtonsGroup } from '@/components/ui/buttons-group/ButtonsGroup'
+import { formatPrice } from '@/shared/lib/order-format'
 import { cn } from '@/shared/lib/utils'
 import { useStore } from '@/hooks/useStore'
 
 interface FooterProps {
     className?: string
 }
+
+/** Pages without any mobile footer (Figma: «Способ отправки» and «Проверка данных»). */
+const PATHS_WITHOUT_FOOTER = new Set(['/deliverymethod', '/order-review'])
+
+/** «от 250 ₽» placeholder from Figma, shown until a tariff is selected; prices are in kopecks. */
+const FALLBACK_TOTAL_IN_KOPECKS = 25_000
 
 /** Checkout steps that show the mobile «Итого» panel, mapped to the i18n key of their step question. */
 const CHECKOUT_STEP_TITLE_KEYS: Partial<Record<string, string>> = {
@@ -63,14 +70,14 @@ export function Footer({ className }: FooterProps) {
         [t]
     )
 
-    if (pathname === '/deliverymethod') {
+    if (PATHS_WITHOUT_FOOTER.has(pathname)) {
         return null
     }
 
     const stepTitleKey = CHECKOUT_STEP_TITLE_KEYS[pathname]
 
     if (stepTitleKey) {
-        const totalPrice = deliveryCalculatorStore.selectedDeliveryOption?.price ?? 250
+        const totalPrice = deliveryCalculatorStore.selectedDeliveryOption?.price ?? FALLBACK_TOTAL_IN_KOPECKS
 
         const stepTitle = t(stepTitleKey)
 
@@ -79,7 +86,7 @@ export function Footer({ className }: FooterProps) {
                 <div className="rounded-t-[20px] bg-[#FBFBFB] p-4 shadow-[0_-1px_47.3px_rgba(0,0,0,0.06)]">
                     <div className="flex items-center justify-between text-2xl leading-10 font-medium">
                         <span>Итого:</span>
-                        <span>от {totalPrice} ₽</span>
+                        <span>от {formatPrice(totalPrice)}</span>
                     </div>
 
                     <div className="mt-2 flex h-13.5 items-center justify-center rounded-full bg-[#F3F3F3] text-sm">
