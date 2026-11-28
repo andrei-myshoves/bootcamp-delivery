@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { guardOrderSuccess } from '@/app/router/checkoutGuard'
-import OrderSuccessPage from '@/pages/OrderSuccessPage/OrderSuccessPage'
+import { guardOrderCreatedSuccess } from '@/app/router/checkoutGuard'
+import OrderCreatedSuccessPage from '@/pages/OrderCreatedSuccessPage/OrderCreatedSuccessPage'
 
 export const Route = createFileRoute('/order-success')({
-    beforeLoad: guardOrderSuccess,
-    component: OrderSuccessPage,
+    beforeLoad: guardOrderCreatedSuccess,
+    component: OrderCreatedSuccessPage,
 })

@@ -200,7 +200,7 @@ for (const { name, size } of viewports) {
     })
 }
 
-test.describe('Order success screen', () => {
+test.describe('Order created success screen', () => {
     const openSuccess = async (page: Page) => {
         await mockOrderApi(page, createdOrder)
         await seed(page, completeDraft)
@@ -213,7 +213,7 @@ test.describe('Order success screen', () => {
         await page.setViewportSize({ width: 1440, height: 900 })
         await openSuccess(page)
 
-        const details = page.getByTestId('order-success-details')
+        const details = page.getByTestId('order-created-success-details')
         await expect(details.getByText(ORDER_ID)).toBeVisible()
         await expect(details.getByText('Экспресс-доставка')).toBeVisible()
         await expect(details.getByText('г. Санкт-Петербург, Евдокима Огнева, 19, 40')).toBeVisible()
@@ -235,7 +235,7 @@ test.describe('Order success screen', () => {
         await page.setViewportSize({ width: 360, height: 740 })
         await openSuccess(page)
 
-        await expect(page.getByTestId('order-success-details')).toBeHidden()
+        await expect(page.getByTestId('order-created-success-details')).toBeHidden()
         await expect(page.getByRole('button', { name: 'Статус заявки' })).toBeHidden()
         await expect(page.getByRole('button', { name: 'На главную' })).toBeHidden()
         await expect(page.locator('footer')).toHaveCount(0)

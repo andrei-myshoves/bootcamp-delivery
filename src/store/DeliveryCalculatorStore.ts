@@ -2,8 +2,8 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { createDeliveryOrder } from '@/shared/api/ky/entities/delivery-order.api'
 import { apiClientV1 } from '@/shared/api/ky/instance'
 
-import { createOrderDto } from './createOrderDto'
-import { type OrderSubmitError, toOrderSubmitError } from './orderSubmitError'
+import { createOrderDto } from './DeliveryCalculatorStore/createOrderDto'
+import { type OrderSubmitError, toOrderSubmitError } from './DeliveryCalculatorStore/orderSubmitError'
 
 export interface DeliveryPoint {
     id: string
@@ -366,8 +366,19 @@ export class DeliveryCalculatorStore {
             return null
         }
 
-        const dtoResult = createOrderDto(this)
         const { selectedDeliveryOption } = this
+        const dtoResult = createOrderDto({
+            packageId: this.calculatedPackageId,
+            optionType: selectedDeliveryOption?.type ?? null,
+            senderPointId: this.fromCity.id,
+            receiverPointId: this.toCity.id,
+            sender: this.sender,
+            receiver: this.recipient,
+            senderAddress: this.pickupAddress,
+            receiverAddress: this.deliveryAddress,
+            isNonContact: this.leaveAtDoor,
+            payer: this.payer,
+        })
 
         if (!dtoResult.ok || !selectedDeliveryOption) {
             this.orderSubmitError = {
@@ -400,7 +411,7 @@ export class DeliveryCalculatorStore {
 
             if (!response.success) {
                 runInAction(() => {
-                    this.orderSubmitError = { kind: 'rejected', reason: response.reason }
+                    this.orderSubmitError = { kind: 'rejected', reason: response.reason ?? null }
                 })
 
                 return null

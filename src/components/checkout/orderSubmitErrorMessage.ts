@@ -1,7 +1,7 @@
 import type { TFunction } from 'i18next'
 
-import type { OrderDraftField } from '@/store/createOrderDto'
-import type { OrderSubmitError } from '@/store/orderSubmitError'
+import type { OrderDraftField } from '@/store/DeliveryCalculatorStore/createOrderDto'
+import type { OrderSubmitError } from '@/store/DeliveryCalculatorStore/orderSubmitError'
 
 const MISSING_FIELD_KEYS: Record<OrderDraftField, string> = {
     package: 'orderSubmit.fields.package',

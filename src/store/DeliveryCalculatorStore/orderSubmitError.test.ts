@@ -14,9 +14,9 @@ describe('getBackendReason', () => {
         )
     })
 
-    it('returns undefined for a body without an explanation', () => {
-        expect(getBackendReason(undefined)).toBeUndefined()
-        expect(getBackendReason('Bad Request')).toBeUndefined()
-        expect(getBackendReason({ reason: '  ', message: [] })).toBeUndefined()
+    it('returns null for a body without an explanation', () => {
+        expect(getBackendReason(undefined)).toBeNull()
+        expect(getBackendReason('Bad Request')).toBeNull()
+        expect(getBackendReason({ reason: '  ', message: [] })).toBeNull()
     })
 })

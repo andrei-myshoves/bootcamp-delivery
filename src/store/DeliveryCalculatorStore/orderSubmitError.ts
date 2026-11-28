@@ -6,8 +6,8 @@ import type { OrderDraftField } from './createOrderDto'
 export type OrderSubmitError =
     /** The draft lacks required values; no request was sent. */
     | { kind: 'missingData'; fields: OrderDraftField[] }
-    /** The backend rejected the data (4xx or `success: false`); `reason` is its own explanation, when given. */
-    | { kind: 'rejected'; reason?: string }
+    /** The backend rejected the data (4xx or `success: false`); `reason` is its own explanation or null. */
+    | { kind: 'rejected'; reason: string | null }
     /** 5xx or a response without the created order. */
     | { kind: 'server' }
     /** No response: offline, DNS, CORS or timeout. */
@@ -17,10 +17,10 @@ const HTTP_SERVER_ERROR_MIN_STATUS = 500
 
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
 
-/** Reads the backend's explanation: `reason` of `DeliverResponse` or `message` of a validation error. */
-export function getBackendReason(body: unknown): string | undefined {
+/** Reads the backend's explanation: `reason` of `DeliverResponse` or `message` of a validation error; null if none. */
+export function getBackendReason(body: unknown): string | null {
     if (!isRecord(body)) {
-        return undefined
+        return null
     }
 
     const { reason, message } = body
@@ -36,10 +36,10 @@ export function getBackendReason(body: unknown): string | undefined {
     if (Array.isArray(message)) {
         const messages = message.filter((item): item is string => typeof item === 'string')
 
-        return messages.length > 0 ? messages.join('. ') : undefined
+        return messages.length > 0 ? messages.join('. ') : null
     }
 
-    return undefined
+    return null
 }
 
 /** Classifies an error thrown by the order request. */

@@ -99,7 +99,6 @@ const OrderReviewPage = () => {
                     </Button>
 
                     <Button
-                        variant="primary"
                         size="large"
                         className="flex-1"
                         onClick={handleContinue}

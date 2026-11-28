@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { DeliveryCalculatorStore } from './DeliveryCalculatorStore'
+import { DeliveryCalculatorStore } from '@/store/DeliveryCalculatorStore'
 
 const expressOption = { id: 'express', price: 78000, days: 1, name: 'Экспресс-доставка', type: 'express' }
 const envelope = { id: 'envelope', name: 'Конверт', length: '42', width: '36', height: '5', weight: '2' }

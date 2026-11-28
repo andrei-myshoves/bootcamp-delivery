@@ -15,8 +15,8 @@ interface OrderSummaryRowsOptions {
 
 /** Order values behind the summary rows: the live draft or a created order. */
 export interface OrderSummaryData {
-    /** Undefined while no tariff is selected. */
-    deliveryOptionName?: string
+    /** Null while no tariff is selected. */
+    deliveryOptionName: string | null
     recipient: RecipientData
     sender: RecipientData
     pickupAddress: AddressData
@@ -68,7 +68,7 @@ export function useOrderSummaryRows(options: OrderSummaryRowsOptions = {}): Orde
 
     return buildOrderSummaryRows(
         {
-            deliveryOptionName: selectedDeliveryOption?.name,
+            deliveryOptionName: selectedDeliveryOption?.name ?? null,
             recipient,
             sender,
             pickupAddress,

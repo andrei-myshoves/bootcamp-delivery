@@ -155,7 +155,7 @@ i18n.use(initReactI18next).init({
                         payer: 'плательщик',
                     },
                 },
-                orderSuccess: {
+                orderCreatedSuccess: {
                     title: 'Заявка отправлена',
                     description: 'Вы можете оплатить ваш заказ в разделе «Профиль»',
                     orderNumber: 'Номер заказа',
